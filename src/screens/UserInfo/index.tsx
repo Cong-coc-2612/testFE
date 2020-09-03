@@ -285,7 +285,7 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
     return (
       <div className="UserInfo-Container">
         <div className="UserInfo-background-image-container UserInfo-background-image-container2">
-          <img className={'UserInfo-background-image'} src={require('../../assets/image-384.png')} alt={'logo'} />
+          {/* <img className={'UserInfo-background-image'} src={require('../../assets/image-384.png')} alt={'logo'} /> */}
           {this.props.userInfo != null && (this.props.userInfo as IParams).Config != null && ((this.props.userInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <AiFillCamera className={'UserInfo-change-image-icon'} />}
           {this.props.userInfo != null && (this.props.userInfo as IParams).Config != null && ((this.props.userInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <div className={'Overlay'}>
             <input type="file" onChange={(e) => this.updateBackground(e.target.files)} />
@@ -298,7 +298,7 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
               block={EDIT_USER_INFO}
               unblock={[EDIT_USER_INFO_SUCCESS, EDIT_USER_INFO_FAILED]}
             >
-              <img className={'UserInfo-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} />
+              {/* <img className={'UserInfo-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} /> */}
               {this.props.userInfo != null && (this.props.userInfo as IParams).Config != null && ((this.props.userInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <AiFillCamera className={'UserInfo-change-avatar-icon'} />}
               {this.props.userInfo != null && (this.props.userInfo as IParams).Config != null && ((this.props.userInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <div className={'Overlay2'}>
                 <input type="file" onChange={(e) => this.updateAvatar(e.target.files)} />
