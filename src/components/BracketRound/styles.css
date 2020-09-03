@@ -1,0 +1,28 @@
+.BracketRound-eachRound {
+  display: flex;
+  flex-direction: column;
+}
+
+.BracketRound-reachRound-bolder {
+  background-color: #001533;
+}
+
+.BracketRound-eachRound-noBold {
+  background-color: #000F24;
+}
+
+.BracketRound-title-round-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(51, 55, 67);
+  height: 20px;
+}
+
+.BracketRound-title-round-container-border {
+  border-left: 1px solid black;
+}
+
+.BracketRound-title-round-text {
+  font-size: 14px;
+}

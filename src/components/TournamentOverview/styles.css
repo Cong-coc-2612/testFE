@@ -1,0 +1,75 @@
+.TournamentOverview-container {
+  width: 350px;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 50px;
+  height: 500px;
+  border-radius: 7px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #3d4351;
+}
+
+.TournamentOverview-container :hover {
+  cursor: pointer;
+}
+
+.TournamentOverview-background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.TournamentOverview-avatar-image {
+  width: 75px;
+  height: 75px;
+  border-radius: 40px;
+  border: 2px solid white;
+}
+
+.TournamentOverview-background-image-container {
+  height: 125px;
+  background-color: white;
+}
+
+.TournamentOverview-avatar-image-container {
+  height: 90px;
+  flex-direction: row;
+  display: flex;
+}
+
+.TournamentOverview-avatar-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.TournamentOverview-name-container {
+  display: flex;
+  align-items: center;
+  flex: 2;
+}
+
+.TournamentOverview-name-text {
+  font-weight: bold;
+}
+
+.TournamentOverview-info-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.TournamentOverview-info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 25px;
+}
+
+.TournamentOverview-text {
+  margin-left: 10px;
+}

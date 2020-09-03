@@ -1,0 +1,2 @@
+export const EDIT_TEAM_SUCCESS = 'EDIT_TEAM_SUCCESS';
+export const EDIT_TEAM_FAILED = 'EDIT_TEAM_FAILED';

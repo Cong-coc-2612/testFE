@@ -1,0 +1,115 @@
+.Container-login {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Container-login-middle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 35rem;
+}
+
+h1 {
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+.Long-introduction {
+  color: #5b647d;
+  align-self: flex-start;
+}
+
+.Alternate-login-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.Alternate-login-container :hover {
+  cursor: pointer;
+}
+
+.Alternate-login-option1 {
+  background-color: #4c76c5;
+}
+
+.Alternate-login-option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  margin-left: 15px;
+  margin-right: 15px;
+  border-radius: 5px;
+  height: 35px;
+}
+
+.Alternate-login-option2 {
+  background-color: #d93025;
+}
+
+.Alternate-login-option-text {
+  font-weight: bold;
+}
+
+.Checkbox-label {
+  color: #d8d8d8;
+}
+
+.Forgot-password {
+  color: #002C69;
+}
+
+.Button-login-container {
+  background-color: #002C69;
+  margin-top: 25px;
+  border-radius: 10px;
+}
+
+.Button-login-container :hover {
+  cursor: pointer;
+}
+
+.Button-login {
+  width: 35rem;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.Button-login-text {
+  color: white;
+  font-weight: bold;
+}
+
+.Login-option-container-item1 {
+  justify-content: flex-end;
+}
+
+.Login-option-container-item1 :hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.Login-option-container-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 25px;
+}
+
+.Login-option-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 35rem;
+}

@@ -1,0 +1,217 @@
+.TournamentInfo-Container {
+  flex: 1;
+  width: 100%;
+}
+
+.TournamentInfo-background-image-container {
+  height: 300px;
+  background-color: white;
+}
+
+.TournamentInfo-content-container {
+  flex: 1;
+  display: flex;
+}
+
+.TournamentInfo-content-container {
+  display: flex;
+}
+
+.TournamentInfo-content-info-container {
+  width: 100%;
+}
+
+.TournamentInfo-content-info-basic-info-container {
+  color: white;
+  display: flex;
+  flex-direction: row;
+}
+
+.TournamentInfo-content-info-basic-info-container-container {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 50px;
+  width: 80%;
+}
+
+.TournamentInfo-content-info-basic-info-container-singleRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.TournamentInfo-name-text {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.TournamentInfo-otherInfo-text {
+  padding-right: 60px;
+}
+
+.TournamentInfo-info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.TournamentInfo-text {
+  margin-left: 10px;
+}
+
+.TournamentInfo-oddBackground {
+  background-color: #3d4351;
+}
+
+.Select {
+  margin-left: 25px;
+  width: 200px;
+  color: black;
+}
+
+.Select-disabled {
+  opacity: 0.8;
+}
+
+.TournamentInfo-background-image-container {
+  height: 300px;
+  background-color: #000C1C;
+  display: flex;
+  justify-content: center;
+}
+
+.TournamentInfo-background-image {
+  height: 300px;
+  width: 100%;
+  background-color: #000C1C;
+  object-fit: cover;
+}
+
+.TournamentInfo-change-avatar-icon {
+  font-size: 30px;
+  position: absolute;
+  top: 625px;
+  right: 200px;
+  color: white;
+}
+
+.TournamentInfo-avatar-image {
+  height: 200px;
+  width: 200px;
+  border-radius: 100px;
+  border: 2px solid white;
+  position: absolute;
+  margin-top: 100px;
+  right: 50px;
+}
+
+.TournamentInfo-change-image-icon {
+  font-size: 30px;
+  position: absolute;
+  top: 300px;
+  left: 250px;
+  color: white;
+}
+
+.TournamentInfo-Overlay2 {
+  position: absolute;
+  top: 625px;
+  right: 200px;
+  opacity: 0;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  /* z-index: 10; */
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.TournamentInfo-Overlay {
+  position: absolute;
+  top: 300px;
+  left: 250px;
+  opacity: 0;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  /* z-index: 10; */
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.TournamentInfo-login-container {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: 50px;
+}
+
+.TournamentInfo-login-container :hover {
+  cursor: pointer;
+}
+
+.TournamentInfo-login {
+  border-radius: 10px;
+  background-color: #002C69;
+  width: 200px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.TournamentInfo-login-text {
+  color: white;
+  font-weight: bold;
+}
+
+.TournamentInfo-join-tournament-form-competition-option {
+  display: flex;
+  flex-direction: row;
+}
+
+.TournamentInfo-join-tournament-form-competition-header {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.TournamentInfo-join-tournament-container {
+  height: 50px;
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+}
+
+.TournamentInfo-join-tournament-item1 {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.TournamentInfo-join-tournament-item2 {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.TournamentInfo-join-tournament-setting {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.TournamentInfo-join-tournament-setting :hover {
+  cursor: pointer;
+}
+
+.Report-modal-subject-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

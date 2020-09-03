@@ -1,0 +1,20 @@
+.Content-container {
+  flex: 1;
+  display: flex;
+}
+
+.Background-transparent {
+  background-color: transparent;
+}
+
+.Content-background {
+  background-color: #000C1C;
+}
+
+.Content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  margin-top: 50px;
+}

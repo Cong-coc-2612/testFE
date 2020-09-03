@@ -1,0 +1,64 @@
+.UserOverview-container {
+  width: 600px;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 50px;
+  border-radius: 7px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #3d4351;
+}
+
+.UserOverview-container :hover {
+  cursor: pointer;
+}
+
+.UserOverview-avatar-image-container {
+  height: 150px;
+  flex-direction: row;
+  display: flex;
+}
+
+.UserOverview-avatar-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.UserOverview-name-container {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  padding-left: 15px;
+}
+
+.UserOverview-avatar-image {
+  width: 125px;
+  height: 125px;
+  border-radius: 65px;
+  border: 2px solid white;
+}
+
+.UserOverview-name-text {
+  font-weight: bold;
+}
+
+.UserOverview-info-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.UserOverview-info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 25px;
+}
+
+.UserOverview-text {
+  margin-left: 10px;
+}

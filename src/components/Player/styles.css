@@ -1,0 +1,30 @@
+.Player-container {
+  height: 50px;
+  background-color: #000C1C;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+}
+
+.Player-item1 {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.Player-item2 {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.Player-setting {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.Player-setting :hover {
+  cursor: pointer;
+}

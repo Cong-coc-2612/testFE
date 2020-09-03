@@ -1,0 +1,37 @@
+.Modal-button-container {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Modal-button-container :hover {
+  cursor: pointer;
+}
+
+.Modal-button {
+  height: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #002C69;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.Modal-button2 {
+  height: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-left: 50px;
+}
+
+.Modal-content-container {
+  flex: 1;
+}

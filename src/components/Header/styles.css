@@ -1,0 +1,173 @@
+.Header-container {
+  height: 50px;
+  background-color: #000C1C;
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  width: 100%;
+  z-index: 100000;
+  align-items: center;
+}
+
+.Logo-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.Option-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.Option-container1 {
+  background-color: black;
+}
+
+.SearchBar-container {
+  flex: 4;
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.UserOption-avatar-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: 2px solid white;
+}
+
+.Right-container {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Option-container :hover {
+  background-color: black;
+  cursor: pointer;
+  color: #002C69;
+}
+
+.Link-text {
+  color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.Link-text-selected {
+  color: #006FFF !important;
+}
+
+.Link-text-no-hover {
+  color: white;
+  margin-right: 15px;
+}
+
+.Header-logo-image {
+  object-fit: cover;
+}
+
+.Button {
+  color: white;
+  font-weight: bold;
+}
+
+.SignUp-Button-container {
+  background-color: #0046A8;
+  border-radius: 15px;
+  height: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignUp-Button-container :hover {
+  cursor: pointer;
+}
+
+.UserOption-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.UserOption-name-text {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.UserOption-avatar-container {
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.UserOption-dropdown-container {
+  position: absolute;
+  width: 250px;
+  background-color: black;
+  top: 50px;
+  border: 1px solid white;
+}
+
+.UserOption-dropdown-item-container {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  background-color: red;
+  padding-left: 15px;
+}
+
+.UserOption-dropdown-item-container1 {
+  background-color: #000C1C;
+}
+
+.UserOption-dropdown-item-container2 {
+  background-color: #3d4351;
+}
+
+.Right-container-hover :hover {
+  cursor: pointer;
+  background-color: black;
+}
+
+.Select1 {
+  width: 175px;
+}
+
+.Header-text-input {
+  height: 30px;
+  margin-left: 10px;
+  flex: 1;
+}
+
+.Header-icon {
+  color: white;
+  width: 30px;
+}
+
+.Header-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Header-icon-container :hover {
+  cursor: pointer;
+}

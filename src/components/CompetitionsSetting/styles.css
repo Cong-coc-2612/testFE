@@ -1,0 +1,45 @@
+.CompetitionSetting-container {
+  color: white;
+  display: flex;
+  padding-top: 25px;
+  padding-left: 50px;
+  padding-right: 50px;
+  flex-direction: column;
+}
+
+.CompetitionSetting-tournament-name-container {
+
+}
+
+.CompetitionSetting-header-name-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.TournamentInfo-info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.TournamentInfo-text {
+  margin-left: 10px;
+}
+
+.TextInput-error-text {
+  color: red;
+}
+
+.CompetitionInfo-content-info-basic-info-container-singleRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.CompetitionInfo-info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

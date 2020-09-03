@@ -1,0 +1,11 @@
+.BracketBoard-container {
+  display: flex;
+  flex-direction: row;
+  color: white;
+}
+
+.BracketBoard-container-container {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}

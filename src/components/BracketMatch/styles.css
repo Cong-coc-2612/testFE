@@ -1,0 +1,136 @@
+.BracketMatch-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.BracketMatch-container-lowerBracket {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+}
+
+.BracketMatch-numericalOrder-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+}
+
+.BracketMatch-numericalOrder-text {
+  color: white;
+}
+
+.BracketMatch-preMatch-connector {
+  display: flex;
+  width: 25px;
+  flex-direction: column;
+}
+
+.BracketMatch-afterMatch-icon-visible {
+  visibility: visible;
+}
+
+.BracketMatch-afterMatch-icon-invisible {
+  visibility: hidden;
+}
+
+.BracketMatch-afterMatch-icon-search {
+  flex: 1;
+  color: white;
+}
+
+.BracketMatch-afterMatch-icon-setting {
+  color: white;
+  flex: 1;
+}
+
+.BracketMatch-preMatch-connector-border1 {
+  border-left: 1px solid white;
+}
+
+.BracketMatch-preMatch-connector-borderr {
+  flex: 1;
+}
+
+.BracketMatch-preMatch-connector-borderrr {
+  border-bottom: 1px solid white;
+}
+
+.BracketMatch-preMatch-connector-border2 {
+  flex: 1;
+}
+
+.BracketMatch-preMatch-connector-border2-border {
+  border-left: 1px solid white;
+}
+
+.BracketMatch-afterMatch-connector-border1 {
+  border-bottom: 1px solid white;
+  flex: 1;
+}
+
+.BracketMatch-afterMatch-connector-border2 {
+  flex: 1;
+}
+
+.BracketMatch-teams-container {
+  flex-direction: row;
+  display: flex;
+  flex: 1;
+}
+
+.BracketMatch-team-container {
+  flex-direction: column;
+  display: flex;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.BracketMatch-matchSetting-container :hover {
+  cursor: pointer;
+  background-color: black;
+}
+
+.BracketMatch-matchSetting-container {
+  position: absolute;
+  height: 40px;
+  margin-left: 150px;
+  display: flex;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.BracketMatch-afterMatch-icon-container {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  flex: 1;
+  width: 50px;
+}
+
+.BracketMatch-afterMatch-icon-container-background {
+  background-color: #002C69;
+}
+
+.BracketMatch-info-container {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+}
+
+.BracketMatch-info-text {
+  font-size: 10px;
+  position: absolute;
+}
+
+.No-margin-top {
+  margin-top: 40px;
+}
+
+.No-margin-bottom {
+  margin-top: -12px;
+}

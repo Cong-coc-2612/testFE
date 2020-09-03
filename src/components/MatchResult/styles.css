@@ -1,0 +1,5 @@
+.MatchResult-container {
+  width: inherit;
+  height: 330px;
+  display: flex;
+}

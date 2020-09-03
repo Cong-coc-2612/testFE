@@ -1,0 +1,84 @@
+/* 
+.Column2KBSV {
+  padding: 0 5px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  // border-bottom: 0px solid rgba(128, 128, 128, 0.27);
+  justify-content: center;
+  padding: 0 5px;
+}
+
+.TextBox {
+  height: 30px !important;
+}
+
+div:first-child {
+  display: flex;
+}
+
+.BlackColumn {
+  background-color: #38444f !important;
+  color: white !important;
+}
+
+.ColumnLast {
+  border-right: 0;
+}
+
+.HighlightBlack {
+  background-color: #495561 !important;
+}
+
+.Highlight {
+  background-color: #ededed;
+}
+
+.ColumnClickable {
+  cursor: pointer;
+}
+
+.HoverItem {
+  background-color: rgba(223, 242, 255, 0.5) !important;
+}
+
+.OnClickItem {
+  background-color: rgba(223, 242, 255, 0.5) !important;
+} */
+
+.SheetData-Column1 {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  text-transform: capitalize;
+  text-align: center;
+  background-color: #1e232f;
+  border-right: 1px solid grey;
+}
+
+.SheetData-last-fixed-column {
+  border-right: 3px solid white;
+}
+.SheetData-notLast-fixed-column {
+  border-right: 1px solid grey;
+}
+
+.SheetData-Column2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  height: 100%;
+}
+
+.SheetData-Row1 {
+  background-color: #2b303d;
+}
+
+.SheetData-Row2 {
+  background-color: rgb(38, 43, 56);
+}

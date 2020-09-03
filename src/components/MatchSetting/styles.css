@@ -1,0 +1,82 @@
+.MatchSetting-container {
+  width: inherit;
+  height: 330px;
+  display: flex;
+  flex-direction: column;
+}
+
+.MatchSetting-set-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.MatchSetting-set-container :hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.MatchSetting-set-text {
+  font-weight: bold;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.MatchSetting-sheetData-container {
+  width: inherit;
+  height: 217px;
+}
+
+.MatchSetting-verify-winner-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.MatchSetting-verify-winner-text-container {
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 40px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+}
+
+.MatchSetting-verify-winner-text {
+  font-weight: bold;
+}
+
+.MatchSetting-verify-winner-header {
+  margin-right: 20px;
+}
+
+.MatchSetting-verify-winner-text-container-container :hover {
+  cursor: pointer;
+}
+
+.MatchSetting-verify-winner-text-container-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.MatchSetting-verify-winner-isWinner {
+  background-color: gold !important;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}

@@ -1,0 +1,53 @@
+.BracketRank-container {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.BracketRank-item-container {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.BracketRank-menuItem-container {
+  background-color: black;
+}
+
+.BracketRank-item-orderNumber-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.BracketRank-item-teamName-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 5;
+}
+
+.BracketRank-item-managerName-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 6;
+}
+
+.BracketRank-item-matchHistory-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 2;
+}
+
+.BracketRank-item-score-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}

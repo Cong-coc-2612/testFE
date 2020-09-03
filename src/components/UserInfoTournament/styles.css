@@ -1,0 +1,11 @@
+.UserInfoTournament-container {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.UserInfoTournament-container-container {
+  display: flex;
+  flex-direction: row;
+}

@@ -1,0 +1,142 @@
+.CompetitionSettingCompetitionsAddItem-info-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.CompetitionSettingCompetitionsAddItem-container :hover {
+  cursor: pointer;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-container {
+  background-color: black;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-listTeamInfo-item-container {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 25px;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-listTeamInfo-item-container1 {
+  background-color: #2b2f39;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-listTeamInfo-item-container2 {
+  background-color: #1e232f;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-listTeamInfo-item-orderNumber {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-listTeamInfo-item-memberName {
+  flex: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-listTeamInfo-item-gender {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-listTeamInfo-item-email {
+  flex: 6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CompetitionSettingCompetitionsAddItem-moreInfo-listTeamInfo-item-dob {
+  flex: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CompetitionSettingCompetitionsAddItem-container {
+  background-color: #2b2f39;
+  border-radius: 7px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.CompetitionSettingCompetitionsAddItem-container-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+}
+
+.CompetitionSettingCompetitionsAddItem-order-number-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CompetitionSettingCompetitionsAddItem-order-number-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 60%;
+  border-radius: 10px;
+}
+
+.CompetitionSettingCompetitionsAddItem-team-name-container {
+  flex: 7;
+  padding-left: 50px;
+}
+
+.CompetitionSettingCompetitionsAddItem-team-setting-container {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CompetitionSettingCompetitionsAddItem-team-setting-container-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  width: 35px;
+  background-color: black;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 7px;
+}
+
+.TournamentInfo-info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.TournamentInfo-text {
+  margin-left: 10px;
+}
+
+.CompetitionSettingCompetitionsAddItem-option-container-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 25px;
+  margin-left: 20px;
+}
+
+.Checkbox-label {
+  color: #d8d8d8;
+}

@@ -1,0 +1,96 @@
+.BracketTeam-name-container {
+  flex: 3;
+}
+
+.BracketTeam-name-container1 :hover {
+  cursor: pointer;
+  background-color: black;
+}
+
+.BracketTeam-name-container2 :hover {
+  cursor: pointer;
+}
+
+.BracketTeam-name-container-container {
+  flex: 1;
+}
+
+.BracketTeam-name-container-editBracketMode {
+  background-color: darkgreen !important;
+}
+
+.BracketTeam-name-text {
+  margin-top: 2px;
+  margin-left: 7px;
+  font-size: 14px;
+}
+
+.BracketTeam-name-text2 {
+  font-style: italic;
+  font-size: 11px;
+}
+
+.BracketTeam-beingHovered {
+  background-color: black;
+}
+
+.BracketTeam-notBeingHovered {
+  background-color: #58595e;
+}
+
+.BracketTeam-score-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.BracketTeam-score-top1-container {
+  background-color: gold;
+}
+
+.BracketTeam-score-top2-container {
+  background-color: silver;
+}
+
+.BracketTeam-score-top3-container {
+  background-color: #B87333;
+}
+
+.BracketTeam-score-topin10-container {
+  background-color: white;
+}
+
+.BracketTeam-score-topother-container {
+  background-color: black;
+}
+
+.BracketTeam-score-top1-text {
+  color: black;
+}
+
+.BracketTeam-score-top2-text {
+  color: black;
+}
+
+.BracketTeam-score-top3-text {
+  color: black;
+}
+
+.BracketTeam-score-topin10-text {
+  color: black;
+}
+
+.BracketTeam-score-topother-text {
+  color: white;
+}
+
+.BracketTeam-container {
+  width: 150px;
+  height: 20px;
+  display: flex;
+}
+
+.BracketTeam-border-bottom {
+  border-bottom: 1px solid black;
+}

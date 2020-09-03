@@ -1,0 +1,94 @@
+.MatchDetail-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  /* width: 905px;
+  height: 50px; */
+  top: 25%;
+  left: 26%;
+  right: 26%;
+  bottom: 27%;
+}
+
+.MatchDetail-teams-container {
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+  align-items: center;
+  justify-content: center;
+}
+
+.MatchDetail-info-container {
+  display: flex;
+  flex: 3;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.MatchDetail-team1-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  flex-direction: column;
+}
+
+.MatchDetail-team2-container {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  flex-direction: column;
+}
+
+.MatchDetail-teams-middle-container {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MatchDetail-info-header-text {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.MatchDetail-teams-middle-text {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.MatchDetail-team2-score-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  flex: 1;
+}
+
+.MatchDetail-team2-name-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MatchDetail-team1-score-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  flex: 1;
+}
+
+.MatchDetail-team1-name-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

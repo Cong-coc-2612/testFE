@@ -1,0 +1,49 @@
+.Paging-container {
+  height: 40px;
+  background-color: #002C69;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.Paging-bar {
+  display: flex;
+  flex-direction: row;
+  margin-left: 15px;
+}
+
+.Paging-bar :hover {
+  cursor: pointer;
+}
+
+.Paging-each-page {
+  width: 20px;
+}
+
+.Paging-each-page-text {
+  justify-content: center;
+  display: flex;
+}
+
+.Paging-each-page-icon2{
+  justify-content: center;
+  display: flex;
+  color: #b50706;
+}
+
+.Paging-each-page-icon1{
+  justify-content: center;
+  display: flex;
+  color: blue;
+}
+
+.Paging-each-page-text-selected {
+  border: 1px solid black;
+  border-radius: 5px;
+  color: black
+}

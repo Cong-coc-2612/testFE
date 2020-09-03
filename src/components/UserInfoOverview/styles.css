@@ -1,0 +1,74 @@
+.UserInfoOverview-container {
+  color: white;
+}
+
+.UserInfoOverview-header-text {
+  font-size: 30px;
+  margin-left: 50px;
+  font-weight: bold;
+}
+
+.UserInfoOverview-number-text {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.UserInfoOverview-overview-info-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.UserInfoOverview-overview-info-item {
+  background-color: #3d4351;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  flex: 1;
+  height: 150px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.UserInfoOverview-top-info-item {
+  display: flex;
+  flex-direction: row;
+  border-radius: 7px;
+  flex: 1;
+  height: 150px;
+  margin-left: 50px;
+  margin-right: 50px;
+  overflow: hidden;
+}
+
+.UserInfoOverview-top-info-item-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #353a46;
+}
+
+.UserInfoOverview-top-info-item-right {
+  display: flex;
+  background-color: #3d4351;  
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.UserInfoOverview-top1-icon {
+  color: gold;
+}
+
+.UserInfoOverview-top2-icon {
+  color: silver;
+}
+
+.UserInfoOverview-top3-icon {
+  color: #cd7f32;
+}
+
+/*#3d4351 */
