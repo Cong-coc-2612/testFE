@@ -26,7 +26,7 @@ class UserOverview extends React.Component<IUserOverviewProps, IUserOverviewStat
         <div className="UserOverview-container">
           <div className="UserOverview-avatar-image-container">
             <div className="UserOverview-avatar-container">
-              {/* <img className={'UserOverview-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} /> */}
+              <img className={'UserOverview-avatar-image'} src={'https://doan2020.blob.core.windows.net/doan2020/Redux.png'} alt={'logo'} />
             </div>
             <div className="UserOverview-name-container">
               <p className="UserOverview-name-text">{`${info.firstName} ${info.lastName}`}</p>

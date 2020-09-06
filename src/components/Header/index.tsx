@@ -138,7 +138,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
       <div className="Header-container">
         <div className="Logo-container">
           <Link to="/" style={{ height: 50 }}>
-            {/* <img className={'Header-logo-image'} style={{ width: '100%', height: '100%' }} src={require('../../assets/logo.png')} alt={'logo'} /> */}
+            <img className={'Header-logo-image'} style={{ width: '100%', height: '100%' }} src={require('../../assets/logo.png')} alt={'logo'} />
           </Link>
         </div>
         <div className={`Option-container ${this.props.currentPage === 'tournaments' ? 'Option-container1' : ''}`}>
@@ -188,13 +188,13 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           <div className="Right-container Right-container-hover">
             <div className={'UserOption-container'} onClick={this.handleShowUserOption}>
               <div className={'UserOption-avatar-container'}>
-                {/* <img className={'UserOption-avatar-image'} src={require(
+                <img className={'UserOption-avatar-image'} src={require(
                   // `${this.state.errorLoadImage === false ?
                   '../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png'
                   // :
                   // '../../assets/avatar-man-icon-profile-placeholder-260nw-1229862502.jpg'}`
                 )
-                } alt={'logo'} onError={this.onImageError} /> */}
+                } alt={'logo'} onError={this.onImageError} />
               </div>
               <p className={'UserOption-name-text'}>{`${currentUserInfo.firstName}`}</p>
               {this.state.showUserOption === true ? <FaChevronDown color={'white'} /> : <FaChevronUp color={'white'} />}

@@ -28,11 +28,11 @@ class TournamentOverview extends React.Component<ITournamentOverviewProps, ITour
       <Link to={`/tournament/${(info as unknown as IParams).id}`} style={{ textDecoration: 'none' }}>
         <div className="TournamentOverview-container">
           <div className="TournamentOverview-background-image-container">
-            {/* <img className={'TournamentOverview-background-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} /> */}
+            <img className={'TournamentOverview-background-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} />
           </div>
           <div className="TournamentOverview-avatar-image-container">
             <div className="TournamentOverview-avatar-container">
-              {/* <img className={'TournamentOverview-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} /> */}
+              <img className={'TournamentOverview-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} />
             </div>
             <div className="TournamentOverview-name-container">
               <p className="TournamentOverview-name-text">{(info as unknown as IParams).fullName}</p>

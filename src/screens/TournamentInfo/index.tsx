@@ -679,7 +679,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
           >
             <div className="TournamentInfo-Container">
               <div className="TournamentInfo-background-image-container">
-                {/* <img className={'TournamentInfo-background-image'} src={require('../../assets/38155584462_74d5f1cc1d_b.jpg')} alt={'logo'} /> */}
+                <img className={'TournamentInfo-background-image'} src={require('../../assets/38155584462_74d5f1cc1d_b.jpg')} alt={'logo'} />
                 {this.props.tournamentInfo != null && (this.props.tournamentInfo as IParams).Config != null && ((this.props.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <AiFillCamera className={'TournamentInfo-change-image-icon'} />}
                 {this.props.tournamentInfo != null && (this.props.tournamentInfo as IParams).Config != null && ((this.props.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <div className={'TournamentInfo-Overlay'}>
                   <input type="file" onChange={(e) => this.updateBackground(e.target.files)} />
@@ -727,7 +727,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                         </div>
                       </div>
                     </div>
-                    {/* <img className={'TournamentInfo-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} /> */}
+                    <img className={'TournamentInfo-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} />
                     {this.props.tournamentInfo != null && (this.props.tournamentInfo as IParams).Config != null && ((this.props.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <AiFillCamera className={'TournamentInfo-change-avatar-icon'} />}
                     {this.props.tournamentInfo != null && (this.props.tournamentInfo as IParams).Config != null && ((this.props.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <div className={'TournamentInfo-Overlay2'}>
                       <input type="file" onChange={(e) => this.updateAvatar(e.target.files)} />

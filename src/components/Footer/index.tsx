@@ -153,7 +153,7 @@ class Footer extends React.Component<IFooterProps, IFooterState> {
     return (
       <div className={'Footer-container'}>
         <div className={'Footer-column-container'}>
-          {/* <img src={require('../../assets/logo.png')} style={{ width: '200px', height: '100%' }} alt={'logo'} /> */}
+          <img src={require('../../assets/logo.png')} style={{ width: '200px', height: '100%' }} alt={'logo'} />
         </div>
         <div className={'Footer-column-container'}>
           <p>Liên hệ</p>
