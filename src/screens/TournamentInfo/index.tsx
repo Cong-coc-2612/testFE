@@ -18,11 +18,12 @@ import Player from 'components/Player';
 import TournamentReport from 'components/TournamentReport';
 import TextInput from 'components/TextInput';
 import { IBigRequest, IParams } from 'interfaces/common';
-import { COOKIES_TYPE } from 'global';
+import { COOKIES_TYPE, TOURNAMENT_STATUS } from 'global';
 import { IState } from 'redux-saga/reducers';
 import { cookies } from 'utils/cookies';
 import { formatDateToDisplay } from 'utils/datetime';
 import config from 'config';
+import { formatTournamentStatus } from 'utils/common';
 import { onEditBracketMode, deleteListSelectingTeam } from 'components/BracketTeam/actions';
 import { queryAllCompetitionsByTournamentId } from 'components/CompetitionsSetting/actions';
 import { openRegisterForm, closeRegisterForm, registTeam, reportViolation, updateBackgroundTournament, updateAvatarTournament, queryTournamentInfo, querySportsByTournament, finishTournament, queryCompetitionsBySportAndTournament, startTournament } from './actions';
@@ -81,6 +82,8 @@ interface ITournamentInfoState {
   detailReportFormErrorContent: string;
   listPlayerInForm: IParams[];
   playerGenderInForm: ValueType<OptionTypeBase>;
+  errorLoadImage: boolean;
+  errorLoadBackgroundImage: boolean;
 }
 
 let allCompetitionOptions: IParams[] = [
@@ -153,6 +156,8 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
       teamShortNameInForm: '',
       teamShortNameInFormError: false,
       teamShortNameInFormErrorContent: '',
+      errorLoadImage: false,
+      errorLoadBackgroundImage: false,
       listPlayerInForm: [
       ],
     };
@@ -183,7 +188,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
       this.tabList = [];
       this.componentList = [];
       if (nextProps.tournamentInfo != null) {
-        if ((nextProps.tournamentInfo as IParams).Config != null && ((nextProps.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true) {
+        if ((nextProps.tournamentInfo as IParams).Config != null && ((nextProps.tournamentInfo as IParams).Config as IParams).canEdit === true) {
           this.tabList = [
             'Các cuộc thi trong giải',
             'Các đội tham gia giải',
@@ -191,7 +196,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
             'Báo cáo giải'
           ];
           this.componentList = [
-            <CompetitionsSetting tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} onChangeCompetitionSetting={this.onChangeCompetitionSetting} />,
+            <CompetitionsSetting canEdit={((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING || ((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.OPENING} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} onChangeCompetitionSetting={this.onChangeCompetitionSetting} />,
             <TournamentListTeam id={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo} />,
             <TournamentSetting tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} />,
             <TournamentReport tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} />
@@ -202,7 +207,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
             'Các đội tham gia giải',
           ];
           this.componentList = [
-            <CompetitionsSetting tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} onChangeCompetitionSetting={this.onChangeCompetitionSetting} />,
+            <CompetitionsSetting canEdit={false} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} onChangeCompetitionSetting={this.onChangeCompetitionSetting} />,
             <TournamentListTeam id={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo} />,
           ];
         }
@@ -659,8 +664,19 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
     });
   }
 
+  private onImageError = () => {
+    this.setState({
+      errorLoadImage: true,
+    });
+  };
+
+  private onImageBackgroundError = () => {
+    this.setState({
+      errorLoadBackgroundImage: true,
+    });
+  };
+
   render() {
-    console.log('this.props.tournamentInfo', this.props.tournamentInfo);
     return (
       <ReduxBlockUi
         tag="div"
@@ -679,7 +695,8 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
           >
             <div className="TournamentInfo-Container">
               <div className="TournamentInfo-background-image-container">
-                <img className={'TournamentInfo-background-image'} src={require('../../assets/38155584462_74d5f1cc1d_b.jpg')} alt={'logo'} />
+                {this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament != null && <img className={'TournamentInfo-background-image'} src={(this.state.errorLoadBackgroundImage === false ? ((this.props.tournamentInfo.Tournament as IParams).background != null ? (this.props.tournamentInfo.Tournament as IParams).background as string : config.defaultBackground) : config.defaultBackground)} alt={'logo'} onError={this.onImageBackgroundError} />}
+                {/* <img className={'TournamentInfo-background-image'} src={require('../../assets/38155584462_74d5f1cc1d_b.jpg')} alt={'logo'} /> */}
                 {this.props.tournamentInfo != null && (this.props.tournamentInfo as IParams).Config != null && ((this.props.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <AiFillCamera className={'TournamentInfo-change-image-icon'} />}
                 {this.props.tournamentInfo != null && (this.props.tournamentInfo as IParams).Config != null && ((this.props.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <div className={'TournamentInfo-Overlay'}>
                   <input type="file" onChange={(e) => this.updateBackground(e.target.files)} />
@@ -702,12 +719,12 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                           <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Nhà tài trợ: ${(this.props.tournamentInfo.Tournament as unknown as IParams).donor}` : <Skeleton width={250} height={20} />}</p>
                         </div>
                         <div className="TournamentInfo-info-item">
-                          <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Trạng thái: ${((this.props.tournamentInfo.Tournament as unknown as IParams).status === 'processing' ? 'Đang diễn ra' : (this.props.tournamentInfo.status == null ? 'Chưa diễn ra' : 'Đã kết thúc'))}` : <Skeleton width={225} height={20} />}</p>
+                          <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Trạng thái: ${formatTournamentStatus((this.props.tournamentInfo.Tournament as IParams).status as string)}` : <Skeleton width={225} height={20} />}</p>
                         </div>
                       </div>
                       <div className="TournamentInfo-content-info-basic-info-container-singleRow">
                         <div className="TournamentInfo-info-item">
-                          <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Ngày bắt đầu: ${formatDateToDisplay((this.props.tournamentInfo.Tournament as unknown as IParams).openingTime as string | undefined, 'dd/MM/yyyy', 'yyyy-MM-dd')}` : <Skeleton width={250} height={20} />}</p>
+                          <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Ngày bắt đầu: ${formatDateToDisplay((this.props.tournamentInfo.Tournament as unknown as IParams).openingTime as string | undefined, 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}` : <Skeleton width={250} height={20} />}</p>
                         </div>
                         <div className="TournamentInfo-info-item">
                           <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Địa điểm khai mạc: ${(this.props.tournamentInfo.Tournament as unknown as IParams).openingLocation}` : <Skeleton width={275} height={20} />}</p>
@@ -715,7 +732,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                       </div>
                       <div className="TournamentInfo-content-info-basic-info-container-singleRow">
                         <div className="TournamentInfo-info-item">
-                          <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Ngày kết thúc: ${formatDateToDisplay((this.props.tournamentInfo.Tournament as unknown as IParams).closingTime as string | undefined, 'dd/MM/yyyy', 'yyyy-MM-dd')}` : <Skeleton width={250} height={20} />}</p>
+                          <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Ngày kết thúc: ${formatDateToDisplay((this.props.tournamentInfo.Tournament as unknown as IParams).closingTime as string | undefined, 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}` : <Skeleton width={250} height={20} />}</p>
                         </div>
                         <div className="TournamentInfo-info-item">
                           <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Địa điểm bế mạc: ${(this.props.tournamentInfo.Tournament as unknown as IParams).closingLocation}` : <Skeleton width={275} height={20} />}</p>
@@ -727,7 +744,8 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                         </div>
                       </div>
                     </div>
-                    <img className={'TournamentInfo-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} />
+                    {this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament != null && <img className={'TournamentInfo-avatar-image'} src={(this.state.errorLoadImage === false ? ((this.props.tournamentInfo.Tournament as IParams).avatar != null ? (this.props.tournamentInfo.Tournament as IParams).avatar as string : config.defaultAvatar) : config.defaultAvatar)} alt={'logo'} onError={this.onImageError} />}
+                    {/* <img className={'TournamentInfo-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} /> */}
                     {this.props.tournamentInfo != null && (this.props.tournamentInfo as IParams).Config != null && ((this.props.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <AiFillCamera className={'TournamentInfo-change-avatar-icon'} />}
                     {this.props.tournamentInfo != null && (this.props.tournamentInfo as IParams).Config != null && ((this.props.tournamentInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <div className={'TournamentInfo-Overlay2'}>
                       <input type="file" onChange={(e) => this.updateAvatar(e.target.files)} />
@@ -735,7 +753,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                   </div>
                   {this.props.tournamentInfo != null && this.props.tournamentInfo.Config != null && this.props.tournamentInfo.Tournament != null &&
                     ((this.props.tournamentInfo.Config as IParams).canEdit === true ?
-                      ((this.props.tournamentInfo.Tournament as IParams).status === 'initializing' ?
+                    ((this.props.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING ?
                         <div className="TournamentInfo-login-container">
                           <div
                             className="TournamentInfo-login"
@@ -751,7 +769,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                             >
                               <h4 className="TournamentInfo-login-text">Kết thúc giải</h4>
                             </div>
-                          </div> : null)) : (cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null && (this.props.tournamentInfo.Tournament as IParams).status === 'opening' &&
+                          </div> : null)) : (cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null && (this.props.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.OPENING &&
                             <div className="TournamentInfo-login-container">
                               <div
                                 className="TournamentInfo-login"
@@ -761,7 +779,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                               </div>
                             </div>))
                   }
-                  {this.props.tournamentInfo != null && this.props.tournamentInfo.Config != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Config as IParams).canEdit === true && ((this.props.tournamentInfo.Tournament as IParams).status === 'initializing' ?
+                  {this.props.tournamentInfo != null && this.props.tournamentInfo.Config != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Config as IParams).canEdit === true && ((this.props.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING ?
                     <div className="TournamentInfo-login-container">
                       <div
                         className="TournamentInfo-login"
@@ -769,7 +787,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                       >
                         <h4 className="TournamentInfo-login-text">Mở form đăng ký</h4>
                       </div>
-                    </div> : ((this.props.tournamentInfo.Tournament as IParams).status === 'opening' &&
+                    </div> : ((this.props.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.OPENING &&
                       <div className="TournamentInfo-login-container">
                         <div
                           className="TournamentInfo-login"

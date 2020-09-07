@@ -45,7 +45,7 @@ class TournamentReport extends React.Component<ITournamentReportProps, ITourname
       },
       data: {
         page,
-        limit: 5,
+        limit: 10,
       },
     };
     this.props.queryTournamentReport(params);

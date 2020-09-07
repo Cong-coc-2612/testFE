@@ -6,6 +6,8 @@ import { COMMON_SHOW_NOTIFICATION, TOURNAMENT_UPDATE_AVATAR } from 'redux-saga/a
 import { QUERY_TOURNAMENT_INFO_SUCCESS } from 'screens/TournamentInfo/reducers';
 import store from 'redux-saga/store';
 import config from 'config';
+import { cookies } from 'utils/cookies';
+import { COOKIES_TYPE } from 'global';
 
 const uploadFile = (data: IParams, path: string | number, param: IParams) => {
   if (param.file != null) {
@@ -19,7 +21,8 @@ const uploadFile = (data: IParams, path: string | number, param: IParams) => {
         {
           params: { id: param.id },
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            "Authorization": cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null ? cookies.get(COOKIES_TYPE.AUTH_TOKEN).Authentication : null,
           }
         }
       ).then((response) => {

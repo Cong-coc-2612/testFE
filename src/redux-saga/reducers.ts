@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { CurrentPage } from './global-reducers/CurrentPage';
-import { BracketBoardInfo, BracketStartedStatus } from 'components/BracketBoard/reducers';
+import { BracketBoardInfo, BracketStartedStatus, AllMatches } from 'components/BracketBoard/reducers';
 import { HoveringTeam, EditBracketMode, ListTeamSelecting } from 'components/BracketTeam/reducers';
 import { CurrentUserInfo } from 'screens/Login/reducers';
 import { SignUp } from 'screens/SignUp/reducers';
@@ -18,7 +18,7 @@ import { GlobalSearchString } from './global-reducers/GlobalSearchString-reducer
 import { ListUsers } from 'components/AllUsers/reducers';
 import { CompetitionInfo, AllSports, SportInfo, GroupStageSetting, FinalStageSetting, AllFormats } from 'screens/CompetitionInfo/reducers';
 import { BracketRankInfo } from 'components/BracketRank/reducers';
-import { MatchResult } from 'components/BracketMatch/reducers';
+import { MatchResult, MatchInfo } from 'components/BracketMatch/reducers';
 import { ListTournamentReport } from 'components/TournamentReport/reducers';
 import { ListReports } from 'components/AllReports/reducers';
 import { ListPendingTeam } from 'components/PendingTeams/reducers';
@@ -58,6 +58,8 @@ export const appReducer = combineReducers({
   listTournamentReport: ListTournamentReport,
   listReports: ListReports,
   listPendingTeam: ListPendingTeam,
+  matchInfo: MatchInfo,
+  allMatches: AllMatches,
 });
 
 export type IState = ReturnType<typeof appReducer>;

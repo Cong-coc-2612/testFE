@@ -198,7 +198,7 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
       path: '',
       param: {
         page,
-        limit: this.props.type === 'user' ? 3 : 10,
+        limit: this.props.type === 'user' ? 9 : 10,
       },
       data: {},
     }
@@ -211,7 +211,7 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
         path: '',
         param: {
           page: pageNumber,
-          limit: this.props.type === 'user' ? 3 : 10,
+          limit: this.props.type === 'user' ? 9 : 10,
           searchString: this.props.globalSearchString,
         },
         data: {},

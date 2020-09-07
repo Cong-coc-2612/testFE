@@ -69,6 +69,8 @@
   background-color: #002C69;
   margin-top: 25px;
   border-radius: 10px;
+  height: 50px;
+  width: 200px;
 }
 
 .CreateNewTournament-button-container :hover {

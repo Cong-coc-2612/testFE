@@ -7,6 +7,8 @@ import { QUERY_USER_INFO_SUCCESS } from 'screens/UserInfo/reducers';
 import { LOGIN_SUCCESS } from 'screens/Login/reducers';
 import store from 'redux-saga/store';
 import config from 'config';
+import { cookies } from 'utils/cookies';
+import { COOKIES_TYPE } from 'global';
 
 const uploadFile = (data: IParams, path: string | number, param: IParams) => {
   if (param.file != null) {
@@ -20,7 +22,8 @@ const uploadFile = (data: IParams, path: string | number, param: IParams) => {
         {
           params: { id: param.id },
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            "Authorization": cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null ? cookies.get(COOKIES_TYPE.AUTH_TOKEN).Authentication : null,
           }
         }
       ).then((response) => {

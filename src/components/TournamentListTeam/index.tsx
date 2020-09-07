@@ -22,7 +22,7 @@ class TournamentListTeam extends React.Component<ITournamentListTeamProps, ITour
   render() {
     return (
       <div className="TournamentListTeam-container">
-        <Teams id={this.props.id} type={'tournament'} tournamentInfo={this.props.tournamentInfo} competitionInfo={null} addItem={false} />
+        <Teams tournamentStatus={''} id={this.props.id} type={'tournament'} tournamentInfo={this.props.tournamentInfo} competitionInfo={null} addItem={false} />
       </div>
     );
   }

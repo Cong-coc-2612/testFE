@@ -1,6 +1,7 @@
 import { call, takeLatest, put } from 'redux-saga/effects';
 import { query, METHOD } from 'utils/socketApi';
 import { IRequest, IParams, IBigRequest } from 'interfaces/common';
+import { GET_MATCH_RESULT_SUCCESS } from 'components/BracketMatch/reducers';
 import { COMMON_SHOW_NOTIFICATION, UPDATE_MATCH_RESULT } from 'redux-saga/actions';
 
 
@@ -19,12 +20,12 @@ function* doUpdateMatchResult(request: IRequest<IBigRequest>) {
     if (response.data.error.MessageCode === 0) {
       yield put({
         type: request.response.success,
-        payload: data,
+        payload: data.Results,
       });
-      // yield put({
-      //   type: QUERY_COMPETITION_INFO_SUCCESS,
-      //   payload: { ...store.getState().competitionInfo, Competition: data.Competition },
-      // });
+      yield put({
+        type: GET_MATCH_RESULT_SUCCESS,
+        payload: data.Results,
+      });
     } else {
       throw new Error(response.data.error.Message);
     }

@@ -37,12 +37,14 @@ export interface IConfig {
     number: RegExp;
     orderPasswordKBSV: RegExp;
   };
+  defaultAvatar: string;
+  defaultBackground: string;
 }
 
 let config: IConfig = {
   apiUrl: {
     // baseURI: 'http://172.20.10.8:8090/',nham'11
-    baseURI: 'https://sport-tournaments-support.herokuapp.com/',
+    baseURI: 'http://192.168.1.119:8090/',
     // baseURI: 'http://192.168.43.170:8090/',
     // long sama
     tradeX: {},
@@ -57,6 +59,8 @@ let config: IConfig = {
     number: /^[0-9]*$/,
     orderPasswordKBSV: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/,
   },
+  defaultAvatar: 'https://thumbs.dreamstime.com/b/user-avatar-icon-button-profile-symbol-flat-person-icon-stock-vector-user-avatar-icon-button-profile-symbol-flat-person-icon-159777243.jpg',
+  defaultBackground: 'https://www.sths.org/wp-content/uploads/2018/07/grey-background.jpg',
 };
 
 export default config;

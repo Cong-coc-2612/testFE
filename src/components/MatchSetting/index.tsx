@@ -4,16 +4,20 @@ import SheetData, { ISheetDataConfig } from 'components/SheetData';
 import { IState } from 'redux-saga/reducers';
 import { IParams, IBigRequest } from 'interfaces/common';
 import { getMatchResult } from 'components/BracketMatch/actions';
-import { updateResult } from './actions';
+import { updateResult, updateMatchInfo } from './actions';
 import './styles.css';
 
 interface IMatchSettingProps extends React.ClassAttributes<MatchSetting> {
   teamsInfo: IParams[];
   info: IParams;
+  matchInfo: IParams | null;
   matchResult: IParams[];
+  canEdit?: boolean;
 
   getMatchResult(params: IBigRequest): void;
   updateResult(params: IBigRequest): void;
+  onChangeEditMode(editMode: boolean): void;
+  updateMatchInfo(params: IBigRequest): void;
 }
 
 interface IMatchSettingState {
@@ -24,6 +28,8 @@ interface IMatchSettingState {
 
 class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingState> {
   private listResult: IParams[] = [];
+  private tempFinalScoreTeam1 = 0;
+  private tempFinalScoreTeam2 = 0;
 
   constructor(props: IMatchSettingProps) {
     super(props);
@@ -59,15 +65,15 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
 
   shouldComponentUpdate(nextProps: IMatchSettingProps, nextState: IMatchSettingState) {
     if (this.props.matchResult !== nextProps.matchResult) {
+      this.tempFinalScoreTeam1 = 0;
+      this.tempFinalScoreTeam2 = 0;
       this.listResult = [];
-      let tempFinalScoreTeam1 = 0;
-      let tempFinalScoreTeam2 = 0;
       const tempList = [];
       for (let i = 0; i < nextProps.matchResult.length; i++) {
         if ((nextProps.matchResult[i].team1Score as number) > (nextProps.matchResult[i].team2Score as number)) {
-          tempFinalScoreTeam1++;
+          this.tempFinalScoreTeam1++;
         } else if ((nextProps.matchResult[i].team1Score as number) < (nextProps.matchResult[i].team2Score as number)) {
-          tempFinalScoreTeam2++;
+          this.tempFinalScoreTeam2++;
         }
         this.listResult.push({
           matchId: nextProps.matchResult[i].matchId,
@@ -90,7 +96,7 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
           width: 140,
           style: { justifyContent: 'center' },
           element: (rowData: IParams, rowIndex: number, style?: React.CSSProperties) => (
-            <div style={style}>{rowIndex === 1 ? tempFinalScoreTeam1 : tempFinalScoreTeam2}</div>
+            <div style={style}>{rowIndex === 1 ? this.tempFinalScoreTeam1 : this.tempFinalScoreTeam2}</div>
           ),
         },
       );
@@ -119,32 +125,29 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
         },
       });
     }
-    if (this.state.editMode !== nextState.editMode) {
-      this.onAddASet();
-      setTimeout(() => { this.onRemoveASet(); }, 100)
-    }
     return true;
   }
 
   private onAddASet = () => {
+    const tempValue = this.state.configSheetData.header.length;
     this.setState({
       configSheetData: {
         ...this.state.configSheetData,
         header: [
           ...this.state.configSheetData.header,
           {
-            label: `Set ${this.state.configSheetData.header.length - 2}`,
+            label: `Set ${tempValue - 2}`,
             width: 100,
             style: { justifyContent: 'center' },
             element: (rowData: IParams, rowIndex: number, style?: React.CSSProperties) => (
-              <div style={style}>{this.state.editMode === true ? (rowIndex === 1 ? <input onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onChangeScoreTeam1(event, this.state.configSheetData.header.length - 2)} style={{ width: '35px' }} type={'number'} defaultValue={0} /> : <input onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onChangeScoreTeam2(event, this.state.configSheetData.header.length - 2)} style={{ width: '35px' }} type={'number'} defaultValue={0} />) : 0}</div>
+              <div style={style}>{this.state.editMode === true ? (rowIndex === 1 ? <input onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onChangeScoreTeam1(event, tempValue - 2)} style={{ width: '35px' }} type={'number'} defaultValue={0} /> : <input onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onChangeScoreTeam2(event, tempValue - 2)} style={{ width: '35px' }} type={'number'} defaultValue={0} />) : 0}</div>
             ),
           }]
       }
     });
     this.listResult.push({
       matchId: this.props.info.id,
-      setNo: this.state.configSheetData.header.length - 2,
+      setNo: tempValue - 2,
       team1Score: 0,
       team2Score: 0,
     });
@@ -156,33 +159,102 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
   }
 
   private onChangeScoreTeam1 = (event: React.ChangeEvent<HTMLInputElement>, setNo: number) => {
-    this.listResult[setNo - 1] = { ...this.listResult[setNo - 1], team1Score: Number(event.target.value), };
-    console.log('this.listResult[setNo - 1]', this.listResult[setNo - 1]);
+    this.listResult[setNo - 1] = { ...this.listResult[setNo - 1], team1Score: event.target.value == null ? 0 : Number(event.target.value), };
+    this.tempFinalScoreTeam1 = 0;
+    this.tempFinalScoreTeam2 = 0;
+    for (let i = 0; i < this.listResult.length; i++) {
+      if ((this.listResult[i].team1Score as number) > (this.listResult[i].team2Score as number)) {
+        this.tempFinalScoreTeam1++;
+      } else if ((this.listResult[i].team1Score as number) < (this.listResult[i].team2Score as number)) {
+        this.tempFinalScoreTeam2++;
+      }
+    }
+    if (this.tempFinalScoreTeam1 === this.tempFinalScoreTeam2) {
+      this.setState({
+        winner: null,
+      });
+    } else if (this.tempFinalScoreTeam1 < this.tempFinalScoreTeam2) {
+      this.setState({
+        winner: false,
+      });
+    } else {
+      this.setState({
+        winner: true,
+      });
+    }
   }
 
   private onChangeScoreTeam2 = (event: React.ChangeEvent<HTMLInputElement>, setNo: number) => {
-    this.listResult[setNo - 1] = { ...this.listResult[setNo - 1], team2Score: Number(event.target.value), };
+    this.listResult[setNo - 1] = { ...this.listResult[setNo - 1], team2Score: event.target.value == null ? 0 : Number(event.target.value), };
+    this.tempFinalScoreTeam1 = 0;
+    this.tempFinalScoreTeam2 = 0;
+    for (let i = 0; i < this.listResult.length; i++) {
+      if ((this.listResult[i].team1Score as number) > (this.listResult[i].team2Score as number)) {
+        this.tempFinalScoreTeam1++;
+      } else if ((this.listResult[i].team1Score as number) < (this.listResult[i].team2Score as number)) {
+        this.tempFinalScoreTeam2++;
+      }
+    }
+    if (this.tempFinalScoreTeam1 === this.tempFinalScoreTeam2) {
+      this.setState({
+        winner: null,
+      });
+    } else if (this.tempFinalScoreTeam1 < this.tempFinalScoreTeam2) {
+      this.setState({
+        winner: false,
+      });
+    } else {
+      this.setState({
+        winner: true,
+      });
+    }
   }
 
   private onEditMode = () => {
     this.setState({
       editMode: true,
+      winner: this.props.matchInfo!.winnerId == null ? null : (this.props.matchInfo!.winnerId === this.props.matchInfo!.team1Id ? true : false),
+    }, () => {
+      this.props.onChangeEditMode(true);
     });
   }
 
   private offEditMode = () => {
-    const params = {
+    let params: IBigRequest = {
       path: '',
       param: {
-        matchId: this.listResult[0].matchId,
+        matchId: this.props.info.id,
       },
       data: {
         results: { data: [...this.listResult] },
       },
     };
     this.props.updateResult(params);
+    params = {
+      path: '',
+      param: {
+        id: this.props.info.id,
+      },
+      data: {
+        competitionId: this.props.matchInfo!.competitionId,
+        location: this.props.matchInfo!.location,
+        name: this.props.matchInfo!.name,
+        status: this.props.matchInfo!.status,
+        team1Id: this.props.matchInfo!.team1Id,
+        team2Id: this.props.matchInfo!.team2Id,
+        time: this.props.matchInfo!.time,
+        url: this.props.matchInfo!.url,
+        winnerId: this.state.winner == null ? null : (this.state.winner === true ? this.props.matchInfo!.team1Id : this.props.matchInfo!.team2Id),
+        loserId: this.state.winner == null ? null : (this.state.winner === false ? this.props.matchInfo!.team1Id : this.props.matchInfo!.team2Id),
+        team1Bonus: 0,
+        team2Bonus: 0,
+      },
+    };
+    this.props.updateMatchInfo(params);
     this.setState({
       editMode: false,
+    }, () => {
+      this.props.onChangeEditMode(false);
     });
   }
 
@@ -239,7 +311,7 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
         className="MatchSetting-container"
       >
         <div className="MatchSetting-set-container">
-          {this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>}
+          {this.props.canEdit !== false && (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)}
           {this.state.editMode === true && <p className="MatchSetting-set-text" onClick={this.onAddASet}>Thêm 1 set</p>}
           {this.state.editMode === true && this.state.configSheetData.header.length > 3 && <p className="MatchSetting-set-text" onClick={this.onRemoveASet}>Bớt 1 set</p>}
         </div>
@@ -247,7 +319,10 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
           <SheetData config={this.state.configSheetData} data={this.props.teamsInfo as IParams[]} />
         </div>
         <div className="MatchSetting-verify-winner-container">
-          <p className="MatchSetting-verify-winner-header">{this.state.editMode === true ? 'Xác định người thắng cuộc' : 'Người thắng cuộc: '}</p>
+          {this.state.editMode === true ?
+            <p className="MatchSetting-verify-winner-header">Xác định đội thắng cuộc: </p> :
+            (this.props.matchInfo!.winnerId != null && <p className="MatchSetting-verify-winner-header">Đội thắng cuộc: {this.props.matchInfo!.winnerId === this.props.matchInfo!.team1Id ? ((this.props.info.team1 as IParams).team as IParams).shortName : ((this.props.info.team2 as IParams).team as IParams).shortName}</p>)
+          }
           {this.state.editMode === true && <div className="MatchSetting-verify-winner-text-container-container">
             <div className={`MatchSetting-verify-winner-text-container ${this.state.winner === true ? 'MatchSetting-verify-winner-isWinner' : ''}`} onClick={this.team1Win}>
               <p className="MatchSetting-verify-winner-text noselect">{(this.props.teamsInfo[0].team as IParams).shortName}</p>
@@ -270,5 +345,5 @@ const mapStateToProps = (state: IState) => {
 
 export default connect(
   mapStateToProps,
-  { getMatchResult, updateResult, }
+  { getMatchResult, updateResult, updateMatchInfo }
 )(MatchSetting);

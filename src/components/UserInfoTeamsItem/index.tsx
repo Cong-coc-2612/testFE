@@ -9,6 +9,7 @@ import TextInput from 'components/TextInput';
 import Player from 'components/Player';
 import { IParams, IBigRequest } from 'interfaces/common';
 import config from 'config';
+import { TOURNAMENT_STATUS } from 'global';
 import { IState } from 'redux-saga/reducers';
 import { queryUserInfo } from 'screens/UserInfo/actions';
 import { queryCompetition } from 'screens/CompetitionInfo/actions';
@@ -23,6 +24,7 @@ interface IUserInfoTeamsItemProps extends React.ClassAttributes<UserInfoTeamsIte
   competitionInfo2: IParams | null;
   userInfo: IParams | null;
   listTeam: IParams[];
+  tournamentStatus: string;
 
   queryUserInfo(param: IBigRequest): void;
   queryCompetition(param: IBigRequest): void;
@@ -355,14 +357,14 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
                   <TextInput label={'Tên đội'} value={this.state.teamFullName} error={this.state.teamFullNameError} errorContent={this.state.teamFullNameErrorContent} onChangeText={this.onChangeTeamFullName} onBlur={this.onBlurTeamFullName} />
               }
             </div>
-            <div className="UserInfoTeamsItem-team-setting-container">
+            {(this.props.tournamentStatus === TOURNAMENT_STATUS.INITIALIZING || this.props.tournamentStatus === TOURNAMENT_STATUS.OPENING) && <div className="UserInfoTeamsItem-team-setting-container">
               <div className="UserInfoTeamsItem-team-setting-container-container" onClick={this.openEditMode}>
                 <FaEdit className="UserInfoTeamsItem-team-setting-icon" />
               </div>
               <div className="UserInfoTeamsItem-team-setting-container-container" onClick={this.onDeleteTeam}>
                 <MdDelete className="UserInfoTeamsItem-team-setting-icon" />
               </div>
-            </div>
+            </div>}
           </div>
         </div>
         {this.state.seeMoreInfo === true &&

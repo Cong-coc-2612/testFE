@@ -12,6 +12,7 @@ interface ICompetitionSettingCompetitionsItemProps extends React.ClassAttributes
   listCompetition: IParams[] | null;
   tournamentId: number;
   tournamentInfo: IParams | null;
+  canEdit: boolean;
 
   deleteCompetition(params: IBigRequest): void;
 }
@@ -185,11 +186,11 @@ class CompetitionSettingCompetitionsItem extends React.Component<ICompetitionSet
               </div>
             </Link>
           </div>
-          <div className="CompetitionSettingCompetitionsItem-team-setting-container">
+          {this.props.canEdit === true && <div className="CompetitionSettingCompetitionsItem-team-setting-container">
             <div className="CompetitionSettingCompetitionsItem-team-setting-container-container" onClick={this.onDeleteCompetition}>
               <MdDelete className="CompetitionSettingCompetitionsItem-team-setting-icon" />
             </div>
-          </div>
+          </div>}
         </div>
         {/* <CustomModal
           customStyles={customStyles}

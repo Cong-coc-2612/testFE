@@ -160,7 +160,7 @@ class AllUsers extends React.Component<IAllUsersProps, IAllUsersState> {
       path: '',
       param: {
         page: this.state.activePage,
-        limit: this.props.type === 'user' ? 3 : 10,
+        limit: this.props.type === 'user' ? 6 : 10,
         searchString: this.props.globalSearchString,
       },
       data: {},
@@ -211,7 +211,7 @@ class AllUsers extends React.Component<IAllUsersProps, IAllUsersState> {
           path: '',
           param: {
             page: pageNumber,
-            limit: this.props.type === 'user' ? 3 : 10,
+            limit: this.props.type === 'user' ? 6 : 10,
             searchString: this.props.globalSearchString,
           },
           data: {},

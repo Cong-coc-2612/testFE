@@ -12,6 +12,7 @@ import { IState } from 'redux-saga/reducers';
 import { setGlobalSearchString } from 'redux-saga/global-actions/SetGlobalSearchString-actions';
 import { logOut, searchTournaments, searchUsers } from './actions';
 import './styles.css';
+import config from 'config';
 
 interface IHeaderProps extends React.ClassAttributes<Header> {
   currentPage: 'competitionInfo' | 'login' | 'signUp' | 'tournaments' | 'tournamentInfo' | 'reports' | 'users' | 'userInfo' | 'home' | 'forgotPassword' | 'newTournament' | 'changePassword' | 'active';
@@ -78,7 +79,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
       path: '',
       param: {
         page: 1,
-        limit: 3,
+        limit: 9,
         searchString: this.state.searchText,
       },
       data: {},
@@ -188,13 +189,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           <div className="Right-container Right-container-hover">
             <div className={'UserOption-container'} onClick={this.handleShowUserOption}>
               <div className={'UserOption-avatar-container'}>
-                <img className={'UserOption-avatar-image'} src={require(
-                  // `${this.state.errorLoadImage === false ?
-                  '../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png'
-                  // :
-                  // '../../assets/avatar-man-icon-profile-placeholder-260nw-1229862502.jpg'}`
-                )
-                } alt={'logo'} onError={this.onImageError} />
+                <img className={'UserOption-avatar-image'} src={this.state.errorLoadImage === false ? (currentUserInfo.avatar != null ? currentUserInfo.avatar as string : '') : config.defaultAvatar} alt={'logo'} onError={this.onImageError} />
               </div>
               <p className={'UserOption-name-text'}>{`${currentUserInfo.firstName}`}</p>
               {this.state.showUserOption === true ? <FaChevronDown color={'white'} /> : <FaChevronUp color={'white'} />}

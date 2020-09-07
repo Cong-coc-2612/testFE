@@ -4,6 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 import UserInfoTeamsItem from 'components/UserInfoTeamsItem';
 import TextInput from 'components/TextInput';
 import { IBigRequest, IParams } from 'interfaces/common';
+import { TOURNAMENT_STATUS } from 'global';
 import { IState } from 'redux-saga/reducers';
 import { queryListTeams, addATeamToCompetition } from './actions';
 import './styles.css';
@@ -16,6 +17,7 @@ interface IUserInfoTeamsProps extends React.ClassAttributes<UserInfoTeams> {
   competitionInfo: IParams | null;
   currentUserInfo: IParams | null;
   addItem?: boolean;
+  tournamentStatus: string;
 
   queryListTeams(param: IBigRequest): void;
   addATeamToCompetition(param: IBigRequest): void;
@@ -129,11 +131,11 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
       <div className="UserInfoTeams-container">
         {this.props.listTeam != null ? (this.props.listTeam.length > 0 ?
           this.props.listTeam.map(
-            (item, index) => <UserInfoTeamsItem listTeam={this.props.listTeam as IParams[]} competitionInfo={this.props.competitionInfo} tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} />
+            (item, index) => <UserInfoTeamsItem tournamentStatus={this.props.tournamentStatus} listTeam={this.props.listTeam as IParams[]} competitionInfo={this.props.competitionInfo} tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} />
           ) : <p>Không tìm thấy đội nào!</p>) :
           <Skeleton />
         }
-        {this.props.listTeam != null && this.props.addItem !== false && <div className="UserInfoTeamsAddItem-container2">
+        {this.props.listTeam != null && this.props.addItem !== false && (this.props.tournamentStatus === TOURNAMENT_STATUS.INITIALIZING || this.props.tournamentStatus === TOURNAMENT_STATUS.OPENING) && <div className="UserInfoTeamsAddItem-container2">
           <div className="UserInfoTeamsAddItem-container-container">
             <div className="UserInfoTeamsAddItem-container-container-container">
               <TextInput style={{ width: 200 }} label={'Nhập tên đội'} value={this.state.teamNameToAdd} error={this.state.teamNameToAddError} errorContent={this.state.teamNameToAddErrorContent} onChangeText={this.onChangeTeamNameToAdd} />
