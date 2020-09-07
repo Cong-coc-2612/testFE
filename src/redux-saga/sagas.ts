@@ -64,6 +64,11 @@ import { openRegisterForm } from './sagas/OpenRegisterForm';
 import { closeRegisterForm } from './sagas/CloseRegisterForm';
 import { setAdmin } from './sagas/SetAdmin';
 import { deleteTeam } from './sagas/DeleteTeam';
+import { queryMatchInfo } from './sagas/QueryMatchInfo';
+import { updateMatchInfo } from './sagas/UpdateMatchInfo';
+import { finishMatch } from './sagas/FinishMatch';
+import { queryAllMatches } from './sagas/QueryAllMatches';
+import { finishTournament } from './sagas/FinishTournament';
 
 export default function* () {
   yield all([
@@ -132,5 +137,10 @@ export default function* () {
     closeRegisterForm(),
     setAdmin(),
     deleteTeam(),
+    queryMatchInfo(),
+    updateMatchInfo(),
+    finishMatch(),
+    queryAllMatches(),
+    finishTournament(),
   ]);
 }

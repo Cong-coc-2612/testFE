@@ -28,14 +28,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 5;
+  flex: 4;
 }
 
 .BracketRank-item-managerName-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 6;
+  flex: 4;
 }
 
 .BracketRank-item-matchHistory-container {

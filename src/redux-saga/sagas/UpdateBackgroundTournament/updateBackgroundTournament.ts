@@ -6,6 +6,8 @@ import { COMMON_SHOW_NOTIFICATION, TOURNAMENT_UPDATE_BACKGROUND } from 'redux-sa
 import { QUERY_TOURNAMENT_INFO_SUCCESS } from 'screens/TournamentInfo/reducers';
 import store from 'redux-saga/store';
 import config from 'config';
+import { cookies } from 'utils/cookies';
+import { COOKIES_TYPE } from 'global';
 
 const uploadFile = (data: IParams, path: string | number, param: IParams) => {
   if (param.file != null) {
@@ -14,12 +16,13 @@ const uploadFile = (data: IParams, path: string | number, param: IParams) => {
     form.append('file', file);
     // return query(uri, METHOD.POST, undefined, undefined, paths, form);
     return new Promise<IResponse<IParams>>((resolve: Function, reject: Function) => {
-      axios.post(`${config.apiUrl.baseURI}tournament/uploadAvatar`,
+      axios.post(`${config.apiUrl.baseURI}tournament/uploadBackground`,
         form,
         {
           params: { id: param.id },
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            "Authorization": cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null ? cookies.get(COOKIES_TYPE.AUTH_TOKEN).Authentication : null,
           }
         }
       ).then((response) => {

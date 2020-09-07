@@ -123,7 +123,7 @@ input[type='file'] {
   position: absolute;
   top: 300px;
   left: 250px;
-  color: white;
+  color: #002c69;
 }
 
 .UserInfo-change-avatar-icon {
@@ -131,5 +131,5 @@ input[type='file'] {
   position: absolute;
   top: 625px;
   left: 200px;
-  color: white;
+  color: #002c69;
 }

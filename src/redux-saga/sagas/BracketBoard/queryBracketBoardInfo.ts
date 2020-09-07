@@ -20,6 +20,7 @@ let listTableRR: IParams[] = [];
 let listTableSE: IParams[] = [];
 let listTableDE: IParams[] = [];
 let listWinRound: IParams[] = [];
+let listSumRound: IParams[] = [];
 let listLoseRound: IParams[] = [];
 
 const DFS = (node: IParams, number: number, maxRound: number, fakeId?: number) => {
@@ -91,7 +92,17 @@ const DFS = (node: IParams, number: number, maxRound: number, fakeId?: number) =
     listWinMatchesFull.push(node);
   } else if (number === 3) {
     if (((node.data as unknown as IParams).name as string).includes('L')) {
-      listLoseMatchesFull.push({ ...node, fakeId });
+      // const fakeId = fakeId;
+      const fakeRoundNo = (maxRound % 2 === 0 ? ((node.data as IParams).roundNo as number) : (((node.data as unknown as IParams).roundNo as number) + 1));
+      const firstId = 2 ** (Math.floor((node.degree as number) / 2));
+      const treeHeight = (2 ** (Math.floor((fakeRoundNo + 1) / 2))) * (41 + 10);
+      let firstLocation = (Math.floor(((2 ** ((Math.floor((fakeRoundNo + 1) / 2)) - 1)) * Math.floor((41 + 10))) / 2));
+      if ((node.degree as number) % 2 === 0) {
+        firstLocation = 0;
+      }
+      firstLocation += Math.floor((41 + 10) / 2);
+      const position = ((fakeId as number) - firstId) * treeHeight + firstLocation;
+      listLoseMatchesFull.push({ ...node, fakeId, position, });
     }
   }
 }
@@ -130,6 +141,9 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
               listRound.push({ listMatches, roundName: data.Schedule.finalStageSchedule.roundsNaming[i - 1] } as unknown as IParams);
               listMatches = [];
             }
+            if (data.Schedule.finalStageSchedule.hasMatch34 === true && data.Schedule.finalStageSchedule.totalTeam >= 4) {
+              listRound.push({ listMatches: [{ data: { ...data.Schedule.finalStageSchedule.match34 } }], roundName: 'Tranh Giải 3' })
+            }
             tempVar = { finalStage: { listRound } };
             listRound = [];
             listMatchesFull = [];
@@ -148,17 +162,43 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
             if (data.Schedule.finalStageSchedule.loseBranch.root != null) {
               yield call(DFS, data.Schedule.finalStageSchedule.loseBranch.root, 3, data.Schedule.finalStageSchedule.loseBranch.root.data.roundNo, 1);
               let listLoseMatches = [];
+              let highestMatch = 0;
+              let listRoundPosition = [];
               for (let i = 1; i <= data.Schedule.finalStageSchedule.loseBranch.root.data.roundNo; i++) {
                 for (let j = 0; j < listLoseMatchesFull.length; j++) {
-                  if ((listLoseMatchesFull[j].data as unknown as IParams).roundNo === i) {
+                  if ((listLoseMatchesFull[j].data as IParams).roundNo === i) {
                     listLoseMatches.push(listLoseMatchesFull[j]);
+
+                    if (listLoseMatchesFull[j].left != null && (((listLoseMatchesFull[j].left as IParams).data as IParams).name as string).includes('L')) {
+                      const tempVar = ((listLoseMatchesFull[j].left as IParams).data as IParams).name;
+                      if (listLoseMatchesFull.find(element => (element.data as IParams).name === tempVar) != null) {
+                        listRoundPosition.push({ a: listLoseMatchesFull[j].position, b: (listLoseMatchesFull.find(element => (element.data as IParams).name === tempVar) as IParams).position });
+                      }
+                    }
+
+                    if (listLoseMatchesFull[j].right != null && (((listLoseMatchesFull[j].right as IParams).data as IParams).name as string).includes('L')) {
+                      const tempVar = ((listLoseMatchesFull[j].right as IParams).data as IParams).name;
+                      if (listLoseMatchesFull.find(element => (element.data as IParams).name === tempVar) != null) {
+                        listRoundPosition.push({ a: listLoseMatchesFull[j].position, b: (listLoseMatchesFull.find(element => (element.data as IParams).name === tempVar) as IParams).position });
+                      }
+                    }
+
+                  }
+                  if ((listLoseMatchesFull[j].position as number) >= highestMatch) {
+                    highestMatch = listLoseMatchesFull[j].position as number;
                   }
                 }
-                listLoseRound.push({ listLoseMatches, roundName: data.Schedule.finalStageSchedule.loseRoundsNaming[i - 1] } as unknown as IParams);
+                listLoseRound.push({ listLoseMatches, roundName: data.Schedule.finalStageSchedule.loseRoundsNaming[i - 1], listRoundPosition, highestMatch } as IParams);
                 listLoseMatches = [];
+                listRoundPosition = [];
               }
             }
-            tempVar = { finalStage: { listWinRound, listLoseRound } };
+            if (data.Schedule.finalStageSchedule.totalTeam > 1) {
+              listSumRound.push({ listSumMatches: [{ id: -2, data: { ...data.Schedule.finalStageSchedule.summaryFinal } }], roundName: 'Chung kết tổng' });
+              listSumRound.push({ listSumMatches: [{ id: -2, data: { ...data.Schedule.finalStageSchedule.optionFinal } }], roundName: '' });
+            }
+            tempVar = { finalStage: { listWinRound, listLoseRound, listSumRound } };
+            listSumRound = [];
             listWinRound = [];
             listWinMatchesFull = [];
             listLoseRound = [];
@@ -205,6 +245,9 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
                     listRound.push({ listMatches, roundName: data.Schedule.groupStageSchedule.tables[k].roundsNaming[i - 1] } as IParams);
                     listMatches = [];
                   }
+                  if (data.Schedule.groupStageSchedule.tables[k].hasMatch34 === true && data.Schedule.groupStageSchedule.tables[k].totalTeam >= 4) {
+                    listRound.push({ listMatches: [{ data: { ...data.Schedule.groupStageSchedule.tables[k].match34 } }], roundName: 'Tranh Giải 3' })
+                  }
                 }
                 listTableSE.push({ listRound, tableName: data.Schedule.groupStageSchedule.tables[k].tableName } as IParams);
                 listRound = [];
@@ -216,9 +259,11 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
               for (let k = 0; k < data.Schedule.groupStageSchedule.tables.length; k++) {
                 yield call(DFS, data.Schedule.groupStageSchedule.tables[k].winBranch.root, 2, data.Schedule.groupStageSchedule.tables[k].winBranch.root.data.roundNo);
                 let listWinMatches = [];
+                let highestMatch = 0;
+                let listRoundPosition = [];
                 for (let i = 1; i <= data.Schedule.groupStageSchedule.tables[k].winBranch.root.data.roundNo; i++) {
                   for (let j = 0; j < listWinMatchesFull.length; j++) {
-                    if ((listWinMatchesFull[j].data as unknown as IParams).roundNo === i) {
+                    if ((listWinMatchesFull[j].data as IParams).roundNo === i) {
                       listWinMatches.push(listWinMatchesFull[j]);
                     }
                   }
@@ -232,13 +277,37 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
                     for (let j = 0; j < listLoseMatchesFull.length; j++) {
                       if ((listLoseMatchesFull[j].data as unknown as IParams).roundNo === i) {
                         listLoseMatches.push(listLoseMatchesFull[j]);
+
+                        if (listLoseMatchesFull[j].left != null && (((listLoseMatchesFull[j].left as IParams).data as IParams).name as string).includes('L')) {
+                          const tempVar = ((listLoseMatchesFull[j].left as IParams).data as IParams).name;
+                          if (listLoseMatchesFull.find(element => (element.data as IParams).name === tempVar) != null) {
+                            listRoundPosition.push({ a: listLoseMatchesFull[j].position, b: (listLoseMatchesFull.find(element => (element.data as IParams).name === tempVar) as IParams).position });
+                          }
+                        }
+
+                        if (listLoseMatchesFull[j].right != null && (((listLoseMatchesFull[j].right as IParams).data as IParams).name as string).includes('L')) {
+                          const tempVar = ((listLoseMatchesFull[j].right as IParams).data as IParams).name;
+                          if (listLoseMatchesFull.find(element => (element.data as IParams).name === tempVar) != null) {
+                            listRoundPosition.push({ a: listLoseMatchesFull[j].position, b: (listLoseMatchesFull.find(element => (element.data as IParams).name === tempVar) as IParams).position });
+                          }
+                        }
+
+                      }
+                      if ((listLoseMatchesFull[j].position as number) >= highestMatch) {
+                        highestMatch = listLoseMatchesFull[j].position as number;
                       }
                     }
-                    listLoseRound.push({ listLoseMatches, roundName: data.Schedule.groupStageSchedule.tables[k].loseRoundsNaming[i - 1] } as IParams);
+                    listLoseRound.push({ listLoseMatches, roundName: data.Schedule.groupStageSchedule.tables[k].loseRoundsNaming[i - 1], highestMatch, listRoundPosition } as IParams);
                     listLoseMatches = [];
+                    listRoundPosition = [];
                   }
                 }
-                listTableDE.push({ listWinRound, listLoseRound, tableName: data.Schedule.groupStageSchedule.tables[k].tableName });
+                if (data.Schedule.groupStageSchedule.tables[k].totalTeam > 1) {
+                  listSumRound.push({ listSumMatches: [{ id: -2, data: { ...data.Schedule.groupStageSchedule.tables[k].summaryFinal } }], roundName: 'Chung kết tổng' });
+                  listSumRound.push({ listSumMatches: [{ id: -2, data: { ...data.Schedule.groupStageSchedule.tables[k].optionFinal } }], roundName: '' });
+                }
+                listTableDE.push({ listWinRound, listLoseRound, tableName: data.Schedule.groupStageSchedule.tables[k].tableName, listSumRound });
+                listSumRound = [];
                 listWinRound = [];
                 listWinMatchesFull = [];
                 listLoseRound = [];
@@ -258,7 +327,7 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
         },
       });
     } else {
-      throw new Error(response.data.error.Message);
+      // throw new Error(response.data.error.Message);
     }
   } catch (error) {
     yield put({

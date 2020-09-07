@@ -23,6 +23,7 @@ interface ICompetitionSettingProps extends React.ClassAttributes<CompetitionSett
   allCompetitionByTournamentId: IParams[] | null;
   allSports: IParams[];
   allFormats: IParams[];
+  canEdit: boolean;
 
   onChangeCompetitionSetting(): void;
   queryAllCompetitionsByTournamentId(param: IBigRequest): void;
@@ -443,9 +444,9 @@ class CompetitionSetting extends React.Component<ICompetitionSettingProps, IComp
       return (
         <div className="CompetitionSetting-container">
           {this.props.allCompetitionByTournamentId.map((item, index) => {
-            return (<CompetitionSettingCompetitionsItem tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} listCompetition={this.props.allCompetitionByTournamentId} tournamentId={this.props.tournamentId} />);
+            return (<CompetitionSettingCompetitionsItem canEdit={this.props.canEdit} tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} listCompetition={this.props.allCompetitionByTournamentId} tournamentId={this.props.tournamentId} />);
           })}
-          <CompetitionSettingCompetitionsAddItem handleAddACompetition={this.handleOpenModal} />
+          {this.props.canEdit === true && <CompetitionSettingCompetitionsAddItem handleAddACompetition={this.handleOpenModal} />}
           <CustomModal
             customStyles={customStyles}
             handleCloseModal={this.handleCloseModal}

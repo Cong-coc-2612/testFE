@@ -9,6 +9,7 @@ import { IState } from 'redux-saga/reducers';
 import { IBigRequest } from 'interfaces/common';
 import { COOKIES_TYPE } from 'global';
 import { cookies } from 'utils/cookies';
+import { formatDateToString } from 'utils/datetime';
 import { createNewTournament } from './actions';
 import './styles.css';
 
@@ -153,13 +154,12 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
         description: this.state.tournamentDescription,
         creatorId: cookies.get(COOKIES_TYPE.AUTH_TOKEN).User.id,
         openingLocation: this.state.tournamentStartLocation,
-        openingTime: this.state.startDate,
+        openingTime: formatDateToString(this.state.startDate, 'yyyy-MM-dd HH:mm:ss'),
         closingLocation: this.state.tournamentEndLocation,
-        closingTime: this.state.endDate,
+        closingTime: formatDateToString(this.state.endDate, 'yyyy-MM-dd HH:mm:ss'),
         donor: this.state.donor,
       },
     };
-
     this.props.createNewTournament(params);
   }
 
@@ -168,32 +168,79 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
       <div className="CreateNewTournament-container">
         <div className="CreateNewTournament-tournament-container">
           <p className="CreateNewTournament-header-text">Tạo mới giải đấu</p>
-          <div className={'CreateNewTournament-listManager-container'}>
+          <table>
+            <tr>
+              <td>Tên giải: </td>
+              <td style={{ paddingTop: '25px' }}><TextInput label='' error={this.state.tournamentNameError} errorContent={this.state.tournamentNameErrorContent} onChangeText={this.onChangeTournamentname} /></td>
+            </tr>
+            <tr>
+              <td>Tên ngắn: </td>
+              <td style={{ paddingTop: '25px' }}><TextInput label='' error={this.state.tournamentShortNameError} errorContent={this.state.tournamentShortNameErrorContent} onChangeText={this.onChangeTournamentShortName} /></td>
+            </tr>
+            <tr>
+              <td>Mô tả: </td>
+              <td style={{ paddingTop: '25px' }}><TextInput label='' error={this.state.tournamentDescriptionError} errorContent={this.state.tournamentDescriptionErrorContent} onChangeText={this.onChangeTournamentDescription} /></td>
+            </tr>
+            <tr>
+              <td>Địa điểm khai mạc: </td>
+              <td style={{ paddingTop: '25px' }}><TextInput label='' error={this.state.tournamentStartLocationError} errorContent={this.state.tournamentStartLocationErrorContent} onChangeText={this.onChangeTournamentStartLocation} /></td>
+            </tr>
+            <tr>
+              <td>Thời gian khai mạc: </td>
+              <td>
+                <DatePicker
+                selected={this.state.startDate}
+                dateFormat="dd/MM/yyyy"
+                onChange={this.handleChangeStartDate}
+              />
+              </td>
+            </tr>
+            <tr>
+              <td>Địa điểm bế mạc: </td>
+              <td style={{ paddingTop: '25px' }}><TextInput label='' error={this.state.tournamentEndLocationError} errorContent={this.state.tournamentEndLocationErrorContent} onChangeText={this.onChangeTournamentEndLocation} /></td>
+            </tr>
+            <tr>
+              <td>Thời gian bế mạc: </td>
+              <td>
+                <DatePicker
+                  selected={this.state.endDate}
+                  onChange={this.handleChangeEndDate}
+                  dateFormat="dd/MM/yyyy"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Nhà tài trợ: </td>
+              <td style={{ paddingTop: '25px' }}><TextInput label='' error={this.state.donorError} errorContent={this.state.donorErrorContent} onChangeText={this.onChangeTournamentDonor} /></td>
+            </tr>
+          </table>
+          <div className="CreateNewTournament-button-container">
+            <div className="CreateNewTournament-button" onClick={this.handleCreateNewTournament}>
+              <h4 className="CreateNewTournament-button-text">Tạo mới</h4>
+            </div>
+          </div>
+          {/* <div className={'CreateNewTournament-listManager-container'}>
             <p>Tên giải:</p>
             <div className={'CreateNewTournament-tounamentName-container-container'}>
               <TextInput label='Nhập tên của giải' error={this.state.tournamentNameError} errorContent={this.state.tournamentNameErrorContent} onChangeText={this.onChangeTournamentname} />
-              {/*defaultValue */}
             </div>
           </div>
           <div className={'CreateNewTournament-listManager-container'}>
             <p>Tên ngắn:</p>
             <div className={'CreateNewTournament-tounamentName-container-container'}>
               <TextInput label='Nhập tên ngắn của giải' error={this.state.tournamentShortNameError} errorContent={this.state.tournamentShortNameErrorContent} onChangeText={this.onChangeTournamentShortName} />
-              {/*defaultValue */}
             </div>
           </div>
           <div className={'CreateNewTournament-listManager-container'}>
             <p>Mô tả:</p>
             <div className={'CreateNewTournament-tounamentName-container-container'}>
               <TextInput label='Nhập mô tả' error={this.state.tournamentDescriptionError} errorContent={this.state.tournamentDescriptionErrorContent} onChangeText={this.onChangeTournamentDescription} />
-              {/*defaultValue */}
             </div>
           </div>
           <div className={'CreateNewTournament-listManager-container'}>
             <p>Địa điểm khai mạc:</p>
             <div className={'CreateNewTournament-tounamentName-container-container'}>
               <TextInput label='' error={this.state.tournamentStartLocationError} errorContent={this.state.tournamentStartLocationErrorContent} onChangeText={this.onChangeTournamentStartLocation} />
-              {/*defaultValue */}
             </div>
           </div>
           <div className={'CreateNewTournament-listManager-container'}>
@@ -204,14 +251,12 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
                 dateFormat="dd/MM/yyyy"
                 onChange={this.handleChangeStartDate}
               />
-              {/*defaultValue */}
             </div>
           </div>
           <div className={'CreateNewTournament-listManager-container'}>
             <p>Địa điểm bế mạc:</p>
             <div className={'CreateNewTournament-tounamentName-container-container'}>
               <TextInput label='' error={this.state.tournamentEndLocationError} errorContent={this.state.tournamentEndLocationErrorContent} onChangeText={this.onChangeTournamentEndLocation} />
-              {/*defaultValue */}
             </div>
           </div>
           <div className={'CreateNewTournament-listManager-container'}>
@@ -222,21 +267,19 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
                 onChange={this.handleChangeEndDate}
                 dateFormat="dd/MM/yyyy"
               />
-              {/*defaultValue */}
             </div>
           </div>
           <div className={'CreateNewTournament-listManager-container'}>
             <p>Nhà tài trợ:</p>
             <div className={'CreateNewTournament-tounamentName-container-container'}>
               <TextInput label='' error={this.state.donorError} errorContent={this.state.donorErrorContent} onChangeText={this.onChangeTournamentDonor} />
-              {/*defaultValue */}
             </div>
           </div>
           <div className="CreateNewTournament-button-container">
             <div className="CreateNewTournament-button" onClick={this.handleCreateNewTournament}>
               <h4 className="CreateNewTournament-button-text">Tạo mới</h4>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     );

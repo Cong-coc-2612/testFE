@@ -1,12 +1,12 @@
 import * as React from 'react';
 // import ReduxBlockUi from 'react-block-ui/redux';
-import { AutoSizer, MultiGrid, Size, Index, ScrollParams, GridCellProps } from 'react-virtualized';
+import { AutoSizer, MultiGrid, Index, ScrollParams, GridCellProps } from 'react-virtualized';
 import './styles.css';
 import { IParams } from 'interfaces/common';
 
-const STYLE = {
-  // backgroundColor: 'red',
-};
+// const STYLE = {
+//   // backgroundColor: 'red',
+// };
 
 interface ISheetDataColumn {
   label: string | React.ReactElement;
@@ -172,7 +172,7 @@ export class SheetData extends React.Component<ISheetDataProps, ISheetDataState>
   };
 
   private cellRenderer = ({ columnIndex, key, rowIndex, style }: GridCellProps) => {
-    const { config, haveTotalRow } = this.props;
+    const { config } = this.props;
     const properties = config.header[columnIndex];
     const rowData = this.list[rowIndex];
 
@@ -291,89 +291,89 @@ export class SheetData extends React.Component<ISheetDataProps, ISheetDataState>
     const { config } = this.props;
     // const domain = store.getState().config.domain === 'kbsv';
 
-    const SheetDataForm = (
-      // <AutoSizer>
-      //   {({ width, height }: Size) => {
-      //     const totalWidth = config.header.reduce((a: number, b: ISheetDataColumn) => a + b.width, 0);
-      //     if (width - 6 > totalWidth) {
-      //       //6px is Scrollbar width
+    // const SheetDataForm = (
+    //   // <AutoSizer>
+    //   //   {({ width, height }: Size) => {
+    //   //     const totalWidth = config.header.reduce((a: number, b: ISheetDataColumn) => a + b.width, 0);
+    //   //     if (width - 6 > totalWidth) {
+    //   //       //6px is Scrollbar width
 
-      //       for (let i = 0; i < this.config.header.length; i++) {
-      //         if (i >= config.fixedColumnCount) {
-      //           this.config.header[i].width = Math.floor(
-      //             (config.header[i].width / (this.config.totalWidth! - this.config.totalFixedWidth!)) *
-      //             (width - this.config.totalFixedWidth! - 6)
-      //           );
-      //         }
-      //       }
-      //     } else {
-      //       this.config = JSON.parse(JSON.stringify(this.props.config));
-      //       this.config.totalWidth = this.config.header.reduce((a: number, b: ISheetDataColumn) => a + b.width, 0);
-      //       this.config.totalFixedWidth = this.config.header.reduce(
-      //         (a: number, b: ISheetDataColumn, index: number) =>
-      //           a + (index < this.config.fixedColumnCount ? b.width : 0),
-      //         0
-      //       );
-      //     }
+    //   //       for (let i = 0; i < this.config.header.length; i++) {
+    //   //         if (i >= config.fixedColumnCount) {
+    //   //           this.config.header[i].width = Math.floor(
+    //   //             (config.header[i].width / (this.config.totalWidth! - this.config.totalFixedWidth!)) *
+    //   //             (width - this.config.totalFixedWidth! - 6)
+    //   //           );
+    //   //         }
+    //   //       }
+    //   //     } else {
+    //   //       this.config = JSON.parse(JSON.stringify(this.props.config));
+    //   //       this.config.totalWidth = this.config.header.reduce((a: number, b: ISheetDataColumn) => a + b.width, 0);
+    //   //       this.config.totalFixedWidth = this.config.header.reduce(
+    //   //         (a: number, b: ISheetDataColumn, index: number) =>
+    //   //           a + (index < this.config.fixedColumnCount ? b.width : 0),
+    //   //         0
+    //   //       );
+    //   //     }
 
-      // return (
-      <MultiGrid
-        ref={(ref: MultiGrid) => (this.virtualList = ref)}
-        fixedColumnCount={config.fixedColumnCount}
-        fixedRowCount={config.fixedRowCount}
-        cellRenderer={this.cellRenderer}
-        columnWidth={this.getColumnWidth}
-        columnCount={config.header.length}
-        enableFixedColumnScroll={false}
-        enableFixedRowScroll={false}
-        rowHeight={this.getRowHeight}
-        rowCount={1}
-        // rowCount={this.list.length}
-        style={STYLE}
-        // styleBottomLeftGrid={
-        //   this.props.boardMode === true
-        //     ? domain
-        //       ? STYLE_BOTTOM_LEFT_GRID_BOARD_MODE_KBSV
-        //       : STYLE_BOTTOM_LEFT_GRID_BOARD_MODE
-        //     : domain
-        //       ? STYLE_BOTTOM_LEFT_GRID_KBSV
-        //       : STYLE_BOTTOM_LEFT_GRID
-        // }
-        // styleTopLeftGrid={
-        //   this.props.boardMode === true
-        //     ? domain
-        //       ? STYLE_TOP_LEFT_GRID_BOARD_MODE_KBSV
-        //       : STYLE_TOP_LEFT_GRID_BOARD_MODE
-        //     : domain
-        //       ? STYLE_TOP_LEFT_GRID_KBSV
-        //       : STYLE_TOP_LEFT_GRID
-        // }
-        // styleTopRightGrid={
-        //   this.props.boardMode
-        //     ? domain
-        //       ? STYLE_TOP_RIGHT_GRID_BOARD_MODE_KBSV
-        //       : STYLE_TOP_RIGHT_GRID_BOARD_MODE
-        //     : domain
-        //       ? STYLE_TOP_RIGHT_GRID_KBSV
-        //       : STYLE_TOP_RIGHT_GRID
-        // }
-        // styleBottomRightGrid={
-        //   this.props.boardMode === true
-        //     ? domain
-        //       ? STYLE_BOTTOM_RIGHT_GRID_BOARD_MODE_KBSV
-        //       : STYLE_BOTTOM_RIGHT_GRID_BOARD_MODE
-        //     : STYLE_BOTTOM_RIGHT_GRID
-        // }
-        width={200}
-        height={200}
-      // hideTopRightGridScrollbar={true}
-      // hideBottomLeftGridScrollbar={true}
-      // onScroll={this.onScroll}
-      />
-      // );
-      //   }}
-      // </AutoSizer>
-    );
+    //   // return (
+    //   <MultiGrid
+    //     ref={(ref: MultiGrid) => (this.virtualList = ref)}
+    //     fixedColumnCount={config.fixedColumnCount}
+    //     fixedRowCount={config.fixedRowCount}
+    //     cellRenderer={this.cellRenderer}
+    //     columnWidth={this.getColumnWidth}
+    //     columnCount={config.header.length}
+    //     enableFixedColumnScroll={false}
+    //     enableFixedRowScroll={false}
+    //     rowHeight={this.getRowHeight}
+    //     rowCount={1}
+    //     // rowCount={this.list.length}
+    //     style={STYLE}
+    //     // styleBottomLeftGrid={
+    //     //   this.props.boardMode === true
+    //     //     ? domain
+    //     //       ? STYLE_BOTTOM_LEFT_GRID_BOARD_MODE_KBSV
+    //     //       : STYLE_BOTTOM_LEFT_GRID_BOARD_MODE
+    //     //     : domain
+    //     //       ? STYLE_BOTTOM_LEFT_GRID_KBSV
+    //     //       : STYLE_BOTTOM_LEFT_GRID
+    //     // }
+    //     // styleTopLeftGrid={
+    //     //   this.props.boardMode === true
+    //     //     ? domain
+    //     //       ? STYLE_TOP_LEFT_GRID_BOARD_MODE_KBSV
+    //     //       : STYLE_TOP_LEFT_GRID_BOARD_MODE
+    //     //     : domain
+    //     //       ? STYLE_TOP_LEFT_GRID_KBSV
+    //     //       : STYLE_TOP_LEFT_GRID
+    //     // }
+    //     // styleTopRightGrid={
+    //     //   this.props.boardMode
+    //     //     ? domain
+    //     //       ? STYLE_TOP_RIGHT_GRID_BOARD_MODE_KBSV
+    //     //       : STYLE_TOP_RIGHT_GRID_BOARD_MODE
+    //     //     : domain
+    //     //       ? STYLE_TOP_RIGHT_GRID_KBSV
+    //     //       : STYLE_TOP_RIGHT_GRID
+    //     // }
+    //     // styleBottomRightGrid={
+    //     //   this.props.boardMode === true
+    //     //     ? domain
+    //     //       ? STYLE_BOTTOM_RIGHT_GRID_BOARD_MODE_KBSV
+    //     //       : STYLE_BOTTOM_RIGHT_GRID_BOARD_MODE
+    //     //     : STYLE_BOTTOM_RIGHT_GRID
+    //     // }
+    //     width={200}
+    //     height={200}
+    //   // hideTopRightGridScrollbar={true}
+    //   // hideBottomLeftGridScrollbar={true}
+    //   // onScroll={this.onScroll}
+    //   />
+    //   // );
+    //   //   }}
+    //   // </AutoSizer>
+    // );
 
     if (this.list.length > 0) {
       // if (store.getState().config.domain !== 'kbsv') {

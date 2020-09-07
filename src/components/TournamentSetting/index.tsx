@@ -7,7 +7,7 @@ import 'react-block-ui/style.css';
 import TextInput from 'components/TextInput';
 import { IBigRequest, IParams } from 'interfaces/common';
 import { IState } from 'redux-saga/reducers';
-import { formatStringToDate } from 'utils/datetime';
+import { formatStringToDate, formatDateToString } from 'utils/datetime';
 import { checkUsernameExisted, setUsernameExistedDefault } from 'redux-saga/global-actions/CheckUsernameExisted-action';
 import { CHECK_USERNAME_EXISTED, EDIT_TOURNAMENT_INFO } from 'redux-saga/actions';
 import { CHECK_USERNAME_EXISTED_SUCCESS, CHECK_USERNAME_EXISTED_FAILED } from 'redux-saga/global-reducers/IsUsernameExisted-reducer';
@@ -310,8 +310,8 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
         creatorId: this.props.tournamentInfo.creatorId,
         openingLocation: this.state.startLocation,
         closingLocation: this.state.endLocation,
-        openingTime: this.state.startDate,
-        closingTime: this.state.endDate,
+        openingTime: formatDateToString(this.state.startDate, 'yyyy-MM-dd HH:mm:ss'),
+        closingTime: formatDateToString(this.state.endDate, 'yyyy-MM-dd HH:mm:ss'),
         donor: this.state.donor,
         url: '',
       },

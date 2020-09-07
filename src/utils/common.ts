@@ -1,3 +1,5 @@
+import { TOURNAMENT_STATUS } from "global";
+
 export function formatGender(value: boolean | null) {
   if (value == null) {
     return '';
@@ -10,13 +12,13 @@ export function formatGender(value: boolean | null) {
 }
 
 export function formatTournamentStatus(value: string) {
-  if (value === 'initializing') {
+  if (value === TOURNAMENT_STATUS.INITIALIZING) {
     return 'Đang khởi tạo';
-  } else if (value === 'opening') {
+  } else if (value === TOURNAMENT_STATUS.OPENING) {
     return 'Đang mở đăng kí';
-  } else if (value === 'processing') {
+  } else if (value === TOURNAMENT_STATUS.PROCESSING) {
     return 'Đang diễn ra';
-  } else if (value === 'stopped') {
+  } else if (value === TOURNAMENT_STATUS.STOPPED) {
     return 'Đang bị ngưng bởi quản trị viên';
   } else {
     return 'Đã kết thúc';

@@ -14,6 +14,10 @@ interface IBracketTeamProps extends React.ClassAttributes<BracketTeam> {
   editBracketMode: boolean;
   listTeamSelecting: number[];
   competitionId: number;
+  beforeInfo: IParams | null;
+  showAllDescription?: boolean;
+  isWinner: boolean;
+  score: number;
 
   setHoveringTeam(params: number | null): void;
   onEditBracketMode(status: boolean): void;
@@ -47,7 +51,7 @@ class BracketTeam extends React.Component<IBracketTeamProps, IBracketTeamState> 
           className={
             `BracketTeam-name-container
             ${this.props.info != null && this.props.info.id != null && this.props.hoveringTeam != null && this.props.info.id === this.props.hoveringTeam ? 'BracketTeam-beingHovered' : 'BracketTeam-notBeingHovered'}
-            ${this.props.description != null && this.props.description.descType === 0 ? (this.props.editBracketMode === true ? 'BracketTeam-name-container2' : 'BracketTeam-name-container1') : ''}
+            ${this.props.description != null && this.props.description.descType === 0 && this.props.info == null ? (this.props.editBracketMode === true ? 'BracketTeam-name-container2' : 'BracketTeam-name-container1') : ''}
             ${this.props.editBracketMode === true && this.props.description != null && this.props.description.descType === 0 ? 'BracketTeam-name-container-editBracketMode' : ''}`
           }
         // thêm đk check giải đấu còn ở trạn thái unStarted hay ko
@@ -66,20 +70,20 @@ class BracketTeam extends React.Component<IBracketTeamProps, IBracketTeamState> 
             }}
           >
             {this.props.info != null &&
-              this.props.info.name != null ?
-              <p className={"BracketTeam-name-text"}>{this.props.info.name}</p> :
+              this.props.info.shortName != null ?
+              <p className={"BracketTeam-name-text"}>{this.props.info.shortName}</p> :
               (this.props.description != null &&
-                ((this.props.description.descType === 1 || this.props.description.descType === 4) ?
+                (this.props.showAllDescription === true ? <p className={"BracketTeam-name-text BracketTeam-name-text2"}>{this.props.description.description}</p> : ((this.props.description.descType === 1 || this.props.description.descType === 4) ?
                   <p className={"BracketTeam-name-text BracketTeam-name-text2"}>{this.props.description.description}</p> :
-                  (this.props.description.descType === 0 && <p className={"BracketTeam-name-text"}>{this.props.listTeam![(this.props.description.unitIndex as number) - 1] &&
-                    this.props.listTeam![(this.props.description.unitIndex as number) - 1].shortName ?
-                    this.props.listTeam![(this.props.description.unitIndex as number) - 1].shortName : ''}</p>)))}
+                  ((this.props.description.descType === 0) && this.props.listTeam != null && <p className={"BracketTeam-name-text"}>{this.props.listTeam[(this.props.description.unitIndex as number) - 1] &&
+                    this.props.listTeam[(this.props.description.unitIndex as number) - 1].shortName ?
+                    this.props.listTeam[(this.props.description.unitIndex as number) - 1].shortName : ''}</p>))))}
           </div>
         </div>
-        <div className={`BracketTeam-score-container BracketTeam-score-top2-container`}
+        <div className={`BracketTeam-score-container ${this.props.isWinner === false ? 'BracketTeam-score-top2-container' : 'BracketTeam-score-top1-container'}`}
         // BracketTeam-score-top${this.props.info.top ? this.props.info.top : '2'}-container`}
         >
-          {/* {this.props.info.score && <p className={`BracketTeam-score-top${this.props.info.top ? this.props.info.top : '2'}-text`}>{this.props.info.score}</p>} */}
+          <p className={`BracketTeam-score-top2-text`}>{this.props.score}</p>
         </div>
       </div>
     );

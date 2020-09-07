@@ -12,7 +12,6 @@ import Select, { ValueType, OptionTypeBase } from 'react-select';
 import CustomTab from 'components/CustomTab';
 import UserInfoOverview from 'components/UserInfoOverview';
 import UserInfoTournament from 'components/UserInfoTournament';
-import Teams from 'components/Teams';
 import TextInput from 'components/TextInput';
 import { IParams, IBigRequest } from 'interfaces/common';
 import { IState } from 'redux-saga/reducers';
@@ -53,6 +52,8 @@ interface IUserInfoState {
   gender: ValueType<OptionTypeBase>;
   dateOfBirth: Date;
   phoneNumber: string;
+  errorLoadImage: boolean;
+  errorLoadBackgroundImage: boolean;
 }
 
 const genderOptions = [
@@ -69,6 +70,8 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
       firstNameErrorContent: '',
       firstNameError: false,
       lastName: '',
+      errorLoadImage: false,
+      errorLoadBackgroundImage: false,
       lastNameErrorContent: '',
       lastNameError: false,
       email: '',
@@ -271,21 +274,33 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
     }
   };
 
+  private onImageError = () => {
+    this.setState({
+      errorLoadImage: true,
+    });
+  };
+
+  private onImageBackgroundError = () => {
+    this.setState({
+      errorLoadBackgroundImage: true,
+    });
+  };
+
   render() {
     const tabList = [
-      'Tổng quan',
+      // 'Tổng quan',
       'Giải đấu',
       // 'Đội đang quản lý'
     ];
     const componentList = [
-      <UserInfoOverview />,
+      // <UserInfoOverview />,
       <UserInfoTournament userId={Number(this.props.routerInfo.match.params.userId)} />,
       // <Teams id={Number(this.props.routerInfo.match.params.userId)} type={'user'} />
     ];
     return (
       <div className="UserInfo-Container">
         <div className="UserInfo-background-image-container UserInfo-background-image-container2">
-          <img className={'UserInfo-background-image'} src={require('../../assets/image-384.png')} alt={'logo'} />
+          {this.props.userInfo != null && this.props.userInfo.User != null && <img className={'UserInfo-background-image'} src={(this.state.errorLoadBackgroundImage === false ? ((this.props.userInfo.User as IParams).background != null ? (this.props.userInfo.User as IParams).background as string : config.defaultBackground) : config.defaultBackground)} alt={'logo'} onError={this.onImageBackgroundError} />}
           {this.props.userInfo != null && (this.props.userInfo as IParams).Config != null && ((this.props.userInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <AiFillCamera className={'UserInfo-change-image-icon'} />}
           {this.props.userInfo != null && (this.props.userInfo as IParams).Config != null && ((this.props.userInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <div className={'Overlay'}>
             <input type="file" onChange={(e) => this.updateBackground(e.target.files)} />
@@ -298,7 +313,7 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
               block={EDIT_USER_INFO}
               unblock={[EDIT_USER_INFO_SUCCESS, EDIT_USER_INFO_FAILED]}
             >
-              <img className={'UserInfo-avatar-image'} src={'https://doan2020.blob.core.windows.net/doan2020/System Architecture.jpg'} alt={'logo'} />
+              {this.props.userInfo != null && this.props.userInfo.User != null && <img className={'UserInfo-avatar-image'} src={(this.state.errorLoadImage === false ? ((this.props.userInfo.User as IParams).avatar != null ? (this.props.userInfo.User as IParams).avatar as string : config.defaultAvatar) : config.defaultAvatar)} alt={'logo'} onError={this.onImageError} />}
               {this.props.userInfo != null && (this.props.userInfo as IParams).Config != null && ((this.props.userInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <AiFillCamera className={'UserInfo-change-avatar-icon'} />}
               {this.props.userInfo != null && (this.props.userInfo as IParams).Config != null && ((this.props.userInfo as unknown as IParams).Config as unknown as IParams).canEdit === true && <div className={'Overlay2'}>
                 <input type="file" onChange={(e) => this.updateAvatar(e.target.files)} />
@@ -336,7 +351,7 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
                   </div>}
                 {this.state.editMode === false ?
                   <div className="UserInfo-content-info-basic-info-container-singleRow">
-                    <p className="UserInfo-otherInfo-text">{this.props.userInfo != null && this.props.userInfo.User != null ? `Ngày sinh: ${formatDateToDisplay((this.props.userInfo.User as unknown as IParams).dob as string, 'dd/MM/yyyy', 'yyyy-MM-dd')}` : <Skeleton width={200} height={20} />}</p>
+                    <p className="UserInfo-otherInfo-text">{this.props.userInfo != null && this.props.userInfo.User != null ? `Ngày sinh: ${formatDateToDisplay((this.props.userInfo.User as unknown as IParams).dob as string, 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}` : <Skeleton width={200} height={20} />}</p>
                   </div> :
                   <div className="UserInfo-content-info-basic-info-container-singleRow">
                     <p className="UserInfo-otherInfo-text">Ngày sinh</p>

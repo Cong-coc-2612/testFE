@@ -12,6 +12,20 @@
   bottom: 27%;
 }
 
+.MatchDetail-set-container {
+  align-self: flex-start;
+}
+
+.MatchDetail-set-container :hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.MatchDetail-team-winner {
+  font-weight: bold;
+  color: gold;
+}
+
 .MatchDetail-teams-container {
   display: flex;
   flex-direction: row;

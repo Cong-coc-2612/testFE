@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { IParams } from 'interfaces/common';
+import config from 'config';
 import './styles.css';
 
 interface IUserOverviewProps extends React.ClassAttributes<UserOverview> {
@@ -10,14 +11,22 @@ interface IUserOverviewProps extends React.ClassAttributes<UserOverview> {
 }
 
 interface IUserOverviewState {
+  errorLoadImage: boolean;
 }
 
 class UserOverview extends React.Component<IUserOverviewProps, IUserOverviewState> {
   constructor(props: IUserOverviewProps) {
     super(props);
     this.state = {
+      errorLoadImage: false,
     };
   }
+
+  private onImageError = () => {
+    this.setState({
+      errorLoadImage: true,
+    });
+  };
 
   render() {
     const { info } = this.props;
@@ -26,7 +35,8 @@ class UserOverview extends React.Component<IUserOverviewProps, IUserOverviewStat
         <div className="UserOverview-container">
           <div className="UserOverview-avatar-image-container">
             <div className="UserOverview-avatar-container">
-              <img className={'UserOverview-avatar-image'} src={'https://doan2020.blob.core.windows.net/doan2020/Redux.png'} alt={'logo'} />
+              <img className={'UserOverview-avatar-image'} src={(this.state.errorLoadImage === false ? (this.props.info.avatar != null ? this.props.info.avatar as string : config.defaultAvatar) : config.defaultAvatar)} alt={'logo'} onError={this.onImageError} />
+              {/* <img className={'UserOverview-avatar-image'} src={require('../../assets/7ab1b0125d485c8dd6a4e78832b0a4b2fbed3cf8.png')} alt={'logo'} /> */}
             </div>
             <div className="UserOverview-name-container">
               <p className="UserOverview-name-text">{`${info.firstName} ${info.lastName}`}</p>

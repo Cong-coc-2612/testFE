@@ -4,6 +4,7 @@ import { IParams, IBigRequest } from 'interfaces/common';
 import { IState } from 'redux-saga/reducers';
 import { queryBracketBoardInfo } from 'components/BracketBoard/actions';
 import { queryListTeams } from 'components/Teams/actions';
+import { queryAllMatches } from 'components/BracketBoard/actions';
 import { formatDateToDisplay } from 'utils/datetime';
 import './styles.css';
 
@@ -12,9 +13,12 @@ interface IBracketScheduleProps extends React.ClassAttributes<BracketSchedule> {
   competitionId: number;
   finalStage: boolean;
   listTeam: IParams[] | null;
+  allMatches: IParams | null;
+  started: boolean;
 
   queryBracketBoardInfo(params: IBigRequest): void;
   queryListTeams(params: IBigRequest): void;
+  queryAllMatches(params: IBigRequest): void;
 }
 
 interface IBracketScheduleState {
@@ -49,11 +53,63 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
       data: {},
     };
     this.props.queryListTeams(params);
+    if (this.props.started === true) {
+      params = {
+        path: '',
+        param: {
+          competitionId: this.props.competitionId,
+        },
+        data: {},
+      };
+      this.props.queryAllMatches(params);
+    }
+  }
+
+  private getScoreTeam1 = (allMatches: IParams | null, currentMatchId: string) => {
+    if (allMatches == null) {
+      return 0;
+    }
+    if ((allMatches.Scores as IParams)[currentMatchId] != null) {
+      return ((allMatches.Scores as IParams)[currentMatchId] as IParams).team1;
+    }
+    return 0;
+  }
+
+  private getScoreTeam2 = (allMatches: IParams | null, currentMatchId: string) => {
+    if (allMatches == null) {
+      return 0;
+    }
+    if ((allMatches.Scores as IParams)[currentMatchId] != null) {
+      return ((allMatches.Scores as IParams)[currentMatchId] as IParams).team2;
+    }
+    return 0;
+  }
+
+  private getWinner = (allMatches: IParams | null, currentMatchId: number) => {
+    if (allMatches == null) {
+      return null;
+    }
+    const tempValue = (allMatches.Matchs as IParams[]).findIndex(element => element.id === currentMatchId);
+    if (tempValue !== -1) {
+      if ((allMatches.Matchs as IParams[])[tempValue].winnerId == null) {
+        return null;
+      } else {
+        if ((allMatches.Matchs as IParams[])[tempValue].team1Id == null || (allMatches.Matchs as IParams[])[tempValue].team2Id == null) {
+          return null;
+        } else {
+          if ((allMatches.Matchs as IParams[])[tempValue].winnerId === (allMatches.Matchs as IParams[])[tempValue].team1Id) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+    }
+    return null;
   }
 
   render() {
     if (this.props.bracketBoardInfo != null) {
-      console.log('this.props.bracketBoardInfo', this.props.bracketBoardInfo);
       if (this.props.finalStage === true) {
         if ((this.props.bracketBoardInfo.finalStage as IParams).listRound != null) {
           return (
@@ -76,22 +132,22 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                           </div>
                           <div className="BracketSchedule-roundMatch-name-container">
                             {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
-                              <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).name}</p> :
+                              <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).shortName}</p> :
                               ((((item2.data as IParams).team1 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team1 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                           </div>
-                          <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent1-container">
-                            <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">1</p>
+                          <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === true ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                            <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">{this.getScoreTeam1(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                           </div>
                           <div className="BracketSchedule-roundMatch-consequentMiddle-container">
                             <p>-</p>
                           </div>
-                          <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent2-container">
-                            <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">0</p>
+                          <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === false ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                            <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">{this.getScoreTeam2(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                           </div>
                           <div className="BracketSchedule-roundMatch-name-container">
                             {
                               (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
-                                <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).name}</p> :
+                                <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
                                 ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                           </div>
                         </div>)
@@ -125,22 +181,22 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
-                                <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).name}</p> :
+                                <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).shortName}</p> :
                                 ((((item2.data as IParams).team1 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team1 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
-                            <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent1-container">
-                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">1</p>
+                            <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === true ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">{this.getScoreTeam1(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-consequentMiddle-container">
                               <p>-</p>
                             </div>
-                            <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent2-container">
-                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">0</p>
+                            <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === false ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">{this.getScoreTeam2(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {
                                 (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
-                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).name}</p> :
+                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
                                   ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
                           </div>)
@@ -168,22 +224,22 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
-                                <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).name}</p> :
+                                <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).shortName}</p> :
                                 ((((item2.data as IParams).team1 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team1 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
-                            <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent1-container">
-                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">1</p>
+                            <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === true ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">{this.getScoreTeam1(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-consequentMiddle-container">
                               <p>-</p>
                             </div>
-                            <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent2-container">
-                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">0</p>
+                            <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === false ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">{this.getScoreTeam2(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {
                                 (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
-                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).name}</p> :
+                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
                                   ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
                           </div>)
@@ -198,7 +254,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
             return (
               <div className="BracketSchedule-container">
                 {((this.props.bracketBoardInfo.finalStage as IParams).listRRRound != null &&
-                  ((this.props.bracketBoardInfo.finalStage as IParams).listRRRound as unknown as IParams[]).map((item, index) =>
+                  ((this.props.bracketBoardInfo.finalStage as IParams).listRRRound as IParams[]).map((item, index) =>
                     <div className="BracketSchedule-round-container" key={index}>
                       <div className="BracketSchedule-roundName-container">
                         <p className={'BracketSchedule-roundName-text'}>{`${item.roundName}`}</p>
@@ -215,22 +271,22 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {item2.team1 != null && ((item2.team1 as IParams).description != null && (item2.team1 as IParams).team != null ?
-                                <p className={"BracketSchedule-name-text"}>{((item2.team1 as IParams).team as IParams).name}</p> :
+                                <p className={"BracketSchedule-name-text"}>{((item2.team1 as IParams).team as IParams).shortName}</p> :
                                 (((item2.team1 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{((item2.team1 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[(((item2.team1 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[(((item2.team1 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[(((item2.team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
-                            <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent1-container">
-                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">1</p>
+                            <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, item2.id as number) === true ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">{this.getScoreTeam1(this.props.allMatches, item2.id as string)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-consequentMiddle-container">
                               <p>-</p>
                             </div>
-                            <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent2-container">
-                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">0</p>
+                            <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, item2.id as number) === false ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">{this.getScoreTeam2(this.props.allMatches, item2.id as string)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {
                                 item2.team2 != null && ((item2.team2 as IParams).description != null && (item2.team2 as IParams).team != null ?
-                                  <p className={"BracketSchedule-name-text"}>{((item2.team2 as IParams).team as IParams).name}</p> :
+                                  <p className={"BracketSchedule-name-text"}>{((item2.team2 as IParams).team as IParams).shortName}</p> :
                                   (((item2.team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{((item2.team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
                           </div>)
@@ -267,22 +323,22 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
-                                <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).name}</p> :
+                                <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).shortName}</p> :
                                 ((((item2.data as IParams).team1 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team1 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
-                            <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent1-container">
-                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">1</p>
+                            <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === true ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">{this.getScoreTeam1(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-consequentMiddle-container">
                               <p>-</p>
                             </div>
-                            <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent2-container">
-                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">0</p>
+                            <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === false ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                              <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">{this.getScoreTeam2(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {
                                 (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
-                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).name}</p> :
+                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
                                   ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
                           </div>)
@@ -318,22 +374,22 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
-                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).name}</p> :
+                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).shortName}</p> :
                                   ((((item2.data as IParams).team1 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team1 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
-                              <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent1-container">
-                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">1</p>
+                              <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === true ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">{this.getScoreTeam1(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-consequentMiddle-container">
                                 <p>-</p>
                               </div>
-                              <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent2-container">
-                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">0</p>
+                              <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === false ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">{this.getScoreTeam2(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {
                                   (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
-                                    <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).name}</p> :
+                                    <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
                                     ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
                             </div>)
@@ -361,22 +417,22 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
-                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).name}</p> :
+                                  <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team1 as IParams).team as IParams).shortName}</p> :
                                   ((((item2.data as IParams).team1 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team1 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
-                              <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent1-container">
-                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">1</p>
+                              <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === true ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">{this.getScoreTeam1(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-consequentMiddle-container">
                                 <p>-</p>
                               </div>
-                              <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent2-container">
-                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">0</p>
+                              <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, (item2.data as IParams).id as number) === false ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">{this.getScoreTeam2(this.props.allMatches, (item2.data as IParams).id as string)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {
                                   (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
-                                    <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).name}</p> :
+                                    <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
                                     ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
                             </div>)
@@ -410,22 +466,22 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {item2.team1 != null && ((item2.team1 as IParams).description != null && (item2.team1 as IParams).team != null ?
-                                  <p className={"BracketSchedule-name-text"}>{((item2.team1 as IParams).team as IParams).name}</p> :
+                                  <p className={"BracketSchedule-name-text"}>{((item2.team1 as IParams).team as IParams).shortName}</p> :
                                   (((item2.team1 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{((item2.team1 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[(((item2.team1 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[(((item2.team1 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[(((item2.team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
-                              <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent1-container">
-                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">1</p>
+                              <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, item2.id as number) === true ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result1-text">{this.getScoreTeam1(this.props.allMatches, item2.id as string)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-consequentMiddle-container">
                                 <p>-</p>
                               </div>
-                              <div className="BracketSchedule-roundMatch-consequent-container BracketSchedule-roundMatch-consequent2-container">
-                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">0</p>
+                              <div className={`BracketSchedule-roundMatch-consequent-container ${this.getWinner(this.props.allMatches, item2.id as number) === false ? 'BracketSchedule-roundMatch-consequent1-container' : 'BracketSchedule-roundMatch-consequent2-container'}`}>
+                                <p className="BracketSchedule-roundMatch-result-text BracketSchedule-roundMatch-result2-text">{this.getScoreTeam2(this.props.allMatches, item2.id as string)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {
                                   item2.team2 != null && ((item2.team2 as IParams).description != null && (item2.team2 as IParams).team != null ?
-                                    <p className={"BracketSchedule-name-text"}>{((item2.team2 as IParams).team as IParams).name}</p> :
+                                    <p className={"BracketSchedule-name-text"}>{((item2.team2 as IParams).team as IParams).shortName}</p> :
                                     (((item2.team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{((item2.team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
                             </div>)
@@ -450,10 +506,11 @@ const mapStateToProps = (state: IState) => {
   return {
     listTeam: state.listTeam,
     bracketBoardInfo: state.bracketBoardInfo,
+    allMatches: state.allMatches,
   };
 };
 
 export default connect(
   mapStateToProps,
-  { queryBracketBoardInfo, queryListTeams }
+  { queryBracketBoardInfo, queryListTeams, queryAllMatches }
 )(BracketSchedule);

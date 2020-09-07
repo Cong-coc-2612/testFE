@@ -12,6 +12,7 @@ interface ICustomTabProps extends React.ClassAttributes<CustomTab> {
 
   onEditBracketMode(status: boolean): void;
   deleteListSelectingTeam(): void;
+  onChangeSelectedIndex?(index: number): void;
 }
 
 interface IModalState {
@@ -28,9 +29,12 @@ class CustomTab extends React.Component<ICustomTabProps, IModalState> {
     return (
       <Tabs
         defaultIndex={this.props.selectedIndex}
-        onSelect={() => {
+        onSelect={(index) => {
           this.props.onEditBracketMode(false);
           this.props.deleteListSelectingTeam();
+          if (this.props.onChangeSelectedIndex) {
+            this.props.onChangeSelectedIndex(index);
+          }
         }}
         className={'Tabs-color'}
       >
