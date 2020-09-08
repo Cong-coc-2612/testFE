@@ -36,6 +36,8 @@ export interface IConfig {
     phoneNumber: RegExp;
     number: RegExp;
     orderPasswordKBSV: RegExp;
+    teamName: RegExp;
+    teamShortName: RegExp;
   };
   defaultAvatar: string;
   defaultBackground: string;
@@ -57,6 +59,8 @@ let config: IConfig = {
     email: /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/,
     phoneNumber: /^\d{10}$/,
     number: /^[0-9]*$/,
+    teamName: /^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ0-9 ]{1,255}$/,
+    teamShortName: /^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ0-9 ]{1,8}$/,
     orderPasswordKBSV: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/,
   },
   defaultAvatar: 'https://thumbs.dreamstime.com/b/user-avatar-icon-button-profile-symbol-flat-person-icon-stock-vector-user-avatar-icon-button-profile-symbol-flat-person-icon-159777243.jpg',

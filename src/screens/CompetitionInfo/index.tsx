@@ -893,7 +893,6 @@ class CompetitionInfo extends React.Component<ICompetitionInfoProps, ICompetitio
   }
 
   render() {
-    console.log('this.props.competitionInfo', this.props.competitionInfo);
     return (
       <ReduxBlockUi
         tag="div"

@@ -10,7 +10,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select, { ValueType, OptionTypeBase } from 'react-select';
 import CustomTab from 'components/CustomTab';
-import UserInfoOverview from 'components/UserInfoOverview';
 import UserInfoTournament from 'components/UserInfoTournament';
 import TextInput from 'components/TextInput';
 import { IParams, IBigRequest } from 'interfaces/common';

@@ -5,6 +5,7 @@ import UserInfoTeamsItem from 'components/UserInfoTeamsItem';
 import TextInput from 'components/TextInput';
 import { IBigRequest, IParams } from 'interfaces/common';
 import { TOURNAMENT_STATUS } from 'global';
+import config from 'config';
 import { IState } from 'redux-saga/reducers';
 import { queryListTeams, addATeamToCompetition } from './actions';
 import './styles.css';
@@ -66,13 +67,13 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
     let teamNameToAddErrorContent = '';
     let teamShortNameToAddError = false;
     let teamShortNameToAddErrorContent = '';
-    if (this.state.teamNameToAdd.trim() === '') {
+    if (this.state.teamNameToAdd.trim() === '' || !config.regex.teamName.test(this.state.teamNameToAdd)) {
       teamNameToAddError = true;
-      teamNameToAddErrorContent = 'Tên đội không được trống';
+      teamNameToAddErrorContent = 'Tên đội không được trống và không được chứa kí tự đặc biệt';
     }
-    if (this.state.teamShortNameToAdd.trim() === '') {
-      teamNameToAddError = true;
-      teamNameToAddErrorContent = 'Tên ngắn đội không được trống';
+    if (this.state.teamShortNameToAdd.trim() === '' || !config.regex.teamShortName.test(this.state.teamShortNameToAdd)) {
+      teamShortNameToAddError = true;
+      teamShortNameToAddErrorContent = 'Tên ngắn đội không được trống, tối đa 8 kí tự và không chứa kí tự đặc biệt';
     }
     let listTemp = [];
     if (this.props.listTeam!.map((item, index) => { if (item.fullName === this.state.teamNameToAdd) { listTemp.push(item); } })) {
