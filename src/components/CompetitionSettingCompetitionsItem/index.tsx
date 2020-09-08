@@ -173,7 +173,7 @@ class CompetitionSettingCompetitionsItem extends React.Component<ICompetitionSet
       <div className="CompetitionSettingCompetitionsItem-info-container">
         <div className="CompetitionSettingCompetitionsItem-info-container-container">
           <div className="CompetitionSettingCompetitionsItem-container">
-            <Link to={`/competition/${this.props.info.id}`} style={{ textDecoration: 'none', color: 'white' }} target={'_blank'} >
+            <Link to={`/competition/${this.props.info.id}`} style={{ textDecoration: 'none', color: 'white' }}>
               <div className="CompetitionSettingCompetitionsItem-container-container">
                 <div className="CompetitionSettingCompetitionsItem-order-number-container">
                   <div className="CompetitionSettingCompetitionsItem-order-number-box">

@@ -5,8 +5,8 @@ import DatePicker from "react-datepicker";
 import { IParams, IBigRequest } from 'interfaces/common';
 import { IState } from 'redux-saga/reducers';
 import { MATCH_STATUS } from 'global';
-import { formatStringToDate } from 'utils/datetime';
-import { updateMatchInfo } from 'components/MatchSetting/actions';
+import { formatStringToDate, formatDateToString } from 'utils/datetime';
+import { updateMatchInfo, updateMatchInfoBeforeStart } from 'components/MatchSetting/actions';
 import './styles.css';
 
 interface IMatchDetailProps extends React.ClassAttributes<MatchDetail> {
@@ -14,8 +14,12 @@ interface IMatchDetailProps extends React.ClassAttributes<MatchDetail> {
   listTeam?: IParams[] | null;
   matchInfo: IParams | null;
   allMatches: IParams | null;
+  beforeInfo?: IParams;
+  competitionId: number;
+  lowerBracket?: boolean;
 
   updateMatchInfo(params: IBigRequest): void;
+  updateMatchInfoBeforeStart(params: IBigRequest): void;
 }
 
 interface IMatchDetailState {
@@ -149,27 +153,64 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
   }
 
   private offEditMode = () => {
-    const params = {
-      path: '',
-      param: {
-        id: this.props.matchInfo!.id,
-      },
-      data: {
-        competitionId: this.props.matchInfo!.competitionId,
-        location: this.state.location,
-        time: this.state.time,
-        loserId: this.props.matchInfo!.loserId,
-        name: this.props.matchInfo!.name,
-        status: this.props.matchInfo!.status,
-        team1Bonus: this.props.matchInfo!.team1Bonus,
-        team1Id: this.props.matchInfo!.team1Id,
-        team2Bonus: this.props.matchInfo!.team2Bonus,
-        team2Id: this.props.matchInfo!.team2Id,
-        url: this.props.matchInfo!.url,
-        winnerId: this.props.matchInfo!.winnerId,
-      },
-    };
-    this.props.updateMatchInfo(params);
+    if (this.props.matchInfo != null) {
+      const params = {
+        path: '',
+        param: {
+          id: this.props.matchInfo.id,
+        },
+        data: {
+          competitionId: this.props.matchInfo.competitionId,
+          location: this.state.location,
+          time: formatDateToString(this.state.time, 'yyyy-MM-dd HH:mm:ss'),
+          loserId: this.props.matchInfo.loserId,
+          name: this.props.matchInfo.name,
+          status: this.props.matchInfo.status,
+          team1Bonus: this.props.matchInfo.team1Bonus,
+          team1Id: this.props.matchInfo.team1Id,
+          team2Bonus: this.props.matchInfo.team2Bonus,
+          team2Id: this.props.matchInfo.team2Id,
+          url: this.props.matchInfo.url,
+          winnerId: this.props.matchInfo.winnerId,
+        },
+      };
+      this.props.updateMatchInfo(params);
+    } else {
+      if (this.props.beforeInfo != null) {
+        const params = {
+          path: '',
+          param: {
+            degree: (this.props.beforeInfo.degree as number) + 1,
+            nodeId: this.props.beforeInfo.id,
+            competitionId: this.props.competitionId,
+            location: this.props.lowerBracket === true ? 2 : 0,
+            tableId: -1,
+          },
+          data: {
+            location: this.state.location,
+            time: formatDateToString(this.state.time, 'yyyy-MM-dd HH:mm:ss'),
+          },
+        };
+        this.props.updateMatchInfoBeforeStart(params);
+      } else {
+        const params = {
+          path: '',
+          param: {
+            degree: 0,
+            nodeId: this.props.info.matchNo,
+            competitionId: this.props.competitionId,
+            location: -1,
+            tableId: -1,
+          },
+          data: {
+            location: this.state.location,
+            time: formatDateToString(this.state.time, 'yyyy-MM-dd HH:mm:ss'),
+          },
+        };
+        this.props.updateMatchInfoBeforeStart(params);
+      }
+
+    }
     this.setState({
       editMode: false,
     });
@@ -188,13 +229,14 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
   };
 
   render() {
-    console.log('winner', this.state.winner);
     return (
       <div
         className="MatchDetail-container"
       >
         <div className="MatchDetail-set-container">
-          {this.props.matchInfo != null && this.props.matchInfo.status !== MATCH_STATUS.PLAYING && this.props.matchInfo.status !== MATCH_STATUS.FINISHED && (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)}
+          {this.props.matchInfo != null ?
+            (this.props.matchInfo.status !== MATCH_STATUS.FINISHED &&
+              (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)) : (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)}
         </div>
         <div
           className="MatchDetail-info-container"
@@ -228,7 +270,8 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
             <div className={'MatchDetail-team2-name-container'}>
               {this.props.info.team2 != null ?
                 ((this.props.info.team2 as IParams).team != null ? <p className={this.state.winner === false ? 'MatchDetail-team-winner' : ''}>{`${((this.props.info.team2 as IParams).team as IParams).fullName} (${((this.props.info.team2 as IParams).team as IParams).shortName})`}</p> :
-                  (((this.props.info.team2 as IParams).description as IParams).descType === 0 ? <p>{this.props.listTeam![(((this.props.info.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName ? this.props.listTeam![(((this.props.info.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p> : <p style={{ fontStyle: 'italic' }}>{((this.props.info.team2 as IParams).description as IParams).description}</p>)) : <p>(Không có)</p>
+                  (((this.props.info.team2 as IParams).description as IParams).descType === 0 ?
+                    <p>{this.props.listTeam![(((this.props.info.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName ? this.props.listTeam![(((this.props.info.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p> : <p style={{ fontStyle: 'italic' }}>{((this.props.info.team2 as IParams).description as IParams).description === '-1' ? '(Chưa có)' : ((this.props.info.team2 as IParams).description as IParams).description}</p>)) : <p>(Không có)</p>
               }
             </div>
             <div className={'MatchDetail-team2-score-container'}>
@@ -311,5 +354,5 @@ const mapStateToProps = (state: IState) => {
 
 export default connect(
   mapStateToProps,
-  { updateMatchInfo }
+  { updateMatchInfo, updateMatchInfoBeforeStart }
 )(MatchDetail);

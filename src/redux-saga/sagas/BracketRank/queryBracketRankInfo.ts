@@ -20,6 +20,7 @@ function* doQueryBracketRankInfo(request: IRequest<IBigRequest>) {
         type: request.response.success,
         payload: {
           finalStageScheduleRanking: data.Schedule.finalStageSchedule.rankingTable,
+          groupStageScheduleRanking: data.Schedule.groupStageSchedule.tables,
         },
       });
     } else {

@@ -110,20 +110,20 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
         listTeam.push(this.props.info.team2 as IParams);
         if (nextProps.matchInfo.status === MATCH_STATUS.PLAYING) {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
+          this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
         } else {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
+          this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
         }
       } else {
         listTeam.push((this.props.info.data as IParams).team1 as IParams);
         listTeam.push((this.props.info.data as IParams).team2 as IParams);
         if (nextProps.matchInfo.status === MATCH_STATUS.PLAYING) {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
+          this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
         } else {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
+          this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
         }
       }
     }
@@ -423,12 +423,12 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
     if (this.props.roundRobin === true) {
       if (this.props.info.id == null) {
         this.tabList = ['Thông tin trận đấu'];
-        this.tabComponentList = [<MatchDetail allMatches={null} matchInfo={null} info={this.props.info as IParams} />];
+        this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} allMatches={null} matchInfo={null} info={this.props.info as IParams} />];
       }
     } else {
       if ((this.props.info.data as IParams).id == null) {
         this.tabList = ['Thông tin trận đấu'];
-        this.tabComponentList = [<MatchDetail allMatches={null} matchInfo={null} info={this.props.info.data as IParams} />];
+        this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} beforeInfo={this.props.info} allMatches={null} matchInfo={null} info={this.props.info.data as IParams} />];
       }
     }
     // if (this.props.info.listTeam.length === amountOfListTeamDisplayed && this.props.bracketStartedStatus === true) {

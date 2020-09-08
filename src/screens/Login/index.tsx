@@ -109,14 +109,14 @@ class Login extends React.Component<ILoginProps, ILoginState> {
               <TextInput label={'Mật khẩu'} type={'password'} onChangeText={this.onChangePassword} error={this.state.passwordError} errorContent={this.state.passwordErrorContent} onHandleSubmit={this.handleLogin} />
               <div className="Login-option-container">
                 <div className="Login-option-container-item">
-                  <label className="Checkbox-label">
+                  {/* <label className="Checkbox-label">
                     <input
                       type="checkbox"
                       checked={this.state.rememberMe}
                       onChange={() => this.onChangeRememberMe}
                     />
             Nhớ tài khoản trên thiết bị này
-          </label>
+          </label> */}
                 </div>
                 <div className="Login-option-container-item Login-option-container-item1">
                   <Link to={'/forgotPassword'} style={{ textDecoration: 'none' }}>
