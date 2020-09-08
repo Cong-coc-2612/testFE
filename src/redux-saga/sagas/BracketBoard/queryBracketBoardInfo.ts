@@ -327,6 +327,9 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
         },
       });
     } else {
+      yield put({
+        type: request.response.failed,
+      });
       // throw new Error(response.data.error.Message);
     }
   } catch (error) {

@@ -18,6 +18,7 @@ interface IBracketTeamProps extends React.ClassAttributes<BracketTeam> {
   showAllDescription?: boolean;
   isWinner: boolean;
   score: number;
+  swapAble: boolean;
 
   setHoveringTeam(params: number | null): void;
   onEditBracketMode(status: boolean): void;
@@ -60,7 +61,7 @@ class BracketTeam extends React.Component<IBracketTeamProps, IBracketTeamState> 
             className={'BracketTeam-name-container-container'}
             onClick={() => {
               // thêm đk check giải đấu còn ở trạn thái unStarted hay ko
-              if (this.props.description != null && this.props.description.descType === 0 && this.props.info == null) {
+              if (this.props.description != null && this.props.description.descType === 0 && this.props.info == null && this.props.swapAble === true) {
                 this.props.addListTeamSelecting({
                   listTeamId: [...this.props.listTeamSelecting, this.props.listTeam![(this.props.description.unitIndex as number) - 1].id as number],
                   competitionId: this.props.competitionId,

@@ -14,6 +14,7 @@ interface IBracketRoundProps extends React.ClassAttributes<BracketRound> {
   roundRobin?: boolean;
   has34?: boolean;
   allMatches: IParams | null;
+  swapAble: boolean;
 }
 
 interface IBracketRoundState {
@@ -45,6 +46,7 @@ class BracketRound extends React.Component<IBracketRoundProps, IBracketRoundStat
                   totalRound={this.props.totalRound}
                   roundRobin={true}
                   allMatches={this.props.allMatches}
+                  swapAble={this.props.swapAble}
                 />
               );
             })
@@ -59,13 +61,13 @@ class BracketRound extends React.Component<IBracketRoundProps, IBracketRoundStat
           </div>
           {this.props.info.listMatches != null ?
             (this.props.info.listMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch allMatches={this.props.allMatches} has34={this.props.has34} competitionId={this.props.competitionId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch swapAble={this.props.swapAble} allMatches={this.props.allMatches} has34={this.props.has34} competitionId={this.props.competitionId} info={item} key={index} totalRound={this.props.totalRound} />);
             }) : (this.props.info.listWinMatches != null ? (this.props.info.listWinMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch allMatches={this.props.allMatches} competitionId={this.props.competitionId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch swapAble={this.props.swapAble} allMatches={this.props.allMatches} competitionId={this.props.competitionId} info={item} key={index} totalRound={this.props.totalRound} />);
             }) : (this.props.info.listLoseMatches != null ? (this.props.info.listLoseMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch allMatches={this.props.allMatches} competitionId={this.props.competitionId} info={item} key={index} totalRound={this.props.totalRound} lowerBracket={true} />);
+              return (<BracketMatch swapAble={this.props.swapAble} allMatches={this.props.allMatches} competitionId={this.props.competitionId} info={item} key={index} totalRound={this.props.totalRound} lowerBracket={true} />);
             }) : ((this.props.info.listSumMatches as IParams[]).map((item, index) => {
-              return (<BracketMatch allMatches={this.props.allMatches} showAllDescription={true} has34={true} competitionId={this.props.competitionId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch swapAble={this.props.swapAble} allMatches={this.props.allMatches} showAllDescription={true} has34={true} competitionId={this.props.competitionId} info={item} key={index} totalRound={this.props.totalRound} />);
             }))))
           }
           {this.props.info.listLoseMatches != null && <svg style={{ position: 'absolute', marginTop: '20px', width: '1px', height: `${(this.props.info.highestMatch as number) + 100}px`, backgroundColor: 'transparent', }}>
