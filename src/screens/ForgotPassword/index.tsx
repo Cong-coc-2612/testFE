@@ -52,10 +52,10 @@ class ForgotPassword extends React.Component<IForgotPasswordProps, IForgotPasswo
     }
     const params = {
       path: '',
-      param: {},
-      data: {
+      param: {
         email: this.state.email,
       },
+      data: {},
     };
 
     this.props.forgotPassword(params);

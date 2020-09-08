@@ -70,6 +70,8 @@ import { finishMatch } from './sagas/FinishMatch';
 import { queryAllMatches } from './sagas/QueryAllMatches';
 import { finishTournament } from './sagas/FinishTournament';
 import { updateMatchInfoBeforeStart } from './sagas/UpdateMatchInfoBeforeStart';
+import { forgotPassword } from './sagas/ForgotPassword';
+import { changePassword } from './sagas/ChangePassword';
 
 export default function* () {
   yield all([
@@ -144,5 +146,7 @@ export default function* () {
     queryAllMatches(),
     finishTournament(),
     updateMatchInfoBeforeStart(),
+    forgotPassword(),
+    changePassword(),
   ]);
 }

@@ -1,19 +1,19 @@
 import { call, takeLatest, put } from 'redux-saga/effects';
 import { query, METHOD } from 'utils/socketApi';
 import { IRequest, IParams, IBigRequest } from 'interfaces/common';
-import { COMMON_SHOW_NOTIFICATION, FORGOT_PASSWORD } from 'redux-saga/actions';
+import { COMMON_SHOW_NOTIFICATION, CHANGE_PASSWORD } from 'redux-saga/actions';
 
-const forgotPassword = (data: IParams, path: string | number, param: IParams) => {
-  const uri = 'user/forgotPassword';
+const changePassword = (data: IParams, path: string | number, param: IParams) => {
+  const uri = 'user/changePassword';
   const datas = { ...data };
   const paths = path;
   const params = { ...param };
-  return query(uri, METHOD.GET, datas, params, paths);
+  return query(uri, METHOD.PUT, datas, params, paths);
 };
 
 function* doForgotPassword(request: IRequest<IBigRequest>) {
   try {
-    const response = yield call(forgotPassword, request.data.data, request.data.path, request.data.param);
+    const response = yield call(changePassword, request.data.data, request.data.path, request.data.param);
     const data = response.data.result;
     if (response.data.error.MessageCode === 0) {
       yield put({
@@ -25,7 +25,7 @@ function* doForgotPassword(request: IRequest<IBigRequest>) {
         data: {
           type: 'success',
           title: 'Sign Up',
-          content: 'Chúng tôi đã gửi mật khẩu mới vào mail của bạn',
+          content: 'Đổi mật khẩu thành công',
           time: new Date(),
         },
       });
@@ -49,5 +49,5 @@ function* doForgotPassword(request: IRequest<IBigRequest>) {
 }
 
 export default function* watchForgotPassword() {
-  yield takeLatest(FORGOT_PASSWORD, doForgotPassword);
+  yield takeLatest(CHANGE_PASSWORD, doForgotPassword);
 }

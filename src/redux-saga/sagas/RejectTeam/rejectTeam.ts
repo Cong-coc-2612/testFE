@@ -26,6 +26,15 @@ function* doRejectTeam(request: IRequest<IBigRequest>) {
         type: QUERY_LIST_PENDING_TEAM_SUCCESS,
         payload: data.Teams,
       });
+      yield put({
+        type: COMMON_SHOW_NOTIFICATION,
+        data: {
+          type: 'success',
+          title: 'Sign Up',
+          content: 'Từ chối đội thành công',
+          time: new Date(),
+        },
+      });
     } else {
       throw new Error(response.data.error.Message);
     }

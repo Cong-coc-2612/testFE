@@ -2,14 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ReduxBlockUi from 'react-block-ui/redux';
 import TextInput from 'components/TextInput';
-import { IBigRequest } from 'interfaces/common';
+import { IBigRequest, IParams } from 'interfaces/common';
 import { IState } from 'redux-saga/reducers';
 import { CHANGE_PASSWORD } from 'redux-saga/actions';
+import { cookies } from 'utils/cookies';
+import { COOKIES_TYPE } from 'global';
 import { CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILED } from 'screens/ChangePassword/reducers';
 import { changePassword } from './actions';
 import './styles.css';
 
 interface IChangePasswordProps extends React.ClassAttributes<ChangePassword> {
+  currentUserInfo: IParams | null;
+
   changePassword(params: IBigRequest): void;
 }
 
@@ -98,10 +102,12 @@ class ChangePassword extends React.Component<IChangePasswordProps, IChangePasswo
     }
     const params = {
       path: '',
-      param: {},
+      param: {
+        id: (cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null && this.props.currentUserInfo != null) ? this.props.currentUserInfo.id : null,
+      },
       data: {
         oldPassword: this.state.oldPassword,
-        password: this.state.newPassword,
+        newPassword: this.state.newPassword,
       },
     };
 
@@ -135,6 +141,7 @@ class ChangePassword extends React.Component<IChangePasswordProps, IChangePasswo
 
 const mapStateToProps = (state: IState) => {
   return {
+    currentUserInfo: state.currentUserInfo,
   };
 };
 
