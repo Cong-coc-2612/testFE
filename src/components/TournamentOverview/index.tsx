@@ -6,6 +6,7 @@ import { IoIosPeople } from 'react-icons/io';
 import { IParams } from 'interfaces/common';
 import config from 'config';
 import './styles.css';
+import { formatDateToDisplay } from 'utils/datetime';
 
 interface ITournamentOverviewProps extends React.ClassAttributes<TournamentOverview> {
   info: IParams;
@@ -67,10 +68,10 @@ class TournamentOverview extends React.Component<ITournamentOverviewProps, ITour
               <p className="TournamentOverview-text">{(moreInfo as unknown as IParams).countTeam} Đội tham gia</p>
             </div>
             <div className="TournamentOverview-info-item">
-              <p>Khai mạc ngày: {(info as unknown as IParams).openingTime}</p>
+              <p>Khai mạc ngày: {`${(info as IParams).openingTime != null && formatDateToDisplay((info as IParams).openingTime as string, 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}`}</p>
             </div>
             <div className="TournamentOverview-info-item">
-              <p>Bế mạc ngày: {(info as unknown as IParams).closingTime}</p>
+              <p>Khai mạc ngày: {`${(info as IParams).closingTime != null && formatDateToDisplay((info as IParams).closingTime as string, 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}`}</p>
             </div>
             <div className="TournamentOverview-info-item">
               <p>Tiến trình giải: {(moreInfo as unknown as IParams).process}%</p>
