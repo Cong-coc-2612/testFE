@@ -200,7 +200,7 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
       data: {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
-        dob: formatDateToString(this.state.dateOfBirth, 'yyyy-MM-dd'),
+        dob: formatDateToString(this.state.dateOfBirth, 'yyyy-MM-dd HH:mm:ss'),
         email: this.state.email,
         gender: (this.state.gender as IParams).value,
         address: this.state.address,

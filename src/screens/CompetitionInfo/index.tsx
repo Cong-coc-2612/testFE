@@ -478,6 +478,9 @@ class CompetitionInfo extends React.Component<ICompetitionInfoProps, ICompetitio
       },
     }
     this.props.registTeam(params);
+    this.setState({
+      showJoinModal: false,
+    });
   };
 
   private addPlayer = () => {
