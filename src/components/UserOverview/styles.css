@@ -1,5 +1,5 @@
 .UserOverview-container {
-  width: 500px;
+  width: 42vw;
   margin-left: 40px;
   margin-right: 40px;
   margin-top: 50px;
@@ -39,6 +39,7 @@
   height: 125px;
   border-radius: 65px;
   border: 2px solid white;
+  object-fit: cover;
 }
 
 .UserOverview-name-text {

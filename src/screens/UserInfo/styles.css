@@ -25,6 +25,7 @@
   position: absolute;
   margin-top: 100px;
   margin-left: 50px;
+  object-fit: cover;
 }
 
 .UserInfo-background-image-container2 :hover {

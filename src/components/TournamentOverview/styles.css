@@ -26,6 +26,7 @@
   height: 75px;
   border-radius: 40px;
   border: 2px solid white;
+  object-fit: cover;
 }
 
 .TournamentOverview-background-image-container {
