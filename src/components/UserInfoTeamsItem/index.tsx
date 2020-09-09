@@ -402,7 +402,7 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
               </div>
               {
                 this.state.onEditMode === true ?
-                  this.state.listPlayerInForm.map((item, index) => <Player onDelete={this.onDeletePlayer} info={item} freeToEdit={this.state.onEditMode} key={index} index={index} />) :
+                (this.state.listPlayerInForm != null && this.state.listPlayerInForm.map((item, index) => <Player onDelete={this.onDeletePlayer} info={item} freeToEdit={this.state.onEditMode} key={index} index={index} />)) :
                   (this.props.info.players != null && (this.props.info.players as unknown as IParams[]).map((item, index) => <Player onDelete={this.onDeletePlayer} info={item} freeToEdit={this.state.onEditMode} key={index} index={index} />))
               }
               {this.state.onEditMode === true &&

@@ -325,10 +325,10 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
           }
           {this.state.editMode === true && <div className="MatchSetting-verify-winner-text-container-container">
             <div className={`MatchSetting-verify-winner-text-container ${this.state.winner === true ? 'MatchSetting-verify-winner-isWinner' : ''}`} onClick={this.team1Win}>
-              <p className="MatchSetting-verify-winner-text noselect">{(this.props.teamsInfo[0].team as IParams).shortName}</p>
+              <p className="MatchSetting-verify-winner-text noselect">{this.props.teamsInfo != null && this.props.teamsInfo[0] != null && (this.props.teamsInfo[0].team as IParams) != null && (this.props.teamsInfo[0].team as IParams).shortName}</p>
             </div>
             <div className={`MatchSetting-verify-winner-text-container ${this.state.winner === false ? 'MatchSetting-verify-winner-isWinner' : ''}`} onClick={this.team2Win}>
-              <p className="MatchSetting-verify-winner-text noselect">{(this.props.teamsInfo[1].team as IParams).shortName}</p>
+              <p className="MatchSetting-verify-winner-text noselect">{this.props.teamsInfo != null && this.props.teamsInfo[1] != null && (this.props.teamsInfo[1].team as IParams) != null && (this.props.teamsInfo[1].team as IParams).shortName}</p>
             </div>
           </div>}
         </div>
