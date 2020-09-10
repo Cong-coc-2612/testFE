@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'sport-tournament-support-system'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_406a7b2e6419413e829efd946adb9b32 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_74708943e3bd464997b46bc8655f11a9 }}
         package: .
