@@ -27,6 +27,15 @@ function* doEditTournamentInfo(request: IRequest<IBigRequest>) {
         type: QUERY_TOURNAMENT_INFO_SUCCESS,
         payload: { ...store.getState().tournamentInfo, Tournament: data.Tournament },
       });
+      yield put({
+        type: COMMON_SHOW_NOTIFICATION,
+        data: {
+          type: 'success',
+          title: 'Sign Up',
+          content: 'Thay đổi cài đặt giải thành công',
+          time: new Date(),
+        },
+      });
     } else {
       throw new Error(response.data.error.Message);
     }

@@ -21,7 +21,7 @@
   height: 200px;
   width: 200px;
   border-radius: 100px;
-  border: 2px solid white;
+  border: 2px solid black;
   position: absolute;
   margin-top: 100px;
   margin-left: 50px;
@@ -69,7 +69,7 @@
 }
 
 .UserInfo-button-container {
-  background-color: #002C69;
+  background-color: #676ec1;
   margin-top: 25px;
   border-radius: 10px;
 }
@@ -124,7 +124,7 @@ input[type='file'] {
   position: absolute;
   top: 300px;
   left: 250px;
-  color: #002c69;
+  color: #676ec1;
 }
 
 .UserInfo-change-avatar-icon {
@@ -132,5 +132,5 @@ input[type='file'] {
   position: absolute;
   top: 625px;
   left: 200px;
-  color: #002c69;
+  color: #676ec1;
 }

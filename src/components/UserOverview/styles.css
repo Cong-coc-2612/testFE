@@ -7,7 +7,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: #3d4351;
+  background-color: white;
+  border: 1px solid black;
 }
 
 .UserOverview-container :hover {
@@ -38,7 +39,7 @@
   width: 125px;
   height: 125px;
   border-radius: 65px;
-  border: 2px solid white;
+  border: 2px solid black;
   object-fit: cover;
 }
 

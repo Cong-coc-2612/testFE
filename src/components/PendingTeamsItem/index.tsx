@@ -14,8 +14,6 @@ interface IPendingTeamsItemProps extends React.ClassAttributes<PendingTeamsItem>
   info: IParams;
   index: number;
   tournamentInfo: IParams | null;
-  competitionInfo: IParams | null;
-  competitionInfo2: IParams | null;
   userInfo: IParams | null;
 
   queryUserInfo(param: IBigRequest): void;
@@ -122,11 +120,11 @@ class PendingTeamsItem extends React.Component<IPendingTeamsItemProps, IPendingT
           <div className="PendingTeamsItem-container-container" onClick={this.handleSeeMore}>
             <div className="PendingTeamsItem-order-number-container">
               <div className="PendingTeamsItem-order-number-box">
-                <p>{this.props.index + 1}</p>
+                <p style={{ color: 'white' }}>{this.props.index + 1}</p>
               </div>
             </div>
             <div className="PendingTeamsItem-team-name-container">
-              <p>{this.props.info && this.props.info.fullName}</p>
+              <p style={{ color: 'white' }}>{this.props.info && this.props.info.fullName}</p>
             </div>
           </div>
         </div>
@@ -141,29 +139,28 @@ class PendingTeamsItem extends React.Component<IPendingTeamsItemProps, IPendingT
         >
           <div className="PendingTeamsItem-moreInfo-container">
             <div className="PendingTeamsItem-moreInfo-normalInfo-container">
-              <p>Tên đầy đủ: {this.props.info.fullName}</p>
-              <p>Tên ngắn: {this.props.info.shortName}</p>
-              <p>Giải tham gia: {this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Tournament as unknown as IParams).fullName}</p>
-              <p>Bộ môn tham gia: Bóng đá</p>
-              <p>Tên cuộc thi: {this.props.competitionInfo != null ? (this.props.competitionInfo.Competition != null && (this.props.competitionInfo.Competition as unknown as IParams).name) : (this.props.competitionInfo2 != null && this.props.competitionInfo2.Competition != null && (this.props.competitionInfo2.Competition as unknown as IParams).name)}</p>
-              <p>Quản lý của đội: <Link style={{ fontWeight: 'bold' }} target={'_blank'} to={`/user/${this.props.info.creatorId}`}>
+              <p style={{ color: 'white' }}>Tên đầy đủ: {this.props.info.fullName}</p>
+              <p style={{ color: 'white' }}>Tên ngắn: {this.props.info.shortName}</p>
+              <p style={{ color: 'white' }}>Giải tham gia: {this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Tournament as unknown as IParams).fullName}</p>
+              <p style={{ color: 'white' }}>Bộ môn tham gia: Bóng đá</p>
+              <p style={{ color: 'white' }}>Quản lý của đội: <Link style={{ fontWeight: 'bold' }} target={'_blank'} to={`/user/${this.props.info.creatorId}`} rel="noopener noreferrer">
                 {this.props.userInfo != null ? `${(this.props.userInfo.User as unknown as IParams).firstName} ${(this.props.userInfo.User as unknown as IParams).lastName}` : ''}
               </Link></p>
-              <p>Danh sách thành viên:</p>
+              <p style={{ color: 'white' }}>Danh sách thành viên:</p>
             </div>
             <div className="PendingTeamsItem-moreInfo-listTeamInfo-container">
               <div className="PendingTeamsItem-join-tournament-container">
                 <div className="PendingTeamsItem-join-tournament-item1">
-                  <p>Tên</p>
+                  <p style={{ color: 'white' }}>Tên</p>
                 </div>
                 <div className="PendingTeamsItem-join-tournament-item2">
-                  <p>Giới tính</p>
+                  <p style={{ color: 'white' }}>Giới tính</p>
                 </div>
                 <div className="PendingTeamsItem-join-tournament-item2">
-                  <p>Tuổi</p>
+                  <p style={{ color: 'white' }}>Tuổi</p>
                 </div>
                 <div className="PendingTeamsItem-join-tournament-item1">
-                  <p>Email</p>
+                  <p style={{ color: 'white' }}>Email</p>
                 </div>
                 <div className="PendingTeamsItem-join-tournament-setting">
                 </div>
@@ -180,7 +177,6 @@ class PendingTeamsItem extends React.Component<IPendingTeamsItemProps, IPendingT
 const mapStateToProps = (state: IState) => {
   return {
     userInfo: state.userInfo,
-    competitionInfo2: state.competitionInfo,
   };
 };
 

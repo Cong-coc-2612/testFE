@@ -5,7 +5,7 @@ import { COMMON_SHOW_NOTIFICATION, QUERY_GROUP_STAGE_SETTING } from 'redux-saga/
 
 
 const queryGroupStageSetting = (data: IParams, path: string | number, param: IParams) => {
-  const uri = 'groupStageSetting/getByCompetitionId';
+  const uri = 'groupStageSetting/getByTournamentId';
   const datas = { ...data };
   const paths = path;
   const params = { ...param };

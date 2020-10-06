@@ -12,7 +12,6 @@ import config from 'config';
 import { TOURNAMENT_STATUS } from 'global';
 import { IState } from 'redux-saga/reducers';
 import { queryUserInfo } from 'screens/UserInfo/actions';
-import { queryCompetition } from 'screens/CompetitionInfo/actions';
 import { editTeam, deleteTeam } from './actions';
 import './styles.css';
 
@@ -20,14 +19,12 @@ interface IUserInfoTeamsItemProps extends React.ClassAttributes<UserInfoTeamsIte
   info: IParams;
   index: number;
   tournamentInfo: IParams | null;
-  competitionInfo: IParams | null;
-  competitionInfo2: IParams | null;
   userInfo: IParams | null;
   listTeam: IParams[];
   tournamentStatus: string;
 
   queryUserInfo(param: IBigRequest): void;
-  queryCompetition(param: IBigRequest): void;
+  // queryCompetition(param: IBigRequest): void;
   deleteTeam(param: IBigRequest): void;
   editTeam(param: IBigRequest): void;
 }
@@ -87,16 +84,16 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
         onEditMode: false,
       });
     }
-    if (this.state.seeMoreInfo !== nextState.seeMoreInfo && nextState.seeMoreInfo === true && nextProps.competitionInfo == null) {
-      const params = {
-        path: '',
-        param: {
-          id: this.props.info.competitionId,
-        },
-        data: {},
-      }
-      this.props.queryCompetition(params);
-    }
+    // if (this.state.seeMoreInfo !== nextState.seeMoreInfo && nextState.seeMoreInfo === true && nextProps.competitionInfo == null) {
+    //   const params = {
+    //     path: '',
+    //     param: {
+    //       id: this.props.info.competitionId,
+    //     },
+    //     data: {},
+    //   }
+    //   this.props.queryCompetition(params);
+    // }
     return true;
   }
 
@@ -153,7 +150,7 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
           id: this.props.info.id,
         },
         data: {
-          competitionId: this.props.info.competitionId,
+          tournamentId: this.props.info.tournamentId,
         },
       }
       this.props.deleteTeam(params);
@@ -326,7 +323,7 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
         id: this.props.info.id,
       },
       data: {
-        competitionId: this.props.info.competitionId,
+        tournamentId: this.props.info.tournamentId,
         creatorId: this.props.info.creatorId,
         description: this.props.info.description,
         fullName: this.state.teamFullName,
@@ -347,13 +344,13 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
           <div className="UserInfoTeamsItem-container-container" onClick={this.handleSeeMore}>
             <div className="UserInfoTeamsItem-order-number-container">
               <div className="UserInfoTeamsItem-order-number-box">
-                <p>{this.props.index + 1}</p>
+                <p style={{ color: 'white' }}>{this.props.index + 1}</p>
               </div>
             </div>
             <div className="UserInfoTeamsItem-team-name-container">
               {
                 this.state.onEditMode === false ?
-                  <p>{this.props.info && this.props.info.fullName}</p> :
+                  <p style={{ color: 'white', fontWeight: 'bold' }}>{this.props.info && this.props.info.fullName}</p> :
                   <TextInput label={'Tên đội'} value={this.state.teamFullName} error={this.state.teamFullNameError} errorContent={this.state.teamFullNameErrorContent} onChangeText={this.onChangeTeamFullName} onBlur={this.onBlurTeamFullName} />
               }
             </div>
@@ -375,10 +372,7 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
                   <p>Tên ngắn: {this.props.info.shortName}</p> :
                   <TextInput label={'Tên ngắn đội'} value={this.state.teamShortName} error={this.state.teamShortNameError} errorContent={this.state.teamShortNameErrorContent} onChangeText={this.onChangeTeamShortName} onBlur={this.onBlurTeamShortName} />
               }
-              <p>Giải tham gia: {this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Tournament as unknown as IParams).fullName}</p>
-              <p>Bộ môn tham gia: Bóng đá</p>
-              <p>Tên cuộc thi: {this.props.competitionInfo != null ? (this.props.competitionInfo.Competition != null && (this.props.competitionInfo.Competition as unknown as IParams).name) : (this.props.competitionInfo2 != null && this.props.competitionInfo2.Competition != null && (this.props.competitionInfo2.Competition as unknown as IParams).name)}</p>
-              <p>Quản lý của đội: <Link style={{ fontWeight: 'bold' }} target={'_blank'} to={`/user/${this.props.info.creatorId}`}>
+              <p>Quản lý của đội: <Link style={{ fontWeight: 'bold' }} target={'_blank'} to={`/user/${this.props.info.creatorId}`} rel="noopener noreferrer">
                 {this.props.userInfo != null ? `${(this.props.userInfo.User as unknown as IParams).firstName} ${(this.props.userInfo.User as unknown as IParams).lastName}` : ''}
               </Link></p>
               <p>Danh sách thành viên:</p>
@@ -386,23 +380,23 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
             <div className="UserInfoTeamsItem-moreInfo-listTeamInfo-container">
               <div className="UserInfoTeamsItem-join-tournament-container">
                 <div className="UserInfoTeamsItem-join-tournament-item1">
-                  <p>Tên</p>
+                  <p style={{ color: 'white' }}>Tên</p>
                 </div>
                 <div className="UserInfoTeamsItem-join-tournament-item2">
-                  <p>Giới tính</p>
+                  <p style={{ color: 'white' }}>Giới tính</p>
                 </div>
                 <div className="UserInfoTeamsItem-join-tournament-item2">
-                  <p>Tuổi</p>
+                  <p style={{ color: 'white' }}>Tuổi</p>
                 </div>
                 <div className="UserInfoTeamsItem-join-tournament-item1">
-                  <p>Email</p>
+                  <p style={{ color: 'white' }}>Email</p>
                 </div>
                 <div className="UserInfoTeamsItem-join-tournament-setting">
                 </div>
               </div>
               {
                 this.state.onEditMode === true ?
-                (this.state.listPlayerInForm != null && this.state.listPlayerInForm.map((item, index) => <Player onDelete={this.onDeletePlayer} info={item} freeToEdit={this.state.onEditMode} key={index} index={index} />)) :
+                  (this.state.listPlayerInForm != null && this.state.listPlayerInForm.map((item, index) => <Player onDelete={this.onDeletePlayer} info={item} freeToEdit={this.state.onEditMode} key={index} index={index} />)) :
                   (this.props.info.players != null && (this.props.info.players as unknown as IParams[]).map((item, index) => <Player onDelete={this.onDeletePlayer} info={item} freeToEdit={this.state.onEditMode} key={index} index={index} />))
               }
               {this.state.onEditMode === true &&
@@ -446,11 +440,10 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
 const mapStateToProps = (state: IState) => {
   return {
     userInfo: state.userInfo,
-    competitionInfo2: state.competitionInfo,
   };
 };
 
 export default connect(
   mapStateToProps,
-  { queryCompetition, queryUserInfo, editTeam, deleteTeam }
+  { queryUserInfo, editTeam, deleteTeam }
 )(UserInfoTeamsItem);

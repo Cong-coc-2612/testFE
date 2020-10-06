@@ -8,6 +8,19 @@
   height: 450px;
 }
 
+.AllTournaments-header-filter-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.AllTournaments-header-filter {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
 .AllTournaments-container-container {
   color: white;
   display: flex;

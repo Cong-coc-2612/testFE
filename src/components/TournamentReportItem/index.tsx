@@ -64,11 +64,11 @@ class TournamentReportItem extends React.Component<ITournamentReportItemProps, I
           <div className="TournamentReportItem-container-container" onClick={this.handleSeeMore}>
             <div className="TournamentReportItem-order-number-container">
               <div className="TournamentReportItem-order-number-box">
-                <p>{this.props.index + 1}</p>
+                <p style={{ color: 'white' }}>{this.props.index + 1}</p>
               </div>
             </div>
             <div className="TournamentReportItem-team-name-container">
-              <p>{this.props.info && this.props.info.subject}</p>
+              <p style={{ color: 'white' }}>{this.props.info && this.props.info.subject}</p>
             </div>
           </div>
         </div>
@@ -83,8 +83,8 @@ class TournamentReportItem extends React.Component<ITournamentReportItemProps, I
             <div className={'Report-modal-header-container'}>
               <h1>Báo cáo</h1>
             </div>
-            <p className={'Report-modal-text'}>Tiêu đề: {this.props.info.subject}</p>
-            <p className={'Report-modal-text'}>Nội dung báo cáo: {this.props.info.content}</p>
+            <p style={{ color: 'white', fontSize: '25px' }}>Tiêu đề: <span style={{ color: 'white', fontSize: '18px' }}>{this.props.info.subject}</span></p>
+            <p style={{ color: 'white', fontSize: '25px' }}>Nội dung báo cáo: <span style={{ color: 'white', fontSize: '18px' }}>{this.props.info.content}</span></p>
           </div>
         </CustomModal>
       </div>

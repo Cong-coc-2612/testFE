@@ -4,11 +4,11 @@
 }
 
 .BracketRound-reachRound-bolder {
-  background-color: #001533;
+  background-color: grey;
 }
 
 .BracketRound-eachRound-noBold {
-  background-color: #000F24;
+  background-color: white;
 }
 
 .BracketRound-title-round-container {
@@ -25,4 +25,5 @@
 
 .BracketRound-title-round-text {
   font-size: 14px;
+  color: white;
 }

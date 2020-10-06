@@ -13,12 +13,16 @@
   flex-direction: row;
 }
 
+.BracketRank-item-orderNumberr{
+  color: white;
+}
+
 .BracketRank-item-container1 {
-  background-color: #002C66;
+  background-color: #0028ff;
 }
 
 .BracketRank-item-container2 {
-  background-color: #001736;
+  background-color: #3f3f3f;
 }
 
 .BracketRank-item-orderNumber-1 {
@@ -40,7 +44,7 @@
 }
 
 .BracketRank-menuItem-container {
-  background-color: black;
+  background-color: #3bbf1a;
 }
 
 .BracketRank-item-orderNumber-container {

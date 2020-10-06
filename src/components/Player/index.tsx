@@ -92,16 +92,16 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
     return (
       <div className="Player-container">
         <div className="Player-item1">
-          <p>{this.props.info.name}</p>
+          <p style={{ color: 'white' }}>{this.props.info.name}</p>
         </div>
         <div className="Player-item2">
-          <p>{this.props.info.gender}</p>
+          <p style={{ color: 'white' }}>{this.props.info.gender}</p>
         </div>
         <div className="Player-item2">
-          <p>{this.props.info.age}</p>
+          <p style={{ color: 'white' }}>{this.props.info.age}</p>
         </div>
         <div className="Player-item1">
-          <p>{this.props.info.email}</p>
+          <p style={{ color: 'white' }}>{this.props.info.email}</p>
         </div>
         <div className="Player-setting">
           {this.props.freeToEdit === true && <TiDelete color={'white'} size={25} style={{ marginLeft: '3px', marginRight: '3px' }} onClick={this.deletePlayer} />}

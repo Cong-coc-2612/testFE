@@ -23,7 +23,7 @@ function* doAddListTeamSelecting(request: IRequest<IParams>) {
             team2Id: (request.data.listTeamId as number[])[1],
           },
           data: {
-            competitionId: request.data.competitionId,
+            tournamentId: request.data.tournamentId,
           },
         },
       });

@@ -15,11 +15,12 @@
 
 .BracketSchedule-roundName-text {
   font-size: 20px;
+  color: white;
 }
 
 .BracketSchedule-roundName-container {
   height: 35px;
-  background-color: #002C69;
+  background-color: #3bbf1a;
   justify-content: center;
   align-items: center;
   display: flex;

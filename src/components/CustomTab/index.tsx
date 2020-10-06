@@ -9,6 +9,7 @@ interface ICustomTabProps extends React.ClassAttributes<CustomTab> {
   tabList: string[];
   componentList: ReactNode[];
   selectedIndex: number;
+  darkMode?: boolean;
 
   onEditBracketMode(status: boolean): void;
   deleteListSelectingTeam(): void;
@@ -36,7 +37,7 @@ class CustomTab extends React.Component<ICustomTabProps, IModalState> {
             this.props.onChangeSelectedIndex(index);
           }
         }}
-        className={'Tabs-color'}
+        className={this.props.darkMode === true ? `Tabs-color2` : `Tabs-color`}
       >
         <TabList>
           {this.props.tabList.map((item, index) => {

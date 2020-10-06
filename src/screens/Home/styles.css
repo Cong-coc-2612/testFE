@@ -14,11 +14,11 @@
 }
 
 h1 {
-  color: white;
+  color: #3bbf1a;
 }
 
 p {
-  color: white;
+  color: #323232;
 }
 
 .Long-introduction {
@@ -61,7 +61,7 @@ p {
 }
 
 .Checkbox-label {
-  color: #d8d8d8;
+  color: #323232;
 }
 
 .Forgot-password {
@@ -69,7 +69,7 @@ p {
 }
 
 .Button-login-container {
-  background-color: #002C69;
+  background-color: #676ec1;
   margin-top: 25px;
   border-radius: 10px;
 }

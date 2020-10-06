@@ -120,7 +120,7 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
       address: this.props.userInfo != null && (this.props.userInfo.User as unknown as IParams).address != null ? (this.props.userInfo.User as unknown as IParams).address as string : '',
       phoneNumber: this.props.userInfo != null && (this.props.userInfo.User as unknown as IParams).phoneNumber != null ? (this.props.userInfo.User as unknown as IParams).phoneNumber as string : '',
       gender: this.props.userInfo != null && (this.props.userInfo.User as unknown as IParams).gender === true ? { value: true, label: 'Nam' } : { value: false, label: 'Nữ' },
-      dateOfBirth: this.props.userInfo != null && (this.props.userInfo.User as unknown as IParams).dob != null ? formatStringToDate((this.props.userInfo.User as unknown as IParams).dob as string, 'yyyy-MM-dd') : new Date(),
+      dateOfBirth: this.props.userInfo != null && (this.props.userInfo.User as unknown as IParams).dob != null ? formatStringToDate((this.props.userInfo.User as unknown as IParams).dob as string, 'yyyy-MM-dd HH:mm:ss') : new Date(),
     });
   }
 

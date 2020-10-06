@@ -56,11 +56,11 @@ class CustomModal extends React.Component<ICustomModalProps, IModalState> {
         {this.props.confirmButtonVisible !== false &&
           <div className="Modal-button-container">
             <div className="Modal-button" onClick={this.handleConfirmModal}>
-              <p>{this.props.confirmButtonText ? this.props.confirmButtonText : 'Xác nhận'}</p>
+            <p style={{ color: 'white' }}>{this.props.confirmButtonText ? this.props.confirmButtonText : 'Xác nhận'}</p>
             </div>
             {this.props.handleCancelModal &&
               <div className="Modal-button2" onClick={this.handleCancelModal}>
-                <p>{this.props.cancelButtonText ? this.props.cancelButtonText : 'Hủy'}</p>
+            <p style={{ color: 'white' }}>{this.props.cancelButtonText ? this.props.cancelButtonText : 'Hủy'}</p>
               </div>
             }
           </div>}

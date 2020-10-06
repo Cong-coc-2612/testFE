@@ -1,5 +1,5 @@
 .CreateNewTournament-container {
-  color: white;
+  color: #323232;
   display: flex;
   flex-direction: column;
 }
@@ -12,6 +12,7 @@
 .CreateNewTournament-header-text {
   font-size: 25px;
   font-weight: bold;
+  color: #3bbf1a;
 }
 
 .CreateNewTournament-listManager-container {
@@ -66,7 +67,7 @@
 }
 
 .CreateNewTournament-button-container {
-  background-color: #002C69;
+  background-color: #676ec1;
   margin-top: 25px;
   border-radius: 10px;
   height: 50px;

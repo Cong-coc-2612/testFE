@@ -4,7 +4,7 @@ import { IRequest, IParams, IBigRequest } from 'interfaces/common';
 import { COMMON_SHOW_NOTIFICATION, QUERY_ALL_MATCHES } from 'redux-saga/actions';
 
 const queryAllMatches = (data: IParams, path: string | number, param: IParams) => {
-  const uri = 'matches/getByCompetitionId';
+  const uri = 'matches/getByTournamentId';
   const datas = { ...data };
   const paths = path;
   const params = { ...param };

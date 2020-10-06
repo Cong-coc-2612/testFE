@@ -5,12 +5,11 @@ import { IState } from 'redux-saga/reducers';
 import { queryBracketBoardInfo } from 'components/BracketBoard/actions';
 import { queryListTeams } from 'components/Teams/actions';
 import { queryAllMatches } from 'components/BracketBoard/actions';
-import { formatDateToDisplay } from 'utils/datetime';
 import './styles.css';
 
 interface IBracketScheduleProps extends React.ClassAttributes<BracketSchedule> {
   bracketBoardInfo: IParams | null;
-  competitionId: number;
+  tournamentId: number;
   finalStage: boolean;
   listTeam: IParams[] | null;
   allMatches: IParams | null;
@@ -39,7 +38,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
     let params: IBigRequest = {
       path: '',
       param: {
-        competitionId: this.props.competitionId,
+        tournamentId: this.props.tournamentId,
       },
       data: {},
     };
@@ -47,7 +46,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
     params = {
       path: '',
       param: {
-        competitionId: this.props.competitionId,
+        tournamentId: this.props.tournamentId,
         limit: 999,
       },
       data: {},
@@ -57,7 +56,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
       params = {
         path: '',
         param: {
-          competitionId: this.props.competitionId,
+          tournamentId: this.props.tournamentId,
         },
         data: {},
       };
@@ -127,8 +126,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                             <p>{(item2.data as IParams).name}</p>
                           </div>
                           <div className="BracketSchedule-roundMatch-time-container">
-                            <p>{(item2.data as IParams).time}</p>
-                            <p>{(item2.data as IParams).location}</p>
+                            <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
+                            <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
                           </div>
                           <div className="BracketSchedule-roundMatch-name-container">
                             {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -148,7 +147,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                             {
                               (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
                                 <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
-                                ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
+                                ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).descType !== -1 ? (((item2.data as IParams).team2 as IParams).description as IParams).description : `(Chưa có)`}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                           </div>
                         </div>)
                       } else {
@@ -176,8 +175,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               <p>{(item2.data as IParams).name}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-time-container">
-                              <p>{(item2.data as IParams).time}</p>
-                              <p>{(item2.data as IParams).location}</p>
+                              <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
+                              <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -197,7 +196,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               {
                                 (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
                                   <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
-                                  ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
+                                  ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).descType !== -1 ? (((item2.data as IParams).team2 as IParams).description as IParams).description : `(Chưa có)`}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
                           </div>)
                         } else {
@@ -219,8 +218,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               <p>{(item2.data as IParams).name}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-time-container">
-                              <p>{(item2.data as IParams).time}</p>
-                              <p>{(item2.data as IParams).location}</p>
+                              <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
+                              <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -240,7 +239,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               {
                                 (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
                                   <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
-                                  ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
+                                  ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).descType !== -1 ? (((item2.data as IParams).team2 as IParams).description as IParams).description : `(Chưa có)`}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
                           </div>)
                         } else {
@@ -266,8 +265,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               <p>{item2.name}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-time-container">
-                              <p>{item2.time}</p>
-                              <p>{item2.location}</p>
+                              <p>{(item2.time as string).trim() !== '' ? item2.time : `(Chưa có thời gian)`}</p>
+                              <p>{(item2.location as string).trim() !== '' ? item2.location : `(Chưa có địa điểm)`}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {item2.team1 != null && ((item2.team1 as IParams).description != null && (item2.team1 as IParams).team != null ?
@@ -287,7 +286,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               {
                                 item2.team2 != null && ((item2.team2 as IParams).description != null && (item2.team2 as IParams).team != null ?
                                   <p className={"BracketSchedule-name-text"}>{((item2.team2 as IParams).team as IParams).shortName}</p> :
-                                  (((item2.team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{((item2.team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
+                                  (((item2.team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{((item2.team2 as IParams).description as IParams).descType !== -1 ? ((item2.team2 as IParams).description as IParams).description : `(Chưa có)`}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
                           </div>)
                         } else {
@@ -318,8 +317,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               <p>{(item2.data as IParams).name}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-time-container">
-                              <p>{(item2.data as IParams).time}</p>
-                              <p>{(item2.data as IParams).location}</p>
+                              <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
+                              <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -339,7 +338,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               {
                                 (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
                                   <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
-                                  ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
+                                  ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).descType !== -1 ? (((item2.data as IParams).team2 as IParams).description as IParams).description : `(Chưa có)`}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                             </div>
                           </div>)
                         } else {
@@ -369,8 +368,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 <p>{(item2.data as IParams).name}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-time-container">
-                                <p>{formatDateToDisplay((item2.data as IParams).time as string, 'HH:mm dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}</p>
-                                <p>{(item2.data as IParams).location}</p>
+                                <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
+                                <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -390,7 +389,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 {
                                   (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
                                     <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
-                                    ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
+                                    ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).descType !== -1 ? (((item2.data as IParams).team2 as IParams).description as IParams).description : `(Chưa có)`}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
                             </div>)
                           } else {
@@ -412,8 +411,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 <p>{(item2.data as IParams).name}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-time-container">
-                                <p>{(item2.data as IParams).time}</p>
-                                <p>{(item2.data as IParams).location}</p>
+                                <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
+                                <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -433,7 +432,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 {
                                   (item2.data as IParams).team2 != null && (((item2.data as IParams).team2 as IParams).description != null && ((item2.data as IParams).team2 as IParams).team != null ?
                                     <p className={"BracketSchedule-name-text"}>{(((item2.data as IParams).team2 as IParams).team as IParams).shortName}</p> :
-                                    ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
+                                    ((((item2.data as IParams).team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{(((item2.data as IParams).team2 as IParams).description as IParams).descType !== -1 ? (((item2.data as IParams).team2 as IParams).description as IParams).description : `(Chưa có)`}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[((((item2.data as IParams).team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
                             </div>)
                           } else {
@@ -461,8 +460,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 <p>{item2.name}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-time-container">
-                                <p>{item2.time}</p>
-                                <p>{item2.location}</p>
+                                <p>{(item2.time as string).trim() !== '' ? item2.time : `(Chưa có thời gian)`}</p>
+                                <p>{(item2.location as string).trim() !== '' ? item2.location : `(Chưa có địa điểm)`}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {item2.team1 != null && ((item2.team1 as IParams).description != null && (item2.team1 as IParams).team != null ?
@@ -482,7 +481,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 {
                                   item2.team2 != null && ((item2.team2 as IParams).description != null && (item2.team2 as IParams).team != null ?
                                     <p className={"BracketSchedule-name-text"}>{((item2.team2 as IParams).team as IParams).shortName}</p> :
-                                    (((item2.team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{((item2.team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
+                                    (((item2.team2 as IParams).description as IParams).descType !== 0 ? <p className={"BracketSchedule-name-text BracketSchedule-name-text2"}>{((item2.team2 as IParams).description as IParams).descType === -1 ? `(Chưa có)` : ((item2.team2 as IParams).description as IParams).description}</p> : <p className={"BracketSchedule-name-text"}>{this.props.listTeam != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1] != null && this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName != null ? this.props.listTeam[(((item2.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p>))}
                               </div>
                             </div>)
                           } else {

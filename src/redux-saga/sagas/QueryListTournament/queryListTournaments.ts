@@ -5,7 +5,7 @@ import { COMMON_SHOW_NOTIFICATION, QUERY_LIST_TOURNAMENT } from 'redux-saga/acti
 
 
 const queryListTournaments = (data: IParams, path: string | number, param: IParams) => {
-  const uri = 'tournaments';
+  const uri = 'tournaments/getBySearchStringAndSportAndStatus';
   const datas = { ...data };
   const paths = path;
   const params = { ...param };

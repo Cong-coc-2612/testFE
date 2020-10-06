@@ -5,7 +5,7 @@ import { COMMON_SHOW_NOTIFICATION, QUERY_FINAL_STAGE_SETTING } from 'redux-saga/
 
 
 const queryFinalStageSetting = (data: IParams, path: string | number, param: IParams) => {
-  const uri = 'finalStageSetting/getByCompetitionId';
+  const uri = 'finalStageSetting/getByTournamentId';
   const datas = { ...data };
   const paths = path;
   const params = { ...param };

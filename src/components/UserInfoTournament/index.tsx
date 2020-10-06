@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
+import ReduxBlockUi from 'react-block-ui/redux';
 import TournamentOverview from 'components/TournamentOverview';
 import Paging from 'components/Paging';
 import { IBigRequest, IParams } from 'interfaces/common';
 import { IState } from 'redux-saga/reducers';
 import { queryListTournamentsOfUser } from './actions';
 import './styles.css';
+import { QUERY_LIST_TOURNAMENT_OF_USER } from 'redux-saga/actions';
+import { QUERY_LIST_TOURNAMENT_OF_USER_FAILED, QUERY_LIST_TOURNAMENT_OF_USER_SUCCESS } from './reducers';
 
 interface IUserInfoTournamentProps extends React.ClassAttributes<UserInfoTournament> {
   userId: number;
@@ -48,17 +51,22 @@ class UserInfoTournament extends React.Component<IUserInfoTournamentProps, IUser
   }
 
   render() {
-    console.log(this.props.listTournamentOfUser);
     return (
-      <div className="UserInfoTournament-container">
-        <div className="UserInfoTournament-container-container">
-          {this.props.listTournamentOfUser && this.props.listTournamentOfUser.Tournaments ? ((this.props.listTournamentOfUser.Tournaments as unknown as IParams[]).length > 0 ? (this.props.listTournamentOfUser.Tournaments as unknown as IParams[]).map(
-            (item, index) => <TournamentOverview info={item} index={index} key={index} />) : <p>Không tìm thấy kết quả nào!</p>) :
-            <Skeleton />
-          }
+      <ReduxBlockUi
+        tag="div"
+        block={QUERY_LIST_TOURNAMENT_OF_USER}
+        unblock={[QUERY_LIST_TOURNAMENT_OF_USER_SUCCESS, QUERY_LIST_TOURNAMENT_OF_USER_FAILED]}
+      >
+        <div className="UserInfoTournament-container">
+          <div className="UserInfoTournament-container-container">
+            {this.props.listTournamentOfUser && this.props.listTournamentOfUser.Tournaments ? ((this.props.listTournamentOfUser.Tournaments as unknown as IParams[]).length > 0 ? (this.props.listTournamentOfUser.Tournaments as unknown as IParams[]).map(
+              (item, index) => <TournamentOverview info={item} index={index} key={index} />) : <p>Không tìm thấy kết quả nào!</p>) :
+              <Skeleton />
+            }
+          </div>
+          <Paging currentPage={this.state.currentPage} totalPage={this.props.listTournamentOfUser != null ? this.props.listTournamentOfUser.TotalPage as number : 0} onChangeSelectedPage={this.onChangeSelectedPage} />
         </div>
-        <Paging currentPage={this.state.currentPage} totalPage={this.props.listTournamentOfUser != null ? this.props.listTournamentOfUser.TotalPage as number : 0} onChangeSelectedPage={this.onChangeSelectedPage} />
-      </div>
+      </ReduxBlockUi>
     );
   }
 }

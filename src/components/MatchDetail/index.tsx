@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setHours, setMinutes } from 'date-fns';
+import { isAfter, isBefore, setHours, setMinutes } from 'date-fns';
 import DatePicker from "react-datepicker";
 import { IParams, IBigRequest } from 'interfaces/common';
 import { IState } from 'redux-saga/reducers';
 import { MATCH_STATUS } from 'global';
-import { formatStringToDate, formatDateToString } from 'utils/datetime';
+import { formatStringToDate, formatDateToString, formatDateToDisplay } from 'utils/datetime';
 import { updateMatchInfo, updateMatchInfoBeforeStart } from 'components/MatchSetting/actions';
 import './styles.css';
 
@@ -15,8 +15,13 @@ interface IMatchDetailProps extends React.ClassAttributes<MatchDetail> {
   matchInfo: IParams | null;
   allMatches: IParams | null;
   beforeInfo?: IParams;
-  competitionId: number;
+  tournamentId: number;
   lowerBracket?: boolean;
+  tableId: number | null;
+  matchType: 'se' | 'win' | 'lose' | 'rr' | 'sum';
+  tournamentInfo: IParams | null;
+  dateNextRound: Date | null;
+  datePreviousRound: Date | null;
 
   updateMatchInfo(params: IBigRequest): void;
   updateMatchInfoBeforeStart(params: IBigRequest): void;
@@ -27,6 +32,8 @@ interface IMatchDetailState {
   winner: boolean | null;
   location: string;
   time: Date;
+  timeError: boolean;
+  timeErrorContent: string;
   team1Score: number;
   team2Score: number;
 }
@@ -40,6 +47,8 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
       winner: null,
       location: '',
       time: new Date(),
+      timeError: false,
+      timeErrorContent: '',
       team1Score: 0,
       team2Score: 0,
     };
@@ -49,7 +58,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
     if (this.state.editMode !== nextState.editMode && nextState.editMode === true) {
       this.setState({
         location: nextProps.info != null ? nextProps.info.location as string : '',
-        time: nextProps.info != null ? formatStringToDate(nextProps.info.time as string, 'yyyy-MM-dd HH:mm:ss') : new Date(),
+        time: nextProps.info != null ? (nextProps.info.time === '' ? new Date() : formatStringToDate(nextProps.info.time as string, 'yyyy-MM-dd HH:mm:ss')) : new Date(),
       })
     }
     if (((this.props.allMatches !== nextProps.allMatches || nextProps.matchInfo !== this.props.matchInfo))) {
@@ -153,6 +162,14 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
   }
 
   private offEditMode = () => {
+    const { timeError, timeErrorContent } = this.validateTime();
+    this.setState({
+      timeError,
+      timeErrorContent,
+    });
+    if (timeError === true) {
+      return;
+    }
     if (this.props.matchInfo != null) {
       const params = {
         path: '',
@@ -160,7 +177,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
           id: this.props.matchInfo.id,
         },
         data: {
-          competitionId: this.props.matchInfo.competitionId,
+          tournamentId: this.props.matchInfo.tournamentId,
           location: this.state.location,
           time: formatDateToString(this.state.time, 'yyyy-MM-dd HH:mm:ss'),
           loserId: this.props.matchInfo.loserId,
@@ -182,9 +199,9 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
           param: {
             degree: (this.props.beforeInfo.degree as number) + 1,
             nodeId: this.props.beforeInfo.id,
-            competitionId: this.props.competitionId,
-            location: this.props.lowerBracket === true ? 2 : 0,
-            tableId: -1,
+            tournamentId: this.props.tournamentId,
+            location: this.props.lowerBracket === true ? 2 : (this.props.matchType === 'se' ? 0 : (this.props.matchType === 'win' ? 1 : 3)),
+            tableId: this.props.tableId != null ? this.props.tableId : -1,
           },
           data: {
             location: this.state.location,
@@ -198,9 +215,9 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
           param: {
             degree: 0,
             nodeId: this.props.info.matchNo,
-            competitionId: this.props.competitionId,
+            tournamentId: this.props.tournamentId,
             location: -1,
-            tableId: -1,
+            tableId: this.props.tableId != null ? this.props.tableId : -1,
           },
           data: {
             location: this.state.location,
@@ -222,6 +239,41 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
     });
   }
 
+  private validateTime = () => {
+    let timeError = false;
+    let timeErrorContent = '';
+    if (isAfter(this.state.time, formatStringToDate((this.props.tournamentInfo!.Tournament as IParams).closingTime as string, 'yyyy-MM-dd HH:mm:ss'))) {
+      timeError = true;
+      timeErrorContent = `Thời gian không được sau ngày bế mạc giải (${formatDateToDisplay((this.props.tournamentInfo!.Tournament as IParams).closingTime as string, 'yyyy-MM-dd', 'yyyy-MM-dd HH:mm:ss')})`;
+    }
+    if (isBefore(this.state.time, formatStringToDate((this.props.tournamentInfo!.Tournament as IParams).openingTime as string, 'yyyy-MM-dd HH:mm:ss'))) {
+      timeError = true;
+      timeErrorContent = `Thời gian không được trước ngày khai mạc giải (${formatDateToDisplay((this.props.tournamentInfo!.Tournament as IParams).openingTime as string, 'yyyy-MM-dd', 'yyyy-MM-dd HH:mm:ss')})`;
+    }
+    if (this.props.datePreviousRound != null) {
+      if (isBefore(this.state.time, this.props.datePreviousRound)) {
+        timeError = true;
+        timeErrorContent = `Thời gian không được trước thời gian của trận muộn nhất vòng trước (${formatDateToString(this.props.datePreviousRound, 'yyyy-MM-dd HH:mm:ss')})`;
+      } else {
+        if (this.props.dateNextRound != null) {
+          if (isAfter(this.state.time, this.props.dateNextRound)) {
+            timeError = true;
+            timeErrorContent = `Thời gian không được sau thời gian của trận sớm nhất vòng sau (${formatDateToString(this.props.dateNextRound, 'yyyy-MM-dd HH:mm:ss')})`;
+          }
+        }
+      }
+    } else {
+      if (this.props.dateNextRound != null) {
+        if (isAfter(this.state.time, this.props.dateNextRound)) {
+          timeError = true;
+          timeErrorContent = `Thời gian không được sau thời gian của trận sớm nhất vòng sau (${formatDateToString(this.props.dateNextRound, 'yyyy-MM-dd HH:mm:ss')})`;
+        }
+      }
+    }
+
+    return { timeError, timeErrorContent };
+  }
+
   private handleChangeTime = (value: Date) => {
     this.setState({
       time: value,
@@ -229,6 +281,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
   };
 
   render() {
+    console.log('this.props.matchInfo', this.props.matchInfo);
     return (
       <div
         className="MatchDetail-container"
@@ -251,39 +304,39 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
           >
             <div className={'MatchDetail-team1-name-container'}>
               {this.props.info.team1 != null ?
-                ((this.props.info.team1 as IParams).team != null ? <p className={this.state.winner === true ? 'MatchDetail-team-winner' : ''}>{`${((this.props.info.team1 as IParams).team as IParams).fullName} (${((this.props.info.team1 as IParams).team as IParams).shortName})`}</p> :
-                  (((this.props.info.team1 as IParams).description as IParams).descType === 0 ? <p>{this.props.listTeam![(((this.props.info.team1 as IParams).description as IParams).unitIndex as number) - 1].shortName ? this.props.listTeam![(((this.props.info.team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p> : <p style={{ fontStyle: 'italic' }}>{((this.props.info.team1 as IParams).description as IParams).description}</p>)) : <p>(Chưa có)</p>
+                ((this.props.info.team1 as IParams).team != null ? <p className={this.state.winner === true ? 'MatchDetail-team-winner' : 'MatchDetail-team'}>{`${((this.props.info.team1 as IParams).team as IParams).fullName} (${((this.props.info.team1 as IParams).team as IParams).shortName})`}</p> :
+                  (((this.props.info.team1 as IParams).description as IParams).descType === 0 ? <p className={'MatchDetail-team'}>{this.props.listTeam![(((this.props.info.team1 as IParams).description as IParams).unitIndex as number) - 1].shortName ? this.props.listTeam![(((this.props.info.team1 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p> : <p style={{ fontStyle: 'italic', color: 'white' }}>{((this.props.info.team1 as IParams).description as IParams).description}</p>)) : <p className={'MatchDetail-team'}>(Chưa có)</p>
               }
             </div>
             <div className={'MatchDetail-team1-score-container'}>
-              <p className={this.state.winner === true ? 'MatchDetail-team-winner' : ''}>{this.state.team1Score}</p>
+              <p className={this.state.winner === true ? 'MatchDetail-team-winner' : 'MatchDetail-team'}>{this.state.team1Score}</p>
             </div>
           </div>
           <div
             className="MatchDetail-teams-middle-container"
           >
-            <p className={'MatchDetail-teams-middle-text'}>VS</p>
+            <p className={'MatchDetail-teams-middle-text MatchDetail-team'}>VS</p>
           </div >
           <div
             className="MatchDetail-team2-container"
           >
             <div className={'MatchDetail-team2-name-container'}>
               {this.props.info.team2 != null ?
-                ((this.props.info.team2 as IParams).team != null ? <p className={this.state.winner === false ? 'MatchDetail-team-winner' : ''}>{`${((this.props.info.team2 as IParams).team as IParams).fullName} (${((this.props.info.team2 as IParams).team as IParams).shortName})`}</p> :
+                ((this.props.info.team2 as IParams).team != null ? <p className={this.state.winner === false ? 'MatchDetail-team-winner' : 'MatchDetail-team'}>{`${((this.props.info.team2 as IParams).team as IParams).fullName} (${((this.props.info.team2 as IParams).team as IParams).shortName})`}</p> :
                   (((this.props.info.team2 as IParams).description as IParams).descType === 0 ?
-                    <p>{this.props.listTeam![(((this.props.info.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName ? this.props.listTeam![(((this.props.info.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p> : <p style={{ fontStyle: 'italic' }}>{((this.props.info.team2 as IParams).description as IParams).description === '-1' ? '(Chưa có)' : ((this.props.info.team2 as IParams).description as IParams).description}</p>)) : <p>(Không có)</p>
+                    <p className={'MatchDetail-team'}>{this.props.listTeam![(((this.props.info.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName ? this.props.listTeam![(((this.props.info.team2 as IParams).description as IParams).unitIndex as number) - 1].shortName : ''}</p> : <p style={{ fontStyle: 'italic', color: 'white' }}>{((this.props.info.team2 as IParams).description as IParams).description === '-1' ? '(Chưa có)' : ((this.props.info.team2 as IParams).description as IParams).description}</p>)) : <p className={'MatchDetail-team'}>(Không có)</p>
               }
             </div>
             <div className={'MatchDetail-team2-score-container'}>
-              <p className={this.state.winner === false ? 'MatchDetail-team-winner' : ''}>{this.state.team2Score}</p>
+              <p className={this.state.winner === false ? 'MatchDetail-team-winner' : 'MatchDetail-team'}>{this.state.team2Score}</p>
             </div>
           </div >
         </div >
         <div
           className="MatchDetail-info-container"
         >
-          {this.state.editMode === false ? <p>Địa điểm: {this.props.info.location}</p> : <label>Địa điểm: <input value={this.state.location} type={'text'} onChange={this.onChangeLocation} /></label>}
-          {this.state.editMode === false ? <p>Thời gian: {this.props.info.time}</p> : <label>Thời gian:
+          {this.state.editMode === false ? <p className={'MatchDetail-team'}>Địa điểm: {this.props.info.location != null && (this.props.info.location as string).trim() !== '' ? this.props.info.location : (this.props.matchInfo != null && (this.props.matchInfo.location as string).trim() !== '' ? this.props.matchInfo.location : '(Chưa có)')}</p> : <label style={{ color: 'white' }}>Địa điểm: <input value={this.state.location} type={'text'} onChange={this.onChangeLocation} /></label>}
+          {this.state.editMode === false ? <p className={'MatchDetail-team'}>Thời gian: {this.props.info.time != null && (this.props.info.time as string).trim() !== '' ? this.props.info.time : (this.props.matchInfo != null && (this.props.matchInfo.time as string).trim() !== '' ? this.props.matchInfo.time : '(Chưa có)')}</p> : <label style={{ color: 'white' }}>Thời gian:
             <DatePicker
               selected={this.state.time}
               onChange={this.handleChangeTime}
@@ -340,6 +393,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
               ]}
               dateFormat="MMMM d, yyyy HH:mm"
             /></label>}
+          <div className="MatchDetail-error-text-container">{this.state.timeError && <p className="TextInput-error-text">{this.state.timeErrorContent}</p>}</div>
         </div >
       </div >
     );
@@ -349,6 +403,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
 const mapStateToProps = (state: IState) => {
   return {
     listTeam: state.listTeam,
+    tournamentInfo: state.tournamentInfo,
   };
 };
 

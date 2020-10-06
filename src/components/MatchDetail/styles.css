@@ -16,6 +16,10 @@
   align-self: flex-start;
 }
 
+.MatchSetting-set-text {
+  color: white;
+}
+
 .MatchDetail-set-container :hover {
   cursor: pointer;
   text-decoration: underline;
@@ -24,6 +28,10 @@
 .MatchDetail-team-winner {
   font-weight: bold;
   color: gold;
+}
+
+.MatchDetail-team {
+  color: white;
 }
 
 .MatchDetail-teams-container {
@@ -70,6 +78,7 @@
 .MatchDetail-info-header-text {
   font-weight: bold;
   font-size: 20px;
+  color: white;
 }
 
 .MatchDetail-teams-middle-text {
@@ -105,4 +114,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.MatchDetail-error-text-container {
+  height: 0px;
 }

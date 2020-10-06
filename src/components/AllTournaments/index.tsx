@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Select, { ValueType, OptionTypeBase } from 'react-select';
 import Skeleton from 'react-loading-skeleton';
 import 'pagination.css';
 import TournamentOverview from 'components/TournamentOverview';
@@ -9,23 +10,54 @@ import { IBigRequest, IParams } from 'interfaces/common';
 import { IState } from 'redux-saga/reducers';
 import { searchTournaments } from 'components/Header/actions';
 import { queryListTournament, stopTournament, continueTournament } from './actions';
+import {
+  queryAllSports
+} from 'screens/CompetitionInfo/actions';
 import './styles.css';
 import { formatTournamentStatus } from 'utils/common';
+import { TOURNAMENT_STATUS } from 'global';
+import { formatDateToDisplay } from 'utils/datetime';
 
 interface IAllTournamentsProps extends React.ClassAttributes<AllTournaments> {
   listTournament: IParams | null;
   globalSearchString: string;
   type: 'user' | 'admin';
+  allSports: IParams[];
 
   queryListTournament(param: IBigRequest): void;
   searchTournaments(param: IBigRequest): void;
   stopTournament(param: IBigRequest): void;
   continueTournament(param: IBigRequest): void;
+  queryAllSports(): void;
 }
 
 interface IAllTournamentsState {
   activePage: number;
+  selectedSport: ValueType<OptionTypeBase>;
+  selectedStatus: ValueType<OptionTypeBase>;
 }
+
+let sportOptions: IParams[] = [];
+let statusOptions: IParams[] = [
+  {
+    value: '', label: '(Tất cả)'
+  },
+  {
+    value: TOURNAMENT_STATUS.INITIALIZING, label: 'Đang khởi tạo'
+  },
+  {
+    value: TOURNAMENT_STATUS.OPENING, label: 'Đang mở đăng kí'
+  },
+  {
+    value: TOURNAMENT_STATUS.PROCESSING, label: 'Đang diễn ra'
+  },
+  {
+    value: TOURNAMENT_STATUS.STOPPED, label: 'Đang bị ngưng bởi quản trị viên'
+  },
+  {
+    value: TOURNAMENT_STATUS.FINISHED, label: 'Đã kết thúc'
+  },
+];
 
 class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamentsState> {
   private configSheetData: ISheetDataConfig;
@@ -34,6 +66,10 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
     super(props);
     this.state = {
       activePage: 1,
+      selectedSport: { value: -1, label: '(Tất cả)' },
+      selectedStatus: {
+        value: '', label: '(Tất cả)'
+      },
     };
     this.configSheetData = {
       fixedColumnCount: 4,
@@ -118,7 +154,7 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
           width: 250,
           style: { justifyContent: 'center' },
           element: (rowData: IParams, rowIndex: number, style?: React.CSSProperties) => (
-            <div style={style}>{(rowData.Tournament as IParams).openingTime}</div>
+            <div style={style}>{formatDateToDisplay((rowData.Tournament as IParams).openingTime as string,'yyyy-MM-dd' , 'yyyy-MM-dd HH:mm:ss')}</div>
           ),
         },
         {
@@ -134,7 +170,7 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
           width: 250,
           style: { justifyContent: 'center' },
           element: (rowData: IParams, rowIndex: number, style?: React.CSSProperties) => (
-            <div style={style}>{(rowData.Tournament as IParams).closingTime}</div>
+            <div style={style}>{formatDateToDisplay((rowData.Tournament as IParams).closingTime as string, 'yyyy-MM-dd', 'yyyy-MM-dd HH:mm:ss')}</div>
           ),
         },
         // {
@@ -158,13 +194,32 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
   }
 
   shouldComponentUpdate(nextProps: IAllTournamentsProps, nextState: IAllTournamentsState) {
-    if (this.props.globalSearchString !== nextProps.globalSearchString && nextProps.globalSearchString === '') {
-      this.requestData();
+    if (this.props.allSports !== nextProps.allSports) {
+      sportOptions = [];
+      nextProps.allSports.map((item, index) => sportOptions.push({ value: item.id, label: item.fullName }));
+      sportOptions.unshift({ value: -1, label: '(Tất cả)' });
+      if (nextProps.allSports.length > 0) {
+        this.setState({
+          selectedSport: { value: -1, label: '(Tất cả)' },
+        });
+      }
+    }
+    if (this.props.globalSearchString !== nextProps.globalSearchString) {
+      if (nextProps.globalSearchString === '') {
+        this.requestData();
+      }
+      this.setState({
+        selectedSport: { value: -1, label: '(Tất cả)' },
+        selectedStatus: {
+          value: '', label: '(Tất cả)'
+        },
+      });
     }
     return true;
   }
 
   componentDidMount() {
+    this.props.queryAllSports();
     if (this.props.globalSearchString === '') {
       this.requestData();
     }
@@ -193,12 +248,14 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
   }
 
   private requestData = (page = 1) => {
-    console.log('this.props.type', this.props.type);
     const params = {
       path: '',
       param: {
+        searchString: '',
         page,
         limit: this.props.type === 'user' ? 9 : 10,
+        sportId: (this.state.selectedSport as IParams).value,
+        status: (this.state.selectedStatus as IParams).value,
       },
       data: {},
     }
@@ -213,6 +270,8 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
           page: pageNumber,
           limit: this.props.type === 'user' ? 9 : 10,
           searchString: this.props.globalSearchString,
+          sportId: (this.state.selectedSport as IParams).value,
+          status: (this.state.selectedStatus as IParams).value,
         },
         data: {},
       };
@@ -223,10 +282,100 @@ class AllTournaments extends React.Component<IAllTournamentsProps, IAllTournamen
     this.setState({ activePage: pageNumber });
   }
 
+  private onChangeSport = (value: ValueType<OptionTypeBase>) => {
+    if (this.props.globalSearchString !== '') {
+      const params = {
+        path: '',
+        param: {
+          page: 1,
+          limit: this.props.type === 'user' ? 9 : 10,
+          searchString: this.props.globalSearchString,
+          sportId: (value as IParams).value,
+          status: (this.state.selectedStatus as IParams).value,
+        },
+        data: {},
+      };
+      this.props.searchTournaments(params);
+    } else {
+      const params = {
+        path: '',
+        param: {
+          page: 1,
+          limit: this.props.type === 'user' ? 9 : 10,
+          searchString: '',
+          sportId: (value as IParams).value,
+          status: (this.state.selectedStatus as IParams).value,
+        },
+        data: {},
+      };
+      this.props.searchTournaments(params);
+    }
+    this.setState({
+      selectedSport: value,
+    });
+  }
+
+  private onChangeStatus = (value: ValueType<OptionTypeBase>) => {
+    if (this.props.globalSearchString !== '') {
+      const params = {
+        path: '',
+        param: {
+          page: 1,
+          limit: this.props.type === 'user' ? 9 : 10,
+          searchString: this.props.globalSearchString,
+          sportId: (this.state.selectedSport as IParams).value,
+          status: (value as IParams).value,
+        },
+        data: {},
+      };
+      this.props.searchTournaments(params);
+    } else {
+      const params = {
+        path: '',
+        param: {
+          page: 1,
+          limit: this.props.type === 'user' ? 9 : 10,
+          searchString: '',
+          sportId: (this.state.selectedSport as IParams).value,
+          status: (value as IParams).value,
+        },
+        data: {},
+      };
+      this.props.searchTournaments(params);
+    }
+    this.setState({
+      selectedStatus: value,
+    });
+  }
+
   render() {
     return (
       <div className="AllTournaments-container-container">
         <p className="AllTournaments-header-text">Tất cả các giải đấu</p>
+        <div className="AllTournaments-header-filter-container">
+          <div className="AllTournaments-header-filter-container AllTournaments-header-filter">
+            <p>Bộ môn: </p>
+            <Select
+              options={sportOptions}
+              className="Select"
+              defaultValue={this.state.selectedSport}
+              value={this.state.selectedSport}
+              onChange={this.onChangeSport}
+              maxMenuHeight={140}
+            />
+          </div>
+          <div className="AllTournaments-header-filter-container AllTournaments-header-filter">
+            <p style={{ width: '80px' }}>Trạng thái: </p>
+            <Select
+              options={statusOptions}
+              className="Select"
+              defaultValue={this.state.selectedStatus}
+              value={this.state.selectedStatus}
+              onChange={this.onChangeStatus}
+              maxMenuHeight={140}
+            />
+          </div>
+        </div>
         {this.props.globalSearchString !== '' && <p className="AllTournaments-search-text">Kết quả tìm kiếm cho: "{this.props.globalSearchString}"</p>}
         <div className={`${this.props.type === 'user' ? 'AllTournaments-container' : 'AllTournaments-container-admin'}`}>
           {this.props.listTournament && this.props.listTournament.Tournaments ? ((this.props.listTournament.Tournaments as unknown as IParams[]).length > 0 ? (this.props.type === 'user' ? (this.props.listTournament.Tournaments as IParams[]).map(
@@ -244,10 +393,11 @@ const mapStateToProps = (state: IState) => {
   return {
     listTournament: state.listTournament,
     globalSearchString: state.globalSearchString,
+    allSports: state.allSports,
   };
 };
 
 export default connect(
   mapStateToProps,
-  { queryListTournament, searchTournaments, stopTournament, continueTournament }
+  { queryListTournament, searchTournaments, stopTournament, continueTournament, queryAllSports }
 )(AllTournaments);

@@ -31,7 +31,7 @@ function* doEditTeam(request: IRequest<IBigRequest>) {
         data: {
           path: '',
           param: {
-            competitionId: request.data.data.competitionId,
+            tournamentId: request.data.data.tournamentId,
             limit: 999,
           },
           data: {},
