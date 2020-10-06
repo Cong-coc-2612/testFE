@@ -94,14 +94,14 @@
   position: absolute;
   top: 625px;
   right: 200px;
-  color: #002C69;
+  color: #676ec1;
 }
 
 .TournamentInfo-avatar-image {
   height: 200px;
   width: 200px;
   border-radius: 100px;
-  border: 2px solid white;
+  border: 2px solid black;
   position: absolute;
   margin-top: 100px;
   right: 50px;
@@ -113,7 +113,7 @@
   position: absolute;
   top: 300px;
   left: 250px;
-  color: #002C69;
+  color: #676ec1;
 }
 
 .TournamentInfo-Overlay2 {
@@ -154,7 +154,7 @@
 
 .TournamentInfo-login {
   border-radius: 10px;
-  background-color: #002C69;
+  background-color: #676ec1;
   width: 200px;
   height: 50px;
   justify-content: center;

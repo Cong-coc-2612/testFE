@@ -5,10 +5,11 @@
   margin-top: 50px;
   height: 500px;
   border-radius: 7px;
+  border: 1px solid black;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: #3d4351;
+  background-color: white;
 }
 
 .TournamentOverview-container :hover {
@@ -25,7 +26,7 @@
   width: 75px;
   height: 75px;
   border-radius: 40px;
-  border: 2px solid white;
+  border: 2px solid black;
   object-fit: cover;
 }
 
@@ -54,6 +55,7 @@
 }
 
 .TournamentOverview-name-text {
+  color: #3bbf1a;
   font-weight: bold;
 }
 

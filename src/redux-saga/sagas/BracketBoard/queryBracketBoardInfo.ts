@@ -225,7 +225,7 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
                   }
                 }
               }
-              listTableRR.push({ listRRRound, tableName: data.Schedule.groupStageSchedule.tables[i].tableName } as IParams);
+              listTableRR.push({ listRRRound, tableName: data.Schedule.groupStageSchedule.tables[i].tableName, tableId: data.Schedule.groupStageSchedule.tables[i].tableId } as IParams);
               listRRRound = [];
             }
             tempVar2 = { groupStage: { listTableRR } };

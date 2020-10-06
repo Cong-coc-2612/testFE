@@ -21,12 +21,17 @@ interface IBracketMatchProps extends React.ClassAttributes<BracketMatch> {
   matchInfo: IParams | null;
   totalRound: number;
   lowerBracket?: boolean;
-  competitionId: number;
+  tournamentId: number;
   roundRobin?: boolean;
   has34?: boolean;
   showAllDescription?: boolean;
   allMatches: IParams | null;
   swapAble: boolean;
+  finalStage: boolean;
+  tableId?: number;
+  matchType: 'se' | 'win' | 'lose' | 'rr' | 'sum';
+  dateNextRound: Date | null;
+  datePreviousRound: Date | null;
 
   queryMatchInfo(params: IBigRequest): void;
   finishMatch(params: IBigRequest): void;
@@ -111,20 +116,20 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
         listTeam.push(this.props.info.team2 as IParams);
         if (nextProps.matchInfo.status === MATCH_STATUS.PLAYING) {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
+          this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting finalStage={nextProps.finalStage} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
         } else {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
+          this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting finalStage={nextProps.finalStage} canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
         }
       } else {
         listTeam.push((this.props.info.data as IParams).team1 as IParams);
         listTeam.push((this.props.info.data as IParams).team2 as IParams);
         if (nextProps.matchInfo.status === MATCH_STATUS.PLAYING) {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
+          this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting finalStage={nextProps.finalStage} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
         } else {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
+          this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting finalStage={nextProps.finalStage} canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
         }
       }
     }
@@ -331,7 +336,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
     const params = {
       path: '',
       param: {
-        competitionId: this.props.competitionId,
+        tournamentId: this.props.tournamentId,
       },
       data: {},
     };
@@ -385,7 +390,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
           id: this.props.info.id,
         },
         data: {
-          competitionId: this.props.competitionId,
+          tournamentId: this.props.tournamentId,
         },
       }
       this.props.finishMatch(params);
@@ -396,7 +401,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
           id: (this.props.info.data as IParams).id,
         },
         data: {
-          competitionId: this.props.competitionId,
+          tournamentId: this.props.tournamentId,
         },
       }
       this.props.finishMatch(params);
@@ -404,7 +409,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
     const params = {
       path: '',
       param: {
-        competitionId: this.props.competitionId,
+        tournamentId: this.props.tournamentId,
       },
       data: {},
     };
@@ -424,12 +429,12 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
     if (this.props.roundRobin === true) {
       if (this.props.info.id == null) {
         this.tabList = ['Thông tin trận đấu'];
-        this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} allMatches={null} matchInfo={null} info={this.props.info as IParams} />];
+        this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={null} matchInfo={null} info={this.props.info as IParams} />];
       }
     } else {
       if ((this.props.info.data as IParams).id == null) {
         this.tabList = ['Thông tin trận đấu'];
-        this.tabComponentList = [<MatchDetail lowerBracket={this.props.lowerBracket} competitionId={this.props.competitionId} beforeInfo={this.props.info} allMatches={null} matchInfo={null} info={this.props.info.data as IParams} />];
+        this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={null} matchInfo={null} info={this.props.info.data as IParams} />];
       }
     }
     // if (this.props.info.listTeam.length === amountOfListTeamDisplayed && this.props.bracketStartedStatus === true) {
@@ -450,8 +455,8 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
           {this.props.info.id !== -1 && <div className="BracketMatch-info-container">
             <div className="BracketMatch-teams-container" onMouseOver={() => { this.setState({ iconVisible: true, }); }} onMouseOut={() => { this.setState({ iconVisible: false, }); }}>
               <div className="BracketMatch-team-container">
-                <BracketTeam swapAble={this.props.swapAble} score={this.state.team1Score} isWinner={this.state.winner === true} competitionId={this.props.competitionId} beforeInfo={this.props.info.team1 != null ? this.props.info.team1 as IParams : null} info={this.props.info.team1 != null ? (this.props.info.team1 as IParams).team as IParams : null} description={this.props.info.team1 != null ? (this.props.info.team1 as IParams).description as IParams : null} borderBottom={true} />
-                <BracketTeam swapAble={this.props.swapAble} score={this.state.team2Score} isWinner={this.state.winner === false} competitionId={this.props.competitionId} beforeInfo={this.props.info.team2 != null ? this.props.info.team2 as IParams : null} info={this.props.info.team2 != null ? (this.props.info.team2 as IParams).team as IParams : null} description={this.props.info.team2 != null ? (this.props.info.team2 as IParams).description as IParams : null} />
+                <BracketTeam swapAble={this.props.swapAble} score={this.state.team1Score} isWinner={this.state.winner === true} tournamentId={this.props.tournamentId} beforeInfo={this.props.info.team1 != null ? this.props.info.team1 as IParams : null} info={this.props.info.team1 != null ? (this.props.info.team1 as IParams).team as IParams : null} description={this.props.info.team1 != null ? (this.props.info.team1 as IParams).description as IParams : null} borderBottom={true} />
+                <BracketTeam swapAble={this.props.swapAble} score={this.state.team2Score} isWinner={this.state.winner === false} tournamentId={this.props.tournamentId} beforeInfo={this.props.info.team2 != null ? this.props.info.team2 as IParams : null} info={this.props.info.team2 != null ? (this.props.info.team2 as IParams).team as IParams : null} description={this.props.info.team2 != null ? (this.props.info.team2 as IParams).description as IParams : null} />
               </div>
               <div className="BracketMatch-matchSetting-container">
                 <div className={`BracketMatch-afterMatch-icon-container ${this.state.iconVisible === true && 'BracketMatch-afterMatch-icon-container-background'}`} onClick={() => this.handleOpenModal(0)}>
@@ -468,7 +473,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
             confirmButtonText={'Kết thúc'}
             confirmButtonVisible={this.state.confirmButtonModalVisible}
           >
-            <CustomTab tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={this.state.selectedIndexInTab} />
+            <CustomTab darkMode={true} tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={this.state.selectedIndexInTab} />
           </CustomModal>
         </div>
       );
@@ -497,7 +502,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
               <div className="BracketMatch-teams-container" onMouseOver={() => { this.setState({ iconVisible: true, }); }} onMouseOut={() => { this.setState({ iconVisible: false, }); }}>
                 <div className="BracketMatch-team-container">
                   <BracketTeam
-                    competitionId={this.props.competitionId}
+                    tournamentId={this.props.tournamentId}
                     beforeInfo={(this.props.info.data as IParams).team1 != null ? (this.props.info.data as IParams).team1 as IParams : null}
                     info={(this.props.info.data as IParams).team1 != null ? ((this.props.info.data as IParams).team1 as IParams).team as IParams : null}
                     description={(this.props.info.data as IParams).team1 != null ? ((this.props.info.data as IParams).team1 as IParams).description as IParams : null}
@@ -509,7 +514,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
                   />
                   <BracketTeam
                     showAllDescription={this.props.showAllDescription}
-                    competitionId={this.props.competitionId}
+                    tournamentId={this.props.tournamentId}
                     beforeInfo={(this.props.info.data as IParams).team1 != null ? (this.props.info.data as IParams).team2 as IParams : null}
                     info={(this.props.info.data as IParams).team2 != null ? ((this.props.info.data as IParams).team2 as IParams).team as IParams : null}
                     description={(this.props.info.data as IParams).team2 != null ? ((this.props.info.data as IParams).team2 as IParams).description as IParams : null}
@@ -554,7 +559,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
             confirmButtonText={'Kết thúc'}
             confirmButtonVisible={this.state.confirmButtonModalVisible}
           >
-            <CustomTab tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={0} onChangeSelectedIndex={this.onChangeSelectedIndex} />
+            <CustomTab darkMode={true} tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={0} onChangeSelectedIndex={this.onChangeSelectedIndex} />
           </CustomModal>
         </div>
       );
@@ -585,15 +590,13 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
           // }}
           >
             {/* height=số đội trong 1 match * 25px / 2 + 2 */}
-            <div className={`${
-              (
-                !((this.props.info.data as unknown as IParams).roundNo === this.props.totalRound &&
-                  this.props.lowerBracket === true) &&
-                this.props.info.left != null &&
-                (this.props.info.left as unknown as IParams).id !== -1 &&
-                !(((this.props.info.left as unknown as IParams).data as unknown as IParams).name as string).includes('A')) &&
-              'BracketMatch-preMatch-connector-border1'} ${
-              ((
+            <div className={`${(
+              !((this.props.info.data as unknown as IParams).roundNo === this.props.totalRound &&
+                this.props.lowerBracket === true) &&
+              this.props.info.left != null &&
+              (this.props.info.left as unknown as IParams).id !== -1 &&
+              !(((this.props.info.left as unknown as IParams).data as unknown as IParams).name as string).includes('A')) &&
+              'BracketMatch-preMatch-connector-border1'} ${((
                 this.props.info.left != null &&
                 (this.props.info.left as unknown as IParams).id !== -1)) &&
               ((this.props.info.data as unknown as IParams).roundNo as number) > 1 &&
@@ -601,9 +604,8 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
               'BracketMatch-preMatch-connector-borderrr'
               } BracketMatch-preMatch-connector-borderr`
             }></div>
-            <div className={`${
-              !((this.props.info.data as unknown as IParams).roundNo === this.props.totalRound &&
-                this.props.lowerBracket === true) &&
+            <div className={`${!((this.props.info.data as unknown as IParams).roundNo === this.props.totalRound &&
+              this.props.lowerBracket === true) &&
               this.props.info.right != null &&
               (this.props.info.right as unknown as IParams).id !== -1 &&
               'BracketMatch-preMatch-connector-border2-border'} BracketMatch-preMatch-connector-border2`}></div>
@@ -617,8 +619,8 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
             <p className={'BracketMatch-info-text No-margin-bottom'}>{this.props.info.time}</p>
             <div className="BracketMatch-teams-container" onMouseOver={() => { this.setState({ iconVisible: true, }); }} onMouseOut={() => { this.setState({ iconVisible: false, }); }}>
               <div className="BracketMatch-team-container">
-                <BracketTeam swapAble={this.props.swapAble} score={this.state.team1Score} isWinner={this.state.winner === true} competitionId={this.props.competitionId} beforeInfo={(this.props.info.data as IParams).team1 != null ? (this.props.info.data as IParams).team1 as IParams : null} info={(this.props.info.data as IParams).team1 != null ? ((this.props.info.data as IParams).team1 as IParams).team as IParams : null} description={((this.props.info.data as IParams).team1 as IParams).description as IParams} borderBottom={true} />
-                <BracketTeam swapAble={this.props.swapAble} score={this.state.team2Score} isWinner={this.state.winner === false} competitionId={this.props.competitionId} beforeInfo={(this.props.info.data as IParams).team2 != null ? (this.props.info.data as IParams).team2 as IParams : null} info={(this.props.info.data as IParams).team2 != null ? ((this.props.info.data as IParams).team2 as IParams).team as IParams : null} description={((this.props.info.data as IParams).team2 as IParams).description as IParams} />
+                <BracketTeam swapAble={this.props.swapAble} score={this.state.team1Score} isWinner={this.state.winner === true} tournamentId={this.props.tournamentId} beforeInfo={(this.props.info.data as IParams).team1 != null ? (this.props.info.data as IParams).team1 as IParams : null} info={(this.props.info.data as IParams).team1 != null ? ((this.props.info.data as IParams).team1 as IParams).team as IParams : null} description={((this.props.info.data as IParams).team1 as IParams).description as IParams} borderBottom={true} />
+                <BracketTeam swapAble={this.props.swapAble} score={this.state.team2Score} isWinner={this.state.winner === false} tournamentId={this.props.tournamentId} beforeInfo={(this.props.info.data as IParams).team2 != null ? (this.props.info.data as IParams).team2 as IParams : null} info={(this.props.info.data as IParams).team2 != null ? ((this.props.info.data as IParams).team2 as IParams).team as IParams : null} description={((this.props.info.data as IParams).team2 as IParams).description as IParams} />
               </div>
               <div className="BracketMatch-matchSetting-container">
                 <div className={`BracketMatch-afterMatch-icon-container ${this.state.iconVisible === true && 'BracketMatch-afterMatch-icon-container-background'}`} onClick={() => this.handleOpenModal(0)}>
@@ -647,7 +649,7 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
             confirmButtonText={'Kết thúc'}
             confirmButtonVisible={this.state.confirmButtonModalVisible}
           >
-            <CustomTab tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={this.state.selectedIndexInTab} />
+            <CustomTab darkMode={true} tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={this.state.selectedIndexInTab} />
           </CustomModal>
         </div >
       );

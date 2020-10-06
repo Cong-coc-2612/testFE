@@ -1,7 +1,7 @@
 .Footer-container {
   width: 100%;
   /* height: 200px; */
-  border-top: 1px solid white;
+  border-top: 1px solid black;
   margin-top: 50px;
   display: flex;
   flex-direction: row;
@@ -14,6 +14,7 @@
 .Footer-report-text {
   font-weight: bold;
   text-decoration: underline;
+  color: #676ec1;
 }
 
 .Footer-column-container {

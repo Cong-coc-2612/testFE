@@ -12,10 +12,8 @@ import './styles.css';
 
 interface IUserInfoTeamsProps extends React.ClassAttributes<UserInfoTeams> {
   id: number;
-  type: 'user' | 'competition' | 'tournament';
   listTeam: IParams[] | null;
   tournamentInfo: IParams | null;
-  competitionInfo: IParams | null;
   currentUserInfo: IParams | null;
   addItem?: boolean;
   tournamentStatus: string;
@@ -54,7 +52,7 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
     const params = {
       path: '',
       param: {
-        ...this.props.type === 'user' ? { userId: this.props.id } : (this.props.type === 'competition' ? { competitionId: this.props.id } : { tournamentId: this.props.id }),
+        tournamentId: this.props.id,
         limit: 999,
       },
       data: {},
@@ -112,7 +110,7 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
         shortName: this.state.teamShortNameToAdd,
         description: '',
         creatorId: this.props.currentUserInfo != null && this.props.currentUserInfo.id,
-        competitionId: this.props.id,
+        tournamentId: this.props.id,
       },
     };
     this.props.addATeamToCompetition(params);
@@ -132,7 +130,7 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
       <div className="UserInfoTeams-container">
         {this.props.listTeam != null ? (this.props.listTeam.length > 0 ?
           this.props.listTeam.map(
-            (item, index) => <UserInfoTeamsItem tournamentStatus={this.props.tournamentStatus} listTeam={this.props.listTeam as IParams[]} competitionInfo={this.props.competitionInfo} tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} />
+            (item, index) => <UserInfoTeamsItem tournamentStatus={this.props.tournamentStatus} listTeam={this.props.listTeam as IParams[]} tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} />
           ) : <p>Không tìm thấy đội nào!</p>) :
           <Skeleton />
         }

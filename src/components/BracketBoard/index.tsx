@@ -13,7 +13,7 @@ import { TOURNAMENT_STATUS } from 'global';
 
 interface IBracketBoardProps extends React.ClassAttributes<BracketBoard> {
   bracketBoardInfo: IParams | null;
-  competitionId: number;
+  tournamentId: number;
   listTeam: IParams[] | null;
   allMatches: IParams | null;
   finalStage: boolean;
@@ -67,7 +67,7 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
     let params: IBigRequest = {
       path: '',
       param: {
-        competitionId: this.props.competitionId,
+        tournamentId: this.props.tournamentId,
       },
       data: {},
     };
@@ -75,7 +75,7 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
     params = {
       path: '',
       param: {
-        competitionId: this.props.competitionId,
+        tournamentId: this.props.tournamentId,
         limit: 999,
       },
       data: {},
@@ -85,7 +85,7 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
       params = {
         path: '',
         param: {
-          competitionId: this.props.competitionId,
+          tournamentId: this.props.tournamentId,
         },
         data: {},
       };
@@ -107,7 +107,7 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                 <div className="BracketBoard-container">
                   {((this.props.bracketBoardInfo.finalStage as IParams).listRRRound as IParams[]).map((item, index) =>
                     <BracketRound
-                      competitionId={this.props.competitionId}
+                      tournamentId={this.props.tournamentId}
                       index={index}
                       info={item}
                       key={index}
@@ -116,6 +116,9 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                       roundRobin={true}
                       allMatches={this.props.allMatches}
                       swapAble={this.props.swapAble}
+                      finalStage={true}
+                      previousRound={index > 0 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listRRRound as IParams[])[index - 1] : null}
+                      nextRound={index < ((this.props.bracketBoardInfo!.finalStage as IParams).listRRRound as IParams[]).length - 1 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listRRRound as IParams[])[index + 1] : null}
                     />
                   )}
                 </div>
@@ -137,15 +140,15 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                   {this.props.bracketBoardInfo == null || this.props.listTeam == null || this.props.bracketBoardInfo.finalStage == null
                     ? <p>Chưa có thông tin!</p>
                     : ((this.props.bracketBoardInfo.finalStage as IParams).listRound != null ? ((this.props.bracketBoardInfo.finalStage as IParams).listRound as unknown as IParams[]).map((item, index) =>
-                      (<BracketRound swapAble={this.props.swapAble} allMatches={this.props.allMatches} has34={((this.props.bracketBoardInfo!.finalStage as IParams).listRound as IParams[])[((this.props.bracketBoardInfo!.finalStage as IParams).listRound as IParams[]).length - 1].roundName === 'Tranh Giải 3'} competitionId={this.props.competitionId} index={index} info={item} key={index} roundNo={index + 1} totalRound={((this.props.bracketBoardInfo!.finalStage as IParams).listRound! as unknown as IParams[]).length} />)) :
+                      (<BracketRound nextRound={index < ((this.props.bracketBoardInfo!.finalStage as IParams).listRound as IParams[]).length - 1 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listRound as IParams[])[index + 1] : null} previousRound={index > 0 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listRound as IParams[])[index - 1] : null} finalStage={true} swapAble={this.props.swapAble} allMatches={this.props.allMatches} has34={((this.props.bracketBoardInfo!.finalStage as IParams).listRound as IParams[])[((this.props.bracketBoardInfo!.finalStage as IParams).listRound as IParams[]).length - 1].roundName === 'Tranh Giải 3'} tournamentId={this.props.tournamentId} index={index} info={item} key={index} roundNo={index + 1} totalRound={((this.props.bracketBoardInfo!.finalStage as IParams).listRound! as unknown as IParams[]).length} />)) :
                       ((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as unknown as IParams[]).map((item, index) =>
-                        <BracketRound swapAble={this.props.swapAble} allMatches={this.props.allMatches} competitionId={this.props.competitionId} index={index} info={item} key={index} roundNo={index + 1} totalRound={((this.props.bracketBoardInfo!.finalStage as IParams).listWinRound! as unknown as IParams[]).length} />)
+                        <BracketRound nextRound={index < ((this.props.bracketBoardInfo!.finalStage as IParams).listWinRound as IParams[]).length - 1 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listWinRound as IParams[])[index + 1] : null} previousRound={index > 0 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listWinRound as IParams[])[index - 1] : null} finalStage={true} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} index={index} info={item} key={index} roundNo={index + 1} totalRound={((this.props.bracketBoardInfo!.finalStage as IParams).listWinRound! as unknown as IParams[]).length} />)
                     )
                   }
                 </div>
                 <div className="BracketBoard-container">
                   {this.props.bracketBoardInfo != null && this.props.bracketBoardInfo.finalStage && (this.props.bracketBoardInfo.finalStage as IParams).listLoseRound != null && ((this.props.bracketBoardInfo.finalStage as IParams).listLoseRound as unknown as IParams[]).map((item, index) =>
-                    <BracketRound swapAble={this.props.swapAble} allMatches={this.props.allMatches} competitionId={this.props.competitionId} index={index} info={item} key={index} roundNo={index + 1} totalRound={((this.props.bracketBoardInfo!.finalStage as IParams).listLoseRound! as unknown as IParams[]).length} />)}
+                    <BracketRound nextRound={index < ((this.props.bracketBoardInfo!.finalStage as IParams).listLoseRound as IParams[]).length - 1 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listLoseRound as IParams[])[index + 1] : null} previousRound={index > 0 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listLoseRound as IParams[])[index - 1] : null} finalStage={true} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} index={index} info={item} key={index} roundNo={index + 1} totalRound={((this.props.bracketBoardInfo!.finalStage as IParams).listLoseRound! as unknown as IParams[]).length} />)}
                 </div>
                 <div className="BracketBoard-container">
                   {
@@ -154,7 +157,7 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                     (this.props.bracketBoardInfo.finalStage as IParams).listSumRound != null &&
                     ((this.props.bracketBoardInfo.finalStage as IParams).listSumRound as IParams[]).length > 0 &&
                     ((this.props.bracketBoardInfo.finalStage as IParams).listSumRound as IParams[]).map((item, index) =>
-                      <BracketRound swapAble={this.props.swapAble} allMatches={this.props.allMatches} competitionId={this.props.competitionId} index={index} info={item} key={index} roundNo={index + 1} totalRound={2} />)
+                      <BracketRound nextRound={index < ((this.props.bracketBoardInfo!.finalStage as IParams).listSumRound as IParams[]).length - 1 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listSumRound as IParams[])[index + 1] : null} previousRound={index > 0 ? ((this.props.bracketBoardInfo!.finalStage as IParams).listSumRound as IParams[])[index - 1] : null} finalStage={true} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} index={index} info={item} key={index} roundNo={index + 1} totalRound={2} />)
                   }
                 </div>
               </div>
@@ -179,9 +182,9 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                       <p>Bảng {item.tableName}</p>
                     </div>
                     <div className="BracketBoard-container">
-                      {(item.listRRRound as IParams[]).length > 0 ? ((item.listRRRound as IParams[]).map((item2, index2) =>
-                        <BracketRound
-                          competitionId={this.props.competitionId}
+                      {(item.listRRRound as IParams[]).length > 0 ? ((item.listRRRound as IParams[]).map((item2, index2) => {
+                        return <BracketRound
+                          tournamentId={this.props.tournamentId}
                           index={index2}
                           info={item2}
                           key={index2}
@@ -190,7 +193,12 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                           roundRobin={true}
                           allMatches={this.props.allMatches}
                           swapAble={this.props.swapAble}
+                          finalStage={false}
+                          tableId={item.tableId as number}
+                          previousRound={index2 > 0 ? (item.listRRRound as IParams[])[index2 - 1] : null}
+                          nextRound={index2 < (item.listRRRound as IParams[]).length - 1 ? (item.listRRRound as IParams[])[index2 + 1] : null}
                         />
+                      }
                       )) : <p>Không thể lập lịch cho bảng này!</p>}
                     </div>
                   </div>)}
@@ -218,14 +226,17 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                             (item.listRound as IParams[]).map((item2, index2) =>
                               (<BracketRound
                                 allMatches={this.props.allMatches}
-                                competitionId={this.props.competitionId}
+                                tournamentId={this.props.tournamentId}
                                 index={index2}
                                 info={item2}
                                 key={index2}
                                 roundNo={index2 + 1}
                                 swapAble={this.props.swapAble}
                                 totalRound={(item.listRound as IParams[]).length}
+                                finalStage={false}
                                 has34={(item.listRound as IParams[])[(item.listRound as IParams[]).length - 1].roundName === 'Tranh Giải 3'}
+                                previousRound={index2 > 0 ? (item.listRound as IParams[])[index2 - 1] : null}
+                                nextRound={index2 < (item.listRound as IParams[]).length - 1 ? (item.listRound as IParams[])[index2 + 1] : null}
                               />)) :
                             <p>Không thể lập lịch cho bảng này!</p>
                           )
@@ -253,7 +264,7 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                         <div className="BracketBoard-container">
                           {(item.listWinRound != null && (item.listWinRound as IParams[]).length > 0 ?
                             (item.listWinRound as IParams[]).map((item2, index2) =>
-                              (<BracketRound swapAble={this.props.swapAble} allMatches={this.props.allMatches} competitionId={this.props.competitionId} index={index2} info={item2} key={index2} roundNo={index2 + 1} totalRound={(item.listWinRound as IParams[]).length} />)) :
+                              (<BracketRound nextRound={index2 < (item.listWinRound as IParams[]).length - 1 ? (item.listWinRound as IParams[])[index2 + 1] : null} previousRound={index2 > 0 ? (item.listWinRound as IParams[])[index2 - 1] : null} finalStage={false} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} index={index2} info={item2} key={index2} roundNo={index2 + 1} totalRound={(item.listWinRound as IParams[]).length} />)) :
                             <p>Không thể lập lịch cho bảng này!</p>
                           )
                           }
@@ -261,14 +272,14 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                         <div className="BracketBoard-container">
                           {(item.listLoseRound != null && (item.listLoseRound as IParams[]).length > 0 &&
                             (item.listLoseRound as IParams[]).map((item2, index2) =>
-                              (<BracketRound swapAble={this.props.swapAble} allMatches={this.props.allMatches} competitionId={this.props.competitionId} index={index2} info={item2} key={index2} roundNo={index2 + 1} totalRound={(item.listLoseRound as IParams[]).length} />))
+                              (<BracketRound nextRound={index2 < (item.listLoseRound as IParams[]).length - 1 ? (item.listLoseRound as IParams[])[index2 + 1] : null} previousRound={index2 > 0 ? (item.listLoseRound as IParams[])[index2 - 1] : null} finalStage={false} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} index={index2} info={item2} key={index2} roundNo={index2 + 1} totalRound={(item.listLoseRound as IParams[]).length} />))
                           )
                           }
                         </div>
                         <div className="BracketBoard-container">
                           {(item.listSumRound != null && (item.listSumRound as IParams[]).length > 0 &&
                             (item.listSumRound as IParams[]).map((item2, index2) =>
-                              (<BracketRound swapAble={this.props.swapAble} allMatches={this.props.allMatches} competitionId={this.props.competitionId} index={index2} info={item2} key={index2} roundNo={index2 + 1} totalRound={2} />))
+                              (<BracketRound nextRound={index2 < (item.listSumRound as IParams[]).length - 1 ? (item.listSumRound as IParams[])[index2 + 1] : null} previousRound={index2 > 0 ? (item.listSumRound as IParams[])[index2 - 1] : null} finalStage={false} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} index={index2} info={item2} key={index2} roundNo={index2 + 1} totalRound={2} />))
                           )
                           }
                         </div>

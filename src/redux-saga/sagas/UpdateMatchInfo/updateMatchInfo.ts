@@ -36,7 +36,7 @@ function* doUpdateMatchInfo(request: IRequest<IBigRequest>) {
         data: {
           path: '',
           param: {
-            competitionId: request.data.data.competitionId,
+            tournamentId: request.data.data.tournamentId,
           },
           data: {},
         },

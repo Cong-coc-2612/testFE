@@ -16,7 +16,7 @@ function* doQueryAllFormat(request: IRequest<null>) {
     if (response.data.error.MessageCode === 0) {
       yield put({
         type: request.response.success,
-        payload: data.CompetitionSettings,
+        payload: data.TournamentSettings,
       });
     } else {
       throw new Error(response.data.error.Message);

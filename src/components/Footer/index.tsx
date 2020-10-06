@@ -158,14 +158,14 @@ class Footer extends React.Component<IFooterProps, IFooterState> {
         <div className={'Footer-column-container'}>
           <p>Liên hệ</p>
           <div className={'Footer-icon-container'}>
-            <a href={'https://www.facebook.com/nhan.phantrong.355/'} target={'_blank'}>
-              <AiFillFacebook color={'white'} size={40} />
+            <a href={'https://www.facebook.com/nhan.phantrong.355/'} target={'_blank'} rel="noopener noreferrer">
+              <AiFillFacebook color={'black'} size={40} />
             </a>
-            <a href={'mailto:nhanptse05568@fpt.edu.vn'} target={'_blank'}>
-              <GoMail color={'white'} size={40} />
+            <a href={'mailto:nhanptse05568@fpt.edu.vn'} target={'_blank'} rel="noopener noreferrer">
+              <GoMail color={'black'} size={40} />
             </a>
-            <a href={'https://github.com/SWP2020/SportTournamentSupportSystem'} target={'_blank'}>
-              <AiFillGithub color={'white'} size={40} />
+            <a href={'https://github.com/SWP2020/SportTournamentSupportSystem'} target={'_blank'} rel="noopener noreferrer">
+              <AiFillGithub color={'black'} size={40} />
             </a>
           </div>
           <p>Địa chỉ: Trường đại học FPT, Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. Hà Nội</p>
@@ -187,10 +187,10 @@ class Footer extends React.Component<IFooterProps, IFooterState> {
               <h1>Form Báo cáo</h1>
             </div>
             <div className={'Report-modal-subject-input-container'}>
-              <p>Tiêu đề: </p>
+              <p style={{ color: 'white', fontSize: '20px' }}>Tiêu đề: </p>
               <input style={{ width: '200px', height: '25px', marginLeft: '20px' }} type={'text'} onChange={this.onChangeSubjectForm} value={this.state.subjectForm} />
             </div>
-            <p>Nội dung báo cáo: </p>
+            <p style={{ color: 'white', fontSize: '20px' }}>Nội dung báo cáo: </p>
             <textarea rows={7} cols={60} value={this.state.detailReportForm} onChange={this.onChangeDetailReportForm}></textarea>
             {this.state.subjectFormError === true && <p style={{ color: 'red' }}>{this.state.subjectFormErrorContent}</p>}
             {this.state.detailReportFormError === true && <p style={{ color: 'red' }}>{this.state.detailReportFormErrorContent}</p>}

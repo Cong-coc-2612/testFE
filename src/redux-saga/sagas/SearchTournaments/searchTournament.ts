@@ -5,7 +5,7 @@ import { SEARCH_TOURNAMENT, COMMON_SHOW_NOTIFICATION } from 'redux-saga/actions'
 
 
 const searchTournament = (data: IParams, path: string | number, param: IParams) => {
-  const uri = 'tournaments/getBySearchString';
+  const uri = 'tournaments/getBySearchStringAndSportAndStatus';
   const datas = { ...data };
   const paths = path;
   const params = { ...param };

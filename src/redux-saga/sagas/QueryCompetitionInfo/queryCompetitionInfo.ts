@@ -19,7 +19,7 @@ function* doQueryCompetitionInfo(request: IRequest<IBigRequest>) {
     if (response.data.error.MessageCode === 0) {
       yield put({
         type: request.response.success,
-        payload: { Competition: data.competition, Config: response.data.config.Global},
+        payload: { Competition: data.competition, Config: response.data.config.Global },
       });
     } else {
       throw new Error(response.data.error.Message);

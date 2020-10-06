@@ -17,6 +17,7 @@ import config from 'config';
 interface IHeaderProps extends React.ClassAttributes<Header> {
   currentPage: 'competitionInfo' | 'login' | 'signUp' | 'tournaments' | 'tournamentInfo' | 'reports' | 'users' | 'userInfo' | 'home' | 'forgotPassword' | 'newTournament' | 'changePassword' | 'active';
   currentUserInfo: IParams | null;
+  globalSearchString: string;
 
   logOut(): void;
   searchTournaments(params: IBigRequest): void;
@@ -75,30 +76,47 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
   }
 
   private handleSearch = () => {
-    const params = {
-      path: '',
-      param: {
-        page: 1,
-        limit: 9,
-        searchString: this.state.searchText,
-      },
-      data: {},
-    };
-
-    this.props.setGlobalSearchString(this.state.searchText.trim());
-    if ((this.state.selectedSearchOption as IParams).value === 1) {
-      this.props.searchTournaments(params);
-      if (this.props.currentUserInfo != null && this.props.currentUserInfo.roleId === 1) {
-        history.push("/admin/tournaments");
+    if (this.state.searchText !== this.props.globalSearchString || this.state.searchText === '') {
+      let params: IBigRequest;
+      if ((this.state.selectedSearchOption as IParams).value === 1) {
+        params = {
+          path: '',
+          param: {
+            page: 1,
+            limit: 9,
+            searchString: this.state.searchText,
+            sportId: -1,
+            status: '',
+          },
+          data: {},
+        };
       } else {
-        history.push("/tournaments");
+        params = {
+          path: '',
+          param: {
+            page: 1,
+            limit: 9,
+            searchString: this.state.searchText,
+          },
+          data: {},
+        };
       }
-    } else {
-      this.props.searchUsers(params);
-      if (this.props.currentUserInfo != null && this.props.currentUserInfo.roleId === 1) {
-        history.push("/admin/users");
+
+      this.props.setGlobalSearchString(this.state.searchText.trim());
+      if ((this.state.selectedSearchOption as IParams).value === 1) {
+        this.props.searchTournaments(params);
+        if (this.props.currentUserInfo != null && this.props.currentUserInfo.roleId === 1) {
+          history.push("/admin/tournaments");
+        } else {
+          history.push("/tournaments");
+        }
       } else {
-        history.push("/users");
+        this.props.searchUsers(params);
+        if (this.props.currentUserInfo != null && this.props.currentUserInfo.roleId === 1) {
+          history.push("/admin/users");
+        } else {
+          history.push("/users");
+        }
       }
     }
   }
@@ -191,7 +209,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
               <div className={'UserOption-avatar-container'}>
                 <img className={'UserOption-avatar-image'} src={this.state.errorLoadImage === false ? (currentUserInfo.avatar != null ? currentUserInfo.avatar as string : '') : config.defaultAvatar} alt={'logo'} onError={this.onImageError} />
               </div>
-              <p className={'UserOption-name-text'}>{`${currentUserInfo.firstName}`}</p>
+              <p className={'UserOption-name-text'}>{`${currentUserInfo.username}`}</p>
               {this.state.showUserOption === true ? <FaChevronDown color={'white'} /> : <FaChevronUp color={'white'} />}
             </div>
             {this.state.showUserOption === true &&
@@ -200,16 +218,16 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
               >
                 <Link to={`/user/${currentUserInfo.id}`} style={{ textDecoration: 'none' }}>
                   <div className={'UserOption-dropdown-item-container UserOption-dropdown-item-container1'}>
-                    <p>Thông tin</p>
+                    <p className={'UserOption-text-color-white'}>Thông tin</p>
                   </div>
                 </Link>
                 <Link to={`/changePassword`} style={{ textDecoration: 'none' }}>
                   <div className={'UserOption-dropdown-item-container UserOption-dropdown-item-container2'}>
-                    <p>Đổi mật khẩu</p>
+                    <p className={'UserOption-text-color-white'}>Đổi mật khẩu</p>
                   </div>
                 </Link>
                 <div className={'UserOption-dropdown-item-container UserOption-dropdown-item-container1'} onClick={this.logOut}>
-                  <p>Đăng xuất</p>
+                  <p className={'UserOption-text-color-white'}>Đăng xuất</p>
                 </div>
               </div>
             }
@@ -232,6 +250,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 const mapStateToProps = (state: IState) => {
   return {
     currentUserInfo: state.currentUserInfo,
+    globalSearchString: state.globalSearchString,
   };
 };
 

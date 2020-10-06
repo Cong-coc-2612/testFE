@@ -19,12 +19,12 @@
 }
 
 h2 {
-  color: white;
+  color: #3bbf1a;
   align-self: flex-start;
 }
 
 p {
-  color: white;
+  color: #323232;
 }
 
 .Long-introduction {
@@ -67,15 +67,15 @@ p {
 }
 
 .Checkbox-label {
-  color: #d8d8d8;
+  color: #323232;
 }
 
 .Forgot-password2 {
-  color: #0066F5;
+  color: #676ec1;
 }
 
 .Button-login-container {
-  background-color: #002C69;
+  background-color: #676ec1;
   margin-top: 25px;
   border-radius: 10px;
 }

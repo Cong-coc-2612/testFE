@@ -1,5 +1,5 @@
 .TournamentSetting-container {
-  color: white;
+  color: #323232;
   display: flex;
   flex-direction: column;
 }
@@ -12,6 +12,7 @@
 .TournamentSetting-header-text {
   font-size: 25px;
   font-weight: bold;
+  color: #3bbf1a;
 }
 
 .TournamentSetting-listManager-container {
@@ -74,7 +75,7 @@
 
 .TournamentSetting-button {
   border-radius: 10px;
-  background-color: #002C69;
+  background-color: #676ec1;
   width: 10rem;
   height: 50px;
   justify-content: center;

@@ -1,6 +1,6 @@
 .Header-container {
   height: 50px;
-  background-color: #000C1C;
+  background-color: #3bbf1a;
   display: flex;
   flex-direction: row;
   position: fixed;
@@ -25,7 +25,7 @@
 }
 
 .Option-container1 {
-  background-color: black;
+  background-color: #177300;
 }
 
 .SearchBar-container {
@@ -39,7 +39,7 @@
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  border: 2px solid white;
+  border: 2px solid black;
 }
 
 .Right-container {
@@ -56,9 +56,9 @@
 }
 
 .Option-container :hover {
-  background-color: black;
+  background-color: #177300;
   cursor: pointer;
-  color: #002C69;
+  color: #676ec1;
 }
 
 .Link-text {
@@ -68,7 +68,7 @@
 }
 
 .Link-text-selected {
-  color: #006FFF !important;
+  color: #e88cff !important;
 }
 
 .Link-text-no-hover {
@@ -86,7 +86,7 @@
 }
 
 .SignUp-Button-container {
-  background-color: #0046A8;
+  background-color: #676ec1;
   border-radius: 15px;
   height: 30px;
   padding-left: 20px;
@@ -109,6 +109,8 @@
 .UserOption-name-text {
   margin-right: 15px;
   margin-left: 15px;
+  color: white;
+  font-weight: bold;
 }
 
 .UserOption-avatar-container {
@@ -135,16 +137,16 @@
 }
 
 .UserOption-dropdown-item-container1 {
-  background-color: #000C1C;
+  background-color: #3bbf1a;
 }
 
 .UserOption-dropdown-item-container2 {
-  background-color: #3d4351;
+  background-color: #676ec1;
 }
 
 .Right-container-hover :hover {
   cursor: pointer;
-  background-color: black;
+  background-color: #177300;
 }
 
 .Select1 {
@@ -160,6 +162,10 @@
 .Header-icon {
   color: white;
   width: 30px;
+}
+
+.UserOption-text-color-white {
+  color: white;
 }
 
 .Header-icon-container {

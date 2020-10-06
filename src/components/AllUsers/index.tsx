@@ -11,6 +11,7 @@ import { searchUsers } from 'components/Header/actions';
 import { formatGender, formatUserStatus } from 'utils/common';
 import { queryListUsers, deActiveUser, activeUser, setAdmin } from './actions';
 import './styles.css';
+import { formatDateToDisplay } from 'utils/datetime';
 
 interface IAllUsersProps extends React.ClassAttributes<AllUsers> {
   listUsers: IParams | null;
@@ -111,7 +112,7 @@ class AllUsers extends React.Component<IAllUsersProps, IAllUsersState> {
           width: 130,
           style: { justifyContent: 'center' },
           element: (rowData: IParams, rowIndex: number, style?: React.CSSProperties) => (
-            <div style={style}>{rowData.dob}</div>
+            <div style={style}>{formatDateToDisplay(rowData.dob as string, 'yyyy-MM-dd', 'yyyy-MM-dd HH:mm:ss')}</div>
           ),
         },
         {

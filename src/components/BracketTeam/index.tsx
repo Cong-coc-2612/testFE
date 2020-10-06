@@ -13,7 +13,7 @@ interface IBracketTeamProps extends React.ClassAttributes<BracketTeam> {
   listTeam: IParams[] | null;
   editBracketMode: boolean;
   listTeamSelecting: number[];
-  competitionId: number;
+  tournamentId: number;
   beforeInfo: IParams | null;
   showAllDescription?: boolean;
   isWinner: boolean;
@@ -64,7 +64,7 @@ class BracketTeam extends React.Component<IBracketTeamProps, IBracketTeamState> 
               if (this.props.description != null && this.props.description.descType === 0 && this.props.info == null && this.props.swapAble === true) {
                 this.props.addListTeamSelecting({
                   listTeamId: [...this.props.listTeamSelecting, this.props.listTeam![(this.props.description.unitIndex as number) - 1].id as number],
-                  competitionId: this.props.competitionId,
+                  tournamentId: this.props.tournamentId,
                 });
                 this.props.onEditBracketMode(!this.props.editBracketMode);
               }

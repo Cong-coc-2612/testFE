@@ -130,11 +130,11 @@ class AllReports extends React.Component<IAllReportsProps, IAllReportsState> {
                     <div className="UserInfoTeamsItem-container-container" onClick={() => this.handleSeeMore(item)}>
                       <div className="UserInfoTeamsItem-order-number-container">
                         <div className="UserInfoTeamsItem-order-number-box">
-                          <p>{index + 1}</p>
+                          <p style={{ color: 'white' }}>{index + 1}</p>
                         </div>
                       </div>
                       <div className="UserInfoTeamsItem-team-name-container">
-                        <p>{item.subject}</p>
+                        <p style={{ color: 'white' }}>{item.subject}</p>
                       </div>
                     </div>
                   </div>
@@ -157,8 +157,8 @@ class AllReports extends React.Component<IAllReportsProps, IAllReportsState> {
             <div className={'Report-modal-header-container'}>
               <h1>Báo cáo</h1>
             </div>
-            <p className={'Report-modal-text'}>Tiêu đề: {this.info && this.info.subject}</p>
-            <p className={'Report-modal-text'}>Nội dung báo cáo: {this.info && this.info.content}</p>
+            <p style={{ color: 'white', fontSize: '25px' }}>Tiêu đề: <span style={{ color: 'white', fontSize: '18px' }}>{this.info && this.info.subject}</span></p>
+            <p style={{ color: 'white', fontSize: '25px' }}>Nội dung báo cáo: <span style={{ color: 'white', fontSize: '18px' }}>{this.info && this.info.content}</span></p>
           </div>
         </CustomModal>
       </div>

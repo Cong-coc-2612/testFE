@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { FaRunning } from 'react-icons/fa';
 import { IoIosPeople } from 'react-icons/io';
 import { IParams } from 'interfaces/common';
+import { formatDateToDisplay } from 'utils/datetime';
 import config from 'config';
 import './styles.css';
-import { formatDateToDisplay } from 'utils/datetime';
 
 interface ITournamentOverviewProps extends React.ClassAttributes<TournamentOverview> {
   info: IParams;
@@ -60,18 +60,18 @@ class TournamentOverview extends React.Component<ITournamentOverviewProps, ITour
           </div>
           <div className="TournamentOverview-info-container">
             <div className="TournamentOverview-info-item">
-              <FaRunning size={25} color={'white'} />
+              <FaRunning size={25} color={'black'} />
               <p className="TournamentOverview-text">{((moreInfo as unknown as IParams).sportsName as unknown as IParams[]).map((item, index) => `${index > 0 ? `, ${item}` : item}`)}</p>
             </div>
             <div className="TournamentOverview-info-item">
-              <IoIosPeople size={25} color={'white'} />
+              <IoIosPeople size={25} color={'black'} />
               <p className="TournamentOverview-text">{(moreInfo as unknown as IParams).countTeam} Đội tham gia</p>
             </div>
             <div className="TournamentOverview-info-item">
               <p>Khai mạc ngày: {`${(info as IParams).openingTime != null && formatDateToDisplay((info as IParams).openingTime as string, 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}`}</p>
             </div>
             <div className="TournamentOverview-info-item">
-              <p>Khai mạc ngày: {`${(info as IParams).closingTime != null && formatDateToDisplay((info as IParams).closingTime as string, 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}`}</p>
+              <p>Bế mạc ngày: {`${(info as IParams).closingTime != null && formatDateToDisplay((info as IParams).closingTime as string, 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss')}`}</p>
             </div>
             <div className="TournamentOverview-info-item">
               <p>Tiến trình giải: {(moreInfo as unknown as IParams).process}%</p>

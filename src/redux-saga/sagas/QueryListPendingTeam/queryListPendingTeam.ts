@@ -5,7 +5,7 @@ import { COMMON_SHOW_NOTIFICATION, QUERY_LIST_PENDING_TEAM } from 'redux-saga/ac
 
 
 const queryListPendingTeam = (data: IParams, path: string | number, param: IParams) => {
-  const uri = 'teams/getPendingTeamsByCompetitionId';
+  const uri = 'teams/getPendingTeamsByTournamentId';
   const datas = { ...data };
   const paths = path;
   const params = { ...param };

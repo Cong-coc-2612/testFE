@@ -9,10 +9,8 @@ import './styles.css';
 
 interface IPendingTeamsProps extends React.ClassAttributes<PendingTeams> {
   id: number;
-  type: 'user' | 'competition' | 'tournament';
   listPendingTeam: IParams[] | null;
   tournamentInfo: IParams | null;
-  competitionInfo: IParams | null;
   currentUserInfo: IParams | null;
   addItem?: boolean;
 
@@ -37,7 +35,7 @@ class PendingTeams extends React.Component<IPendingTeamsProps, IPendingTeamsStat
     const params = {
       path: '',
       param: {
-        competitionId: this.props.id,
+        tournamentId: this.props.id,
         limit: 999,
       },
       data: {},
@@ -51,7 +49,7 @@ class PendingTeams extends React.Component<IPendingTeamsProps, IPendingTeamsStat
         {this.props.listPendingTeam != null ? (this.props.listPendingTeam.length > 0 ?
           this.props.listPendingTeam.map(
             (item, index) =>
-            <PendingTeamsItem competitionInfo={this.props.competitionInfo} tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} />
+            <PendingTeamsItem tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} />
           ) : <p>Không tìm thấy đội nào!</p>) :
           <Skeleton />
         }

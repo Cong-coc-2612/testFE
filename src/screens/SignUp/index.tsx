@@ -214,19 +214,19 @@ class SignUp extends React.Component<ISignUpProps, ISignUpState> {
     let reconfirmPasswordError = false;
     if (this.state.password.includes(' ') || !config.regex.password.test(this.state.password) || this.state.password.trim() === '') {
       passwordError = true;
-      passwordErrorContent = 'Mật khẩu không được trống, không chứa dấu cách, và phải chứa từ 8 đến 32 kí tự';
+      passwordErrorContent = 'Mật khẩu không chứa kí tự đặc biệt, và phải chứa từ 8 đến 32 kí tự';
     }
     if (this.state.username.trim() === '' || !config.regex.username.test(this.state.username)) {
       usernameError = true;
-      usernameErrorContent = 'Tên đăng nhập không được trống, và phải chứa từ 8 đến 32 kí tự';
+      usernameErrorContent = 'Tên đăng nhập phải chứa từ 8 đến 32 kí tự';
     }
-    if (this.state.firstName.trim() === '') {
+    if (this.state.firstName.trim() === '' || !config.regex.userName.test(this.state.firstName)) {
       firstNameError = true;
-      firstNameErrorContent = 'Tên không được trống';
+      firstNameErrorContent = 'Tên không được trống, và không chứa kí tự đặc biệt';
     }
-    if (this.state.lastName.trim() === '') {
+    if (this.state.lastName.trim() === '' || !config.regex.userShortName.test(this.state.lastName)) {
       lastNameError = true;
-      lastNameErrorContent = 'Họ không được trống';
+      lastNameErrorContent = 'Họ không được trống, và không chứa kí tự đặc biệt';
     }
     if (this.state.email.trim() === '' || !config.regex.email.test(this.state.email)) {
       emailError = true;
@@ -234,7 +234,7 @@ class SignUp extends React.Component<ISignUpProps, ISignUpState> {
     }
     if (this.state.reConfirmPassword !== this.state.password) {
       reconfirmPasswordError = true;
-      reconfirmPasswordErrorContent = 'Nhập lại mật khẩu phải giống mật khẩu';
+      reconfirmPasswordErrorContent = 'Xác nhận mật khẩu phải giống mật khẩu';
     }
 
     return { passwordError, passwordErrorContent, usernameErrorContent, usernameError, emailErrorContent, emailError, reconfirmPasswordErrorContent, reconfirmPasswordError, firstNameError, firstNameErrorContent, lastNameError, lastNameErrorContent };
