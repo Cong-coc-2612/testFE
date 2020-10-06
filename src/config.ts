@@ -48,10 +48,16 @@ export interface IConfig {
 let config: IConfig = {
   apiUrl: {
     // baseURI: 'http://172.20.10.8:8090/',nham'11
-    baseURI: 'http://192.168.1.7:8090/',
+
+    // baseURI: 'http://192.168.1.7:8090/',
     // baseURI: 'http://172.20.10.9:8090/',dc
     // baseURI: 'http://192.168.43.170:8090/',
     // baseURI: 'http://172.20.10.9:8090/',
+
+    //baseURI: 'http://192.168.1.119:8090/',
+    //baseURI: 'http://192.168.43.170:8090/',
+    //baseURI: 'https://sport-tournaments-support.herokuapp.com/',
+    baseURI: 'https://sport-tournament-support-system.azurewebsites.net/',
     // long sama
     tradeX: {},
     domain: {},
