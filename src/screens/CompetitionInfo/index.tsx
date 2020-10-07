@@ -31,7 +31,6 @@ import { queryAllCompetitionsByTournamentId } from 'components/CompetitionsSetti
 import BracketBoard from 'components/BracketBoard';
 import Teams from 'components/Teams';
 import BracketSchedule from 'components/BracketSchedule';
-import BracketRank from 'components/BracketRank';
 import PendingTeams from 'components/PendingTeams';
 import { queryTournamentInfo, reportViolation, registTeam } from 'screens/TournamentInfo/actions';
 import { cookies } from 'utils/cookies';
@@ -261,13 +260,13 @@ class CompetitionInfo extends React.Component<ICompetitionInfoProps, ICompetitio
           this.tabList = [
             'Nhánh thi đấu vòng chung kết',
             'Lịch thi đấu vòng chung kết',
-            'BXH vòng chung kết',
+            // 'BXH vòng chung kết',
             'Các đội tham gia'
           ];
           this.componentList = [
             <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
             <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
-            <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
+            // <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
             <Teams tournamentStatus={''} tournamentInfo={nextProps.tournamentInfo} id={(nextProps.competitionInfo.Competition as IParams).id as number} />
           ];
         } else {
@@ -288,13 +287,13 @@ class CompetitionInfo extends React.Component<ICompetitionInfoProps, ICompetitio
             this.tabList = [
               'Nhánh thi đấu vòng chung kết',
               'Lịch thi đấu vòng chung kết',
-              'BXH vòng chung kết',
+              // 'BXH vòng chung kết',
               'Các đội tham gia'
             ];
             this.componentList = [
               <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
               <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
-              <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
+              // <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
               <Teams tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentInfo={nextProps.tournamentInfo} id={(nextProps.competitionInfo.Competition as IParams).id as number} />
             ];
           }
@@ -320,19 +319,19 @@ class CompetitionInfo extends React.Component<ICompetitionInfoProps, ICompetitio
             this.tabList = [
               'Nhánh thi đấu vòng bảng',
               'Lịch thi đấu vòng bảng',
-              'BXH vòng bảng',
+              // 'BXH vòng bảng',
               'Nhánh thi đấu vòng chung kết',
               'Lịch thi đấu vòng chung kết',
-              'BXH vòng chung kết',
+              // 'BXH vòng chung kết',
               'Các đội tham gia'
             ];
             this.componentList = [
               <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={false} />,
               <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={false} />,
-              <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={false} />,
+              // <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={false} />,
               <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
               <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
-              <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
+              // <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
               <Teams tournamentStatus={''} tournamentInfo={nextProps.tournamentInfo} id={(nextProps.competitionInfo.Competition as IParams).id as number} />
             ];
           }
@@ -358,19 +357,19 @@ class CompetitionInfo extends React.Component<ICompetitionInfoProps, ICompetitio
             this.tabList = [
               'Nhánh thi đấu vòng bảng',
               'Lịch thi đấu vòng bảng',
-              'BXH vòng bảng',
+              // 'BXH vòng bảng',
               'Nhánh thi đấu vòng chung kết',
               'Lịch thi đấu vòng chung kết',
-              'BXH vòng chung kết',
+              // 'BXH vòng chung kết',
               'Các đội tham gia'
             ];
             this.componentList = [
               <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={false} />,
               <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={false} />,
-              <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={false} />,
+              // <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={false} />,
               <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
               <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
-              <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
+              // <BracketRank tournamentId={this.props.routerInfo.match.params.competitionId} finalStage={true} />,
               <Teams tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentInfo={nextProps.tournamentInfo} id={(nextProps.competitionInfo.Competition as IParams).id as number} />
             ];
           }

@@ -24,6 +24,7 @@ import { createNewTournament } from './actions';
 import './styles.css';
 import { CREATE_NEW_TOURNAMENT } from 'redux-saga/actions';
 import { CREATE_NEW_TOURNAMENT_FAILED, CREATE_NEW_TOURNAMENT_SUCCESS } from './reducers';
+import config from 'config';
 
 interface ICreateNewTournamentProps extends React.ClassAttributes<CreateNewTournament> {
   allSports: IParams[];
@@ -399,23 +400,35 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
   };
 
   private validate = () => {
+    let tournamentStartLocationError = false;
+    let tournamentStartLocationErrorContent = '';
+    let tournamentEndLocationError = false;
+    let tournamentEndLocationErrorContent = '';
+    let donorError = false;
+    let donorErrorContent = '';
     let tournamentNameError = false;
     let tournamentNameErrorContent = '';
     let tournamentShortNameErrorContent = '';
     let tournamentShortNameError = false;
     let competitionFormatError = false;
     let competitionFormatErrorContent = '';
+    let tournamentDescriptionError = false;
+    let tournamentDescriptionErrorContent = '';
     let endDateErrorContent = '';
     let startDateErrorContent = '';
     let endDateError = false;
     let startDateError = false;
-    if (this.state.tournamentName.trim() === '') {
+    if (this.state.tournamentName.trim() === '' || !config.regex.tournamentName.test(this.state.tournamentName)) {
       tournamentNameError = true;
-      tournamentNameErrorContent = 'Tên giải không được trống';
+      tournamentNameErrorContent = 'Tên giải không được trống, không chứa ký tự đặc biệt và không quá 100 ký tự';
     }
-    if (this.state.tournamentShortName.trim() === '') {
+    if (this.state.tournamentShortName.trim() === '' || !config.regex.tournamentShortName.test(this.state.tournamentShortName)) {
       tournamentShortNameError = true;
-      tournamentShortNameErrorContent = 'Tên ngắn của giải không được trống';
+      tournamentShortNameErrorContent = 'Tên ngắn giải không được trống, không chứa ký tự đặc biệt và không quá 30 ký tự';
+    }
+    if (!config.regex.description.test(this.state.tournamentDescription)) {
+      tournamentDescriptionError = true;
+      tournamentDescriptionErrorContent = 'Mô tả không quá 200 ký tự';
     }
     if (isBefore(this.state.endDate, this.state.startDate)) {
       startDateError = true;
@@ -427,12 +440,24 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
       competitionFormatError = true;
       competitionFormatErrorContent = 'Thể thức không được trống';
     }
+    if (!config.regex.address.test(this.state.tournamentStartLocation)) {
+      tournamentStartLocationError = true;
+      tournamentStartLocationErrorContent = 'Nơi khai mạc không quá 100 kí tự';
+    }
+    if (!config.regex.address.test(this.state.tournamentEndLocation)) {
+      tournamentEndLocationError = true;
+      tournamentEndLocationErrorContent = 'Nơi bế mạc không quá 100 kí tự';
+    }
+    if (!config.regex.address.test(this.state.donor)) {
+      donorError = true;
+      donorErrorContent = 'Nơi bế mạc không quá 100 kí tự';
+    }
 
-    return { competitionFormatError, competitionFormatErrorContent, endDateErrorContent, endDateError, startDateErrorContent, startDateError, tournamentNameError, tournamentNameErrorContent, tournamentShortNameErrorContent, tournamentShortNameError };
+    return { donorError, donorErrorContent, tournamentEndLocationError, tournamentEndLocationErrorContent, tournamentStartLocationError, tournamentStartLocationErrorContent, tournamentDescriptionErrorContent, tournamentDescriptionError, competitionFormatError, competitionFormatErrorContent, endDateErrorContent, endDateError, startDateErrorContent, startDateError, tournamentNameError, tournamentNameErrorContent, tournamentShortNameErrorContent, tournamentShortNameError };
   }
 
   private handleCreateNewTournament = () => {
-    const { competitionFormatError, competitionFormatErrorContent, tournamentNameError, tournamentNameErrorContent, tournamentShortNameErrorContent, tournamentShortNameError, endDateErrorContent, endDateError, startDateErrorContent, startDateError } = this.validate();
+    const { donorError, donorErrorContent, tournamentEndLocationError, tournamentEndLocationErrorContent, tournamentStartLocationError, tournamentStartLocationErrorContent, tournamentDescriptionErrorContent, tournamentDescriptionError, competitionFormatError, competitionFormatErrorContent, tournamentNameError, tournamentNameErrorContent, tournamentShortNameErrorContent, tournamentShortNameError, endDateErrorContent, endDateError, startDateErrorContent, startDateError } = this.validate();
     const { amountOfTeamsGoOnInAGroupError, amountOfTeamsGoOnInAGroupErrorContent } = this.validateAmountOfTeamsGoOnInAGroup();
     const { amountOfTeamsInAGroupError, amountOfTeamsInAGroupErrorContent } = this.validateAmountOfTeamsInAGroup();
     this.setState({
@@ -449,9 +474,17 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
       amountOfTeamsGoOnInAGroupError,
       amountOfTeamsGoOnInAGroupErrorContent,
       amountOfTeamsInAGroupError,
-      amountOfTeamsInAGroupErrorContent
+      amountOfTeamsInAGroupErrorContent,
+      tournamentDescriptionErrorContent,
+      tournamentDescriptionError,
+      tournamentStartLocationError,
+      tournamentStartLocationErrorContent,
+      tournamentEndLocationError,
+      tournamentEndLocationErrorContent,
+      donorError,
+      donorErrorContent
     });
-    if (amountOfTeamsGoOnInAGroupError === true || amountOfTeamsInAGroupError === true || competitionFormatError === true || tournamentNameError === true || tournamentShortNameError === true || endDateError === true || startDateError === true) {
+    if (donorError === true || tournamentEndLocationError === true || tournamentStartLocationError === true || tournamentDescriptionError === true || amountOfTeamsGoOnInAGroupError === true || amountOfTeamsInAGroupError === true || competitionFormatError === true || tournamentNameError === true || tournamentShortNameError === true || endDateError === true || startDateError === true) {
       return;
     }
     const params = {

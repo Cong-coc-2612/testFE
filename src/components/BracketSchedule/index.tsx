@@ -126,8 +126,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                             <p>{(item2.data as IParams).name}</p>
                           </div>
                           <div className="BracketSchedule-roundMatch-time-container">
-                            <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
-                            <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
+                            <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).time != null && (item2.data as IParams).time !== '') ? (item2.data as IParams).time : `(Chưa có thời gian)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time : `(Chưa có thời gian)`)}</p>
+                            <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).location != null && (item2.data as IParams).location !== '') ? (item2.data as IParams).location : `(Chưa có địa điểm)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location : `(Chưa có địa điểm)`)}</p>
                           </div>
                           <div className="BracketSchedule-roundMatch-name-container">
                             {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -175,8 +175,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               <p>{(item2.data as IParams).name}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-time-container">
-                              <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
-                              <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
+                              <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).time != null && (item2.data as IParams).time !== '') ? (item2.data as IParams).time : `(Chưa có thời gian)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time : `(Chưa có thời gian)`)}</p>
+                              <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).location != null && (item2.data as IParams).location !== '') ? (item2.data as IParams).location : `(Chưa có địa điểm)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location : `(Chưa có địa điểm)`)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -218,8 +218,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               <p>{(item2.data as IParams).name}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-time-container">
-                              <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
-                              <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
+                              <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).time != null && (item2.data as IParams).time !== '') ? (item2.data as IParams).time : `(Chưa có thời gian)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time : `(Chưa có thời gian)`)}</p>
+                              <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).location != null && (item2.data as IParams).location !== '') ? (item2.data as IParams).location : `(Chưa có địa điểm)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location : `(Chưa có địa điểm)`)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -265,8 +265,10 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               <p>{item2.name}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-time-container">
-                              <p>{(item2.time as string).trim() !== '' ? item2.time : `(Chưa có thời gian)`}</p>
-                              <p>{(item2.location as string).trim() !== '' ? item2.location : `(Chưa có địa điểm)`}</p>
+                              <p>{this.props.started !== true ? ((item2.time != null && item2.time !== '') ? item2.time : `(Chưa có thời gian)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) as IParams).time as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) as IParams).time : `(Chưa có thời gian)`)}</p>
+                              <p>{this.props.started !== true ? ((item2.location != null && item2.location !== '') ? item2.location : `(Chưa có địa điểm)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) as IParams).location as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) as IParams).location : `(Chưa có địa điểm)`)}</p>
+                              {/* <p>{(item2.time as string).trim() !== '' ? item2.time : `(Chưa có thời gian)`}</p>
+                              <p>{(item2.location as string).trim() !== '' ? item2.location : `(Chưa có địa điểm)`}</p> */}
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {item2.team1 != null && ((item2.team1 as IParams).description != null && (item2.team1 as IParams).team != null ?
@@ -299,7 +301,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
           }
         }
       } else {
-        if ((this.props.bracketBoardInfo.groupStage as IParams).listTableSE != null) {
+        if (this.props.bracketBoardInfo.groupStage != null && (this.props.bracketBoardInfo.groupStage as IParams).listTableSE != null) {
           return (
             ((this.props.bracketBoardInfo.groupStage as IParams).listTableSE as IParams[]).map((item3, index3) =>
               <div className="BracketSchedule-container" key={index3}>
@@ -317,8 +319,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                               <p>{(item2.data as IParams).name}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-time-container">
-                              <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
-                              <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
+                              <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).time != null && (item2.data as IParams).time !== '') ? (item2.data as IParams).time : `(Chưa có thời gian)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time : `(Chưa có thời gian)`)}</p>
+                              <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).location != null && (item2.data as IParams).location !== '') ? (item2.data as IParams).location : `(Chưa có địa điểm)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location : `(Chưa có địa điểm)`)}</p>
                             </div>
                             <div className="BracketSchedule-roundMatch-name-container">
                               {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -350,7 +352,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
             )
           );
         } else {
-          if ((this.props.bracketBoardInfo.groupStage as IParams).listTableDE != null) {
+          if (this.props.bracketBoardInfo.groupStage != null && (this.props.bracketBoardInfo.groupStage as IParams).listTableDE != null) {
             return (
               ((this.props.bracketBoardInfo.groupStage as IParams).listTableDE as IParams[]).map((item3, index3) =>
                 <div className="BracketSchedule-container">
@@ -368,8 +370,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 <p>{(item2.data as IParams).name}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-time-container">
-                                <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
-                                <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
+                                <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).time != null && (item2.data as IParams).time !== '') ? (item2.data as IParams).time : `(Chưa có thời gian)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time : `(Chưa có thời gian)`)}</p>
+                                <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).location != null && (item2.data as IParams).location !== '') ? (item2.data as IParams).location : `(Chưa có địa điểm)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location : `(Chưa có địa điểm)`)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -411,8 +413,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 <p>{(item2.data as IParams).name}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-time-container">
-                                <p>{((item2.data as IParams).time as string).trim() !== '' ? (item2.data as IParams).time : `(Chưa có thời gian)`}</p>
-                                <p>{((item2.data as IParams).location as string).trim() !== '' ? (item2.data as IParams).location : `(Chưa có địa điểm)`}</p>
+                                <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).time != null && (item2.data as IParams).time !== '') ? (item2.data as IParams).time : `(Chưa có thời gian)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).time : `(Chưa có thời gian)`)}</p>
+                                <p>{this.props.started !== true ? ((item2.data != null && (item2.data as IParams).location != null && (item2.data as IParams).location !== '') ? (item2.data as IParams).location : `(Chưa có địa điểm)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === (item2.data as IParams).id) as IParams).location : `(Chưa có địa điểm)`)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {(item2.data as IParams).team1 != null && (((item2.data as IParams).team1 as IParams).description != null && ((item2.data as IParams).team1 as IParams).team != null ?
@@ -460,8 +462,8 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                                 <p>{item2.name}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-time-container">
-                                <p>{(item2.time as string).trim() !== '' ? item2.time : `(Chưa có thời gian)`}</p>
-                                <p>{(item2.location as string).trim() !== '' ? item2.location : `(Chưa có địa điểm)`}</p>
+                                <p>{this.props.started !== true ? ((item2.time != null && item2.time !== '') ? item2.time : `(Chưa có thời gian)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) as IParams).time as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) as IParams).time : `(Chưa có thời gian)`)}</p>
+                                <p>{this.props.started !== true ? ((item2.location != null && item2.location !== '') ? item2.location : `(Chưa có địa điểm)`) : ((this.props.allMatches != null && (this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) != null && (((this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) as IParams).location as string) !== '') ? ((this.props.allMatches.Matchs as IParams[]).find(element => element.id === item2.id) as IParams).location : `(Chưa có địa điểm)`)}</p>
                               </div>
                               <div className="BracketSchedule-roundMatch-name-container">
                                 {item2.team1 != null && ((item2.team1 as IParams).description != null && (item2.team1 as IParams).team != null ?

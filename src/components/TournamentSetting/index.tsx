@@ -18,6 +18,7 @@ import { editTournamentInfo } from './actions';
 import { EDIT_TOURNAMENT_INFO_SUCCESS, EDIT_TOURNAMENT_INFO_FAILED } from './reducers';
 import './styles.css';
 import { TOURNAMENT_STATUS } from 'global';
+import config from 'config';
 
 interface ITournamentSettingProps extends React.ClassAttributes<TournamentSetting> {
   isUsernameExisted: boolean | null | {};
@@ -600,13 +601,29 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
     let donorError = false;
     let endDateErrorContent = '';
     let startDateErrorContent = '';
-    if (this.state.tournamentName.trim() === '') {
+    if (this.state.tournamentName.trim() === '' || !config.regex.tournamentName.test(this.state.tournamentName)) {
       tournamentNameError = true;
-      tournamentNameErrorContent = 'Tên giải không được trống';
+      tournamentNameErrorContent = 'Tên giải không được trống, không chứa ký tự đặc biệt và không quá 100 ký tự';
     }
-    if (this.state.tournamentShortName.trim() === '') {
+    if (this.state.tournamentShortName.trim() === '' || !config.regex.tournamentShortName.test(this.state.tournamentShortName)) {
       tournamentShortNameError = true;
-      tournamentShortNameErrorContent = 'Tên ngắn giải không được trống';
+      tournamentShortNameErrorContent = 'Tên ngắn giải không được trống, không chứa ký tự đặc biệt và không quá 30 ký tự';
+    }
+    if (!config.regex.description.test(this.state.description)) {
+      descriptionError = true;
+      descriptionErrorContent = 'Mô tả không quá 200 ký tự';
+    }
+    if (!config.regex.address.test(this.state.startLocation)) {
+      startLocationError = true;
+      startLocationErrorContent = 'Nơi khai mạc không quá 100 kí tự';
+    }
+    if (!config.regex.address.test(this.state.endLocation)) {
+      endLocationError = true;
+      endLocationErrorContent = 'Nơi bế mạc không quá 100 kí tự';
+    }
+    if (!config.regex.address.test(this.state.donor)) {
+      donorError = true;
+      donorErrorContent = 'Nơi bế mạc không quá 100 kí tự';
     }
 
     return { endDateErrorContent, startDateErrorContent, tournamentNameError, tournamentNameErrorContent, tournamentShortNameErrorContent, tournamentShortNameError, descriptionError, descriptionErrorContent, startLocationError, startLocationErrorContent, endLocationError, endLocationErrorContent, donorError, donorErrorContent };

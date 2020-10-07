@@ -22,6 +22,7 @@ interface IMatchDetailProps extends React.ClassAttributes<MatchDetail> {
   tournamentInfo: IParams | null;
   dateNextRound: Date | null;
   datePreviousRound: Date | null;
+  tournamentStarted: boolean;
 
   updateMatchInfo(params: IBigRequest): void;
   updateMatchInfoBeforeStart(params: IBigRequest): void;
@@ -57,8 +58,8 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
   shouldComponentUpdate(nextProps: IMatchDetailProps, nextState: IMatchDetailState) {
     if (this.state.editMode !== nextState.editMode && nextState.editMode === true) {
       this.setState({
-        location: nextProps.info != null ? nextProps.info.location as string : '',
-        time: nextProps.info != null ? (nextProps.info.time === '' ? new Date() : formatStringToDate(nextProps.info.time as string, 'yyyy-MM-dd HH:mm:ss')) : new Date(),
+        location: nextProps.tournamentStarted !== true ? (nextProps.info != null ? nextProps.info.location as string : '') : ((this.props.matchInfo != null && this.props.matchInfo.location != null) ? this.props.matchInfo.location as string : ''),
+        time: nextProps.tournamentStarted !== true ? (nextProps.info != null ? ((nextProps.info.time === '' || nextProps.info.time == null) ? new Date() : formatStringToDate(nextProps.info.time as string, 'yyyy-MM-dd HH:mm:ss')) : new Date()) : ((nextProps.matchInfo != null && nextProps.matchInfo.time != null && nextProps.matchInfo.time !== '') ? formatStringToDate(nextProps.matchInfo.time as string, 'yyyy-MM-dd HH:mm:ss') : new Date()),
       })
     }
     if (((this.props.allMatches !== nextProps.allMatches || nextProps.matchInfo !== this.props.matchInfo))) {
@@ -178,7 +179,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
         },
         data: {
           tournamentId: this.props.matchInfo.tournamentId,
-          location: this.state.location,
+          location: this.state.location.trim(),
           time: formatDateToString(this.state.time, 'yyyy-MM-dd HH:mm:ss'),
           loserId: this.props.matchInfo.loserId,
           name: this.props.matchInfo.name,
@@ -204,7 +205,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
             tableId: this.props.tableId != null ? this.props.tableId : -1,
           },
           data: {
-            location: this.state.location,
+            location: this.state.location.trim(),
             time: formatDateToString(this.state.time, 'yyyy-MM-dd HH:mm:ss'),
           },
         };
@@ -220,7 +221,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
             tableId: this.props.tableId != null ? this.props.tableId : -1,
           },
           data: {
-            location: this.state.location,
+            location: this.state.location.trim(),
             time: formatDateToString(this.state.time, 'yyyy-MM-dd HH:mm:ss'),
           },
         };
@@ -281,7 +282,6 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
   };
 
   render() {
-    console.log('this.props.matchInfo', this.props.matchInfo);
     return (
       <div
         className="MatchDetail-container"
@@ -335,8 +335,8 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
         <div
           className="MatchDetail-info-container"
         >
-          {this.state.editMode === false ? <p className={'MatchDetail-team'}>Địa điểm: {this.props.info.location != null && (this.props.info.location as string).trim() !== '' ? this.props.info.location : (this.props.matchInfo != null && (this.props.matchInfo.location as string).trim() !== '' ? this.props.matchInfo.location : '(Chưa có)')}</p> : <label style={{ color: 'white' }}>Địa điểm: <input value={this.state.location} type={'text'} onChange={this.onChangeLocation} /></label>}
-          {this.state.editMode === false ? <p className={'MatchDetail-team'}>Thời gian: {this.props.info.time != null && (this.props.info.time as string).trim() !== '' ? this.props.info.time : (this.props.matchInfo != null && (this.props.matchInfo.time as string).trim() !== '' ? this.props.matchInfo.time : '(Chưa có)')}</p> : <label style={{ color: 'white' }}>Thời gian:
+          {this.state.editMode === false ? <p className={'MatchDetail-team'}>Địa điểm: {this.props.tournamentStarted !== true ? ((this.props.info.location != null && this.props.info.location !== '') ? this.props.info.location : `(Chưa có)`) : ((this.props.matchInfo != null && this.props.matchInfo.location != null && this.props.matchInfo.location !== '') ? this.props.matchInfo.location : `(Chưa có)`)}</p> : <label style={{ color: 'white' }}>Địa điểm: <input value={this.state.location} type={'text'} onChange={this.onChangeLocation} /></label>}
+          {this.state.editMode === false ? <p className={'MatchDetail-team'}>Thời gian: {this.props.tournamentStarted !== true ? ((this.props.info.time != null && this.props.info.time !== '') ? this.props.info.time : `(Chưa có)`) : ((this.props.matchInfo != null && this.props.matchInfo.time != null && this.props.matchInfo.time !== '') ? this.props.matchInfo.time : `(Chưa có)`)}</p> : <label style={{ color: 'white' }}>Thời gian:
             <DatePicker
               selected={this.state.time}
               onChange={this.handleChangeTime}

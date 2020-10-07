@@ -67,7 +67,7 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
     let teamShortNameToAddErrorContent = '';
     if (this.state.teamNameToAdd.trim() === '' || !config.regex.teamName.test(this.state.teamNameToAdd)) {
       teamNameToAddError = true;
-      teamNameToAddErrorContent = 'Tên đội không được trống và không được chứa kí tự đặc biệt';
+      teamNameToAddErrorContent = 'Tên đội không được trống, tối đa 50 ký tự và không được chứa kí tự đặc biệt';
     }
     if (this.state.teamShortNameToAdd.trim() === '' || !config.regex.teamShortName.test(this.state.teamShortNameToAdd)) {
       teamShortNameToAddError = true;

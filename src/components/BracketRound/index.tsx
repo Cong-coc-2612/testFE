@@ -21,6 +21,7 @@ interface IBracketRoundProps extends React.ClassAttributes<BracketRound> {
   tableId?: number;
   previousRound: IParams | null;
   nextRound: IParams | null;
+  tournamentStarted: boolean;
 }
 
 interface IBracketRoundState {
@@ -175,6 +176,7 @@ class BracketRound extends React.Component<IBracketRoundProps, IBracketRoundStat
                   matchType={'rr'}
                   dateNextRound={this.dateNextRound}
                   datePreviousRound={this.datePreviousRound}
+                  tournamentStarted={this.props.tournamentStarted}
                 />
               );
             })
@@ -189,13 +191,13 @@ class BracketRound extends React.Component<IBracketRoundProps, IBracketRoundStat
           </div>
           {this.props.info.listMatches != null ?
             (this.props.info.listMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'se'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} has34={this.props.has34} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'se'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} has34={this.props.has34} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
             }) : (this.props.info.listWinMatches != null ? (this.props.info.listWinMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'win'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'win'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
             }) : (this.props.info.listLoseMatches != null ? (this.props.info.listLoseMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'lose'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} lowerBracket={true} />);
+              return (<BracketMatch tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'lose'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} lowerBracket={true} />);
             }) : ((this.props.info.listSumMatches as IParams[]).map((item, index) => {
-              return (<BracketMatch dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'sum'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} showAllDescription={true} has34={true} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'sum'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} showAllDescription={true} has34={true} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
             }))))
           }
           {this.props.info.listLoseMatches != null && <svg style={{ position: 'absolute', marginTop: '20px', width: '1px', height: `${(this.props.info.highestMatch as number) + 100}px`, backgroundColor: 'transparent', }}>

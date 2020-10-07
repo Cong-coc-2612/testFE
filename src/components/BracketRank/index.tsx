@@ -7,17 +7,22 @@ import NoteInput from 'components/NoteInput';
 import CustomModal from 'components/CustomModal';
 import { IState } from 'redux-saga/reducers';
 import { queryAllMatches } from 'components/BracketBoard/actions';
-import { queryBracketRankInfo } from './actions';
+import { queryBracketRankInfo, changeNoteBracketRank } from './actions';
 import './styles.css';
+import BracketRankSwapTeam from 'components/BracketRankSwapTeam';
+import { TOURNAMENT_STATUS } from 'global';
 
 interface IBracketRankProps extends React.ClassAttributes<BracketRank> {
   tournamentId: number;
   finalStage: boolean;
   bracketRankInfo: IParams | null;
   allMatches: IParams | null;
+  canEdit?: boolean;
+  tournamentStatus: string;
 
   queryBracketRankInfo(params: IBigRequest): void;
   queryAllMatches(params: IBigRequest): void;
+  changeNoteBracketRank(params: IBigRequest): void;
 }
 
 interface IBracketRankState {
@@ -55,8 +60,18 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
         this.finished = true;
         for (let i = 0; i < (nextProps.allMatches.Matchs as IParams[]).length; i++) {
           if (((nextProps.allMatches.Matchs as IParams[])[i].name as string).includes('M') || ((nextProps.allMatches.Matchs as IParams[])[i].name as string).includes('W') || ((nextProps.allMatches.Matchs as IParams[])[i].name as string).includes('L') || ((nextProps.allMatches.Matchs as IParams[])[i].name as string).includes('Final')) {
+          } else {
             if ((nextProps.allMatches.Matchs as IParams[])[i].status !== 'finished') {
               this.finished = false;
+            }
+          }
+        }
+        if (this.finished === true) {
+          for (let i = 0; i < (nextProps.allMatches.Matchs as IParams[]).length; i++) {
+            if (((nextProps.allMatches.Matchs as IParams[])[i].name as string).includes('M') || ((nextProps.allMatches.Matchs as IParams[])[i].name as string).includes('W') || ((nextProps.allMatches.Matchs as IParams[])[i].name as string).includes('L') || ((nextProps.allMatches.Matchs as IParams[])[i].name as string).includes('Final')) {
+              if ((nextProps.allMatches.Matchs as IParams[])[i].status === 'finished') {
+                this.finished = false;
+              }
             }
           }
         }
@@ -110,21 +125,35 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
     });
   }
 
-  private handleSaveChangeNote = () => {
+  private handleSaveChangeNote = (tournamentId: number, tableId: number, teamId: number, note: string) => {
+    const params = {
+      path: '',
+      param: {
+        tournamentId,
+        tableId,
+        teamId,
+        note,
+      },
+      data: {
+      },
+    };
+    this.props.changeNoteBracketRank(params);
   }
 
   render() {
     if (this.props.bracketRankInfo != null) {
       if (this.props.finalStage === true) {
+        console.log('this.props.bracketRankInfo.finalStageScheduleRanking', this.props.bracketRankInfo.finalStageScheduleRanking);
         return (
           <div className="BracketRank-container">
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start' }} onClick={this.onOpenRankRule}><p>Cách thức xếp hạng</p><AiOutlineQuestionCircle color={'red'} /></div>
+            {this.props.tournamentStatus !== TOURNAMENT_STATUS.FINISHED && this.props.canEdit === true && this.finished === true && this.props.bracketRankInfo.finalStageScheduleRanking != null && (this.props.bracketRankInfo.finalStageScheduleRanking as IParams[]).length > 1 && <BracketRankSwapTeam tableId={-1} tournamentId={this.props.tournamentId} tableName={''} listTeam={this.props.bracketRankInfo.finalStageScheduleRanking as IParams[]} />}
             <div className="BracketRank-item-container BracketRank-menuItem-container">
               <div className="BracketRank-item-orderNumber-container">
                 <p style={{ color: 'white' }}>Hạng</p>
               </div>
               <div className="BracketRank-item-managerName-container">
-                <p style={{ color: 'white' }}>Tên đội</p>
+                <p style={{ color: 'white' }}>Tên ngắn đội</p>
               </div>
               <div className="BracketRank-item-score-container">
                 <p style={{ color: 'white' }}>Thắng</p>
@@ -138,6 +167,9 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
               <div className="BracketRank-item-matchHistory-container">
                 <p style={{ color: 'white' }}>Số set thắng</p>
               </div>
+              <div className="BracketRank-item-managerName2-container">
+                <p style={{ color: 'white' }}>Ghi chú</p>
+              </div>
             </div>
             {this.props.bracketRankInfo.finalStageScheduleRanking != null && (this.props.bracketRankInfo.finalStageScheduleRanking as IParams[]).length > 0 &&
               (this.props.bracketRankInfo.finalStageScheduleRanking as IParams[]).map((item, index) =>
@@ -146,7 +178,7 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                     <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{index + 1}</p>
                   </div>
                   <div className="BracketRank-item-managerName-container">
-                    <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{item.team != null ? (item.team as IParams).fullName : ''}</p>
+                    <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{item.team != null ? (item.team as IParams).shortName : ''}</p>
                   </div>
                   <div className="BracketRank-item-score-container">
                     <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{item.totalWin}</p>
@@ -159,6 +191,10 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                   </div>
                   <div className="BracketRank-item-matchHistory-container">
                     <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{item.score}</p>
+                  </div>
+                  <div className="BracketRank-item-managerName2-container">
+                    <NoteInput tournamentStatus={this.props.tournamentStatus} canEdit={this.props.canEdit === true ? true : false} tournamentId={this.props.tournamentId} teamId={(item.team as IParams).id as number} tableId={-1} info={item} index={index} handleSaveChangeNote={this.handleSaveChangeNote} />
+                    {/* <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.note}</p> */}
                   </div>
                 </div>
               )
@@ -180,12 +216,13 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
             <div key={index} className="BracketRank-container">
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start' }} onClick={this.onOpenRankRule}><p>Cách thức xếp hạng</p><AiOutlineQuestionCircle color={'red'} /></div>
               <h2>Bảng {item.tableName}</h2>
+              {this.props.tournamentStatus !== TOURNAMENT_STATUS.FINISHED && this.props.canEdit === true && this.finished === true && item.rankingTable != null && (item.rankingTable as IParams[]).length > 1 && <BracketRankSwapTeam tableId={item.tableId as number} tournamentId={this.props.tournamentId} tableName={item.tableName as string} listTeam={item.rankingTable as IParams[]} />}
               <div className="BracketRank-item-container BracketRank-menuItem-container">
                 <div className="BracketRank-item-orderNumber-container">
                   <p style={{ color: 'white' }}>Hạng</p>
                 </div>
                 <div className="BracketRank-item-managerName-container">
-                  <p style={{ color: 'white' }}>Tên đội</p>
+                  <p style={{ color: 'white' }}>Tên ngắn đội</p>
                 </div>
                 <div className="BracketRank-item-score-container">
                   <p style={{ color: 'white' }}>Thắng</p>
@@ -196,7 +233,7 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                 <div className="BracketRank-item-score-container">
                   <p style={{ color: 'white' }}>Hiệu số</p>
                 </div>
-                <div className="BracketRank-item-managerName-container">
+                <div className="BracketRank-item-managerName2-container">
                   <p style={{ color: 'white' }}>Ghi chú</p>
                 </div>
                 {/* <div className="BracketRank-item-matchHistory-container">
@@ -206,28 +243,28 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
               {(item.rankingTable as IParams[]).map((item2, index2) =>
                 <div className={`BracketRank-item-container ${index2 % 2 === 0 ? 'BracketRank-item-container1' : 'BracketRank-item-container2'}`} key={index2}>
                   <div className="BracketRank-item-orderNumber-container">
-                    <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{index2 + 1}</p>
+                    <p className={`BracketRank-item-orderNumber-${index2 + 1} BracketRank-item-orderNumberr`}>{index2 + 1}</p>
                   </div>
                   <div className="BracketRank-item-managerName-container">
-                    <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.team != null ? (item2.team as IParams).fullName : ''}</p>
+                    <p className={`BracketRank-item-orderNumber-${index2 + 1} BracketRank-item-orderNumberr`}>{item2.team != null ? (item2.team as IParams).shortName : ''}</p>
                   </div>
                   <div className="BracketRank-item-score-container">
-                    <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.totalWin}</p>
+                    <p className={`BracketRank-item-orderNumber-${index2 + 1} BracketRank-item-orderNumberr`}>{item2.totalWin}</p>
                   </div>
                   <div className="BracketRank-item-score-container">
-                    <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.totalLose}</p>
+                    <p className={`BracketRank-item-orderNumber-${index2 + 1} BracketRank-item-orderNumberr`}>{item2.totalLose}</p>
                   </div>
                   {/* <div className="BracketRank-item-teamName-container">
                     <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.team != null ? (item2.team as IParams).shortName : ''}</p>
                   </div> */}
                   <div className="BracketRank-item-score-container">
-                    <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.difference}</p>
+                    <p className={`BracketRank-item-orderNumber-${index2 + 1} BracketRank-item-orderNumberr`}>{item2.difference}</p>
                   </div>
                   {/* <div className="BracketRank-item-matchHistory-container">
                     <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.score}</p>
                   </div> */}
-                  <div className="BracketRank-item-managerName-container">
-                    <NoteInput info={item2} index={index2} handleSaveChangeNote={this.handleSaveChangeNote} />
+                  <div className="BracketRank-item-managerName2-container">
+                    <NoteInput tournamentStatus={this.props.tournamentStatus} canEdit={this.props.canEdit === true ? true : false} tournamentId={this.props.tournamentId} teamId={(item2.team as IParams).id as number} tableId={item.tableId as number} info={item2} index={index2} handleSaveChangeNote={this.handleSaveChangeNote} />
                     {/* <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.note}</p> */}
                   </div>
                 </div>
@@ -265,5 +302,5 @@ const mapStateToProps = (state: IState) => {
 
 export default connect(
   mapStateToProps,
-  { queryBracketRankInfo, queryAllMatches }
+  { queryBracketRankInfo, queryAllMatches, changeNoteBracketRank }
 )(BracketRank);

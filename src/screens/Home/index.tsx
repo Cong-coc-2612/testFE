@@ -20,7 +20,8 @@ class Home extends React.Component<IHomeProps, IHomeState> {
       <div className="Container-login">
         <div className="Container-login-middle">
           <h1>Quản lý giải đấu đơn giản</h1>
-          <img src={require('../../assets/home-image.png')} alt={'img'} style={{ width: '719px', height: '319px', objectFit: 'cover', }} />
+          <img src={require('../../assets/home-image.png')} alt={'img'} style={{ width: '713px', height: '325px', objectFit: 'cover', }} />
+          <img src={require('../../assets/home-image2.png')} alt={'img'} style={{ width: '1021px', height: '541px', objectFit: 'cover', }} />
         </div>
       </div>
     );

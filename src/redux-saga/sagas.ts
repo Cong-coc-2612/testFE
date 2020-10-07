@@ -72,6 +72,8 @@ import { finishTournament } from './sagas/FinishTournament';
 import { updateMatchInfoBeforeStart } from './sagas/UpdateMatchInfoBeforeStart';
 import { forgotPassword } from './sagas/ForgotPassword';
 import { changePassword } from './sagas/ChangePassword';
+import { changeNoteBracketRank } from './sagas/RankNote';
+import { swapTeamInBracketRank } from './sagas/SwapTeamInBracketRank';
 
 export default function* () {
   yield all([
@@ -148,5 +150,7 @@ export default function* () {
     updateMatchInfoBeforeStart(),
     forgotPassword(),
     changePassword(),
+    changeNoteBracketRank(),
+    swapTeamInBracketRank(),
   ]);
 }

@@ -1,6 +1,7 @@
 import { call, takeLatest, put } from 'redux-saga/effects';
 import { query, METHOD } from 'utils/socketApi';
 import { IRequest, IParams, IBigRequest } from 'interfaces/common';
+import { QUERY_ALL_MATCHES_FAILED } from 'components/BracketBoard/reducers';
 import { CREATE_NEW_TOURNAMENT, COMMON_SHOW_NOTIFICATION, CREATE_A_FINAL_STAGE_SETTING, CREATE_A_GROUP_STAGE_SETTING } from 'redux-saga/actions';
 import { CREATE_A_FINAL_STAGE_SETTING_SUCCESS, CREATE_A_FINAL_STAGE_SETTING_FAILED, CREATE_A_GROUP_STAGE_SETTING_SUCCESS, CREATE_A_GROUP_STAGE_SETTING_FAILED } from 'components/CompetitionsSetting/reducers';
 
@@ -18,6 +19,9 @@ function* doCreateNewTournament(request: IRequest<IBigRequest>) {
     const response = yield call(createNewTournament, request.data.data, request.data.path, request.data.param);
     const data = response.data.result;
     if (response.data.error.MessageCode === 0) {
+      yield put({
+        type: QUERY_ALL_MATCHES_FAILED,
+      });
       yield put({
         type: CREATE_A_FINAL_STAGE_SETTING,
         response: {
