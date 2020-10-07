@@ -10,6 +10,7 @@ import { COOKIES_TYPE } from 'global';
 import { CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILED } from 'screens/ChangePassword/reducers';
 import { changePassword } from './actions';
 import './styles.css';
+import config from 'config';
 
 interface IChangePasswordProps extends React.ClassAttributes<ChangePassword> {
   currentUserInfo: IParams | null;
@@ -64,13 +65,21 @@ class ChangePassword extends React.Component<IChangePasswordProps, IChangePasswo
     let oldPasswordError = false;
     let reconfirmPasswordErrorContent = '';
     let reconfirmPasswordError = false;
-    if (this.state.newPassword.includes(' ') || this.state.newPassword.trim() === '') {
-      newPasswordError = true;
-      newPasswordErrorContent = 'Mật khẩu không được trống, và không chứa dấu cách';
-    }
-    if (this.state.oldPassword.trim() === '' || this.state.oldPassword.includes(' ')) {
+    // if (this.state.newPassword.includes(' ') || this.state.newPassword.trim() === '') {
+    //   newPasswordError = true;
+    //   newPasswordErrorContent = 'Mật khẩu không được trống, và không chứa dấu cách';
+    // }
+    // if (this.state.oldPassword.trim() === '' || this.state.oldPassword.includes(' ')) {
+    //   oldPasswordError = true;
+    //   oldPasswordErrorContent = 'Mật khẩu không được trống, và không chứa dấu cách';
+    // }
+    if (this.state.oldPassword.includes(' ') || !config.regex.password.test(this.state.oldPassword) || this.state.oldPassword.trim() === '') {
       oldPasswordError = true;
-      oldPasswordErrorContent = 'Mật khẩu không được trống, và không chứa dấu cách';
+      oldPasswordErrorContent = 'Mật khẩu cũ không chứa kí tự đặc biệt, và phải chứa từ 8 đến 32 kí tự';
+    }
+    if (this.state.newPassword.includes(' ') || !config.regex.password.test(this.state.newPassword) || this.state.newPassword.trim() === '') {
+      newPasswordError = true;
+      newPasswordErrorContent = 'Mật khẩu cũ không chứa kí tự đặc biệt, và phải chứa từ 8 đến 32 kí tự';
     }
     if (newPasswordError !== true && oldPasswordError !== true && this.state.newPassword === this.state.oldPassword) {
       newPasswordError = true;

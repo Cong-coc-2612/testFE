@@ -135,21 +135,27 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
     let addressError = false;
     let phoneNumberErrorContent = '';
     let phoneNumberError = false;
-    if (this.state.firstName.trim() === '') {
+    if (this.state.firstName.trim() === '' || !config.regex.userName.test(this.state.firstName)) {
       firstNameError = true;
-      firstNameErrorContent = 'Tên không được trống';
+      firstNameErrorContent = 'Tên không được trống, dưới 10 kí tự và không chứa kí tự đặc biệt';
     }
-    if (this.state.lastName.trim() === '') {
+    if (this.state.lastName.trim() === '' || !config.regex.userShortName.test(this.state.lastName)) {
       lastNameError = true;
-      lastNameErrorContent = 'Họ không được trống';
+      lastNameErrorContent = 'Họ không được trống, dưới 30 kí tự, và không chứa kí tự đặc biệt';
     }
     if (this.state.email.trim() === '' || !config.regex.email.test(this.state.email)) {
       emailError = true;
       emailErrorContent = 'Email không hợp lệ';
     }
-    if (!config.regex.phoneNumber.test(this.state.phoneNumber)) {
-      phoneNumberError = true;
-      phoneNumberErrorContent = 'Số điện thoại không hợp lệ';
+    if (!config.regex.address.test(this.state.address)) {
+      addressError = true;
+      addressErrorContent = 'Địa chỉ không quá 100 kí tự';
+    }
+    if (this.state.phoneNumber.trim() !== '') {
+      if (!config.regex.phoneNumber.test(this.state.phoneNumber)) {
+        phoneNumberError = true;
+        phoneNumberErrorContent = 'Số điện thoại không hợp lệ';
+      }
     }
 
     return {
@@ -363,7 +369,7 @@ class UserInfo extends React.Component<IUserInfoProps, IUserInfoState> {
                   </div>}
                 {this.state.editMode === false &&
                   <div className="UserInfo-content-info-basic-info-container-singleRow">
-                  <p className="UserInfo-otherInfo-text">{this.props.userInfo != null && this.props.userInfo.User != null ? `Email: ${(this.props.userInfo.User as unknown as IParams).email != null ? (this.props.userInfo.User as unknown as IParams).email : ''}` : <Skeleton width={200} height={20} />}</p>
+                    <p className="UserInfo-otherInfo-text">{this.props.userInfo != null && this.props.userInfo.User != null ? `Email: ${(this.props.userInfo.User as unknown as IParams).email != null ? (this.props.userInfo.User as unknown as IParams).email : ''}` : <Skeleton width={200} height={20} />}</p>
                   </div>}
                 {this.state.editMode === false ?
                   <div className="UserInfo-content-info-basic-info-container-singleRow">

@@ -222,11 +222,11 @@ class SignUp extends React.Component<ISignUpProps, ISignUpState> {
     }
     if (this.state.firstName.trim() === '' || !config.regex.userName.test(this.state.firstName)) {
       firstNameError = true;
-      firstNameErrorContent = 'Tên không được trống, và không chứa kí tự đặc biệt';
+      firstNameErrorContent = 'Tên không được trống, dưới 10 kí tự và không chứa kí tự đặc biệt';
     }
     if (this.state.lastName.trim() === '' || !config.regex.userShortName.test(this.state.lastName)) {
       lastNameError = true;
-      lastNameErrorContent = 'Họ không được trống, và không chứa kí tự đặc biệt';
+      lastNameErrorContent = 'Họ không được trống, dưới 30 kí tự, và không chứa kí tự đặc biệt';
     }
     if (this.state.email.trim() === '' || !config.regex.email.test(this.state.email)) {
       emailError = true;

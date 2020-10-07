@@ -1,0 +1,10 @@
+.BracketRankSwapTeam-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignUp-Button-containerr {
+  margin-left: 15px;
+}

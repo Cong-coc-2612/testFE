@@ -260,9 +260,11 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
       playerNameInFormError = true;
       playerNameInFormErrorContent = 'Tên người chơi không được trống';
     }
-    if (!config.regex.email.test(this.state.playerEmailInForm)) {
-      playerEmailInFormError = true;
-      playerEmailInFormErrorContent = 'Email không hợp lệ';
+    if (this.state.playerEmailInForm.trim() !== '') {
+      if (!config.regex.email.test(this.state.playerEmailInForm)) {
+        playerEmailInFormError = true;
+        playerEmailInFormErrorContent = 'Email không hợp lệ';
+      }
     }
 
     return {

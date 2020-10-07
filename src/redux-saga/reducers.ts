@@ -23,6 +23,7 @@ import { ListTournamentReport } from 'components/TournamentReport/reducers';
 import { ListReports } from 'components/AllReports/reducers';
 import { ListPendingTeam } from 'components/PendingTeams/reducers';
 import { NewTournament } from 'screens/CreateNewTournament/reducers';
+import { SwappedTeamInBracketRank } from 'components/BracketRankSwapTeam/reducers';
 
 export const appReducer = combineReducers({
   currentPage: CurrentPage,
@@ -62,6 +63,7 @@ export const appReducer = combineReducers({
   matchInfo: MatchInfo,
   allMatches: AllMatches,
   newTournament: NewTournament,
+  swappedTeamInBracketRank: SwappedTeamInBracketRank,
 });
 
 export type IState = ReturnType<typeof appReducer>;

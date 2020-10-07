@@ -28,17 +28,17 @@
 .BracketRank-item-orderNumber-1 {
   font-weight: bold;
   color: gold;
-  font-size: 22px;
+  font-size: 25px;
 }
 
 .BracketRank-item-orderNumber-2 {
-  font-size: 19px;
+  font-size: 22px;
   font-weight: bold;
   color: silver;
 }
 
 .BracketRank-item-orderNumber-3 {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: bold;
   color: #cd7f32;
 }
@@ -66,6 +66,13 @@
   justify-content: center;
   align-items: center;
   flex: 4;
+}
+
+.BracketRank-item-managerName2-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
 }
 
 .BracketRank-item-matchHistory-container {

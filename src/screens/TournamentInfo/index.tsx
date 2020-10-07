@@ -246,10 +246,10 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 // <CompetitionsSetting canEdit={((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING || ((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.OPENING} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} onChangeCompetitionSetting={this.onChangeCompetitionSetting} />,
                 <BracketBoard swapAble={(nextProps.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING || (nextProps.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.OPENING} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={false} />,
                 <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={false} />,
-                <BracketRank finalStage={false} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
+                <BracketRank tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} canEdit={true} finalStage={false} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
                 <BracketBoard swapAble={(nextProps.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING || (nextProps.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.OPENING} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
                 <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
-                <BracketRank finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
+                <BracketRank tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} canEdit={true} finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
                 <Teams tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
                 <PendingTeams tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
                 <TournamentReport tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} />,
@@ -291,7 +291,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 // <CompetitionsSetting canEdit={((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING || ((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.OPENING} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} onChangeCompetitionSetting={this.onChangeCompetitionSetting} />,
                 <BracketBoard swapAble={(nextProps.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING || (nextProps.tournamentInfo.Tournament as IParams).status === TOURNAMENT_STATUS.OPENING} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
                 <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
-                <BracketRank finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
+                <BracketRank tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} canEdit={true} finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
                 <Teams tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
                 <PendingTeams tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
                 <TournamentReport tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} />,
@@ -333,10 +333,10 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 // <CompetitionsSetting canEdit={((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING || ((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.OPENING} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} onChangeCompetitionSetting={this.onChangeCompetitionSetting} />,
                 <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={false} />,
                 <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={false} />,
-                <BracketRank finalStage={false} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
+                <BracketRank tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} finalStage={false} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
                 <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
                 <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
-                <BracketRank finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
+                <BracketRank tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
                 <Teams addItem={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />
               ];
             }
@@ -366,7 +366,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 // <CompetitionsSetting canEdit={((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.INITIALIZING || ((nextProps.tournamentInfo as IParams).Tournament as IParams).status === TOURNAMENT_STATUS.OPENING} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} onChangeCompetitionSetting={this.onChangeCompetitionSetting} />,
                 <BracketBoard swapAble={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
                 <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
-                <BracketRank finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
+                <BracketRank tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
                 <Teams addItem={false} tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />
               ];
             }
@@ -591,7 +591,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
     let teamShortNameInFormError = false;
     if (this.state.teamNameInForm.trim() === '' || !config.regex.teamName.test(this.state.teamNameInForm)) {
       teamNameInFormError = true;
-      teamNameInFormErrorContent = 'Tên đội không được trống và không được chứa kí tự đặc biệt';
+      teamNameInFormErrorContent = 'Tên đội không được trống, tối đa 50 ký tự và không được chứa kí tự đặc biệt';
     }
     if (this.state.teamShortNameInForm.trim() === '' || !config.regex.teamShortName.test(this.state.teamShortNameInForm)) {
       teamShortNameInFormError = true;

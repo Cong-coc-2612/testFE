@@ -32,6 +32,7 @@ interface IBracketMatchProps extends React.ClassAttributes<BracketMatch> {
   matchType: 'se' | 'win' | 'lose' | 'rr' | 'sum';
   dateNextRound: Date | null;
   datePreviousRound: Date | null;
+  tournamentStarted: boolean;
 
   queryMatchInfo(params: IBigRequest): void;
   finishMatch(params: IBigRequest): void;
@@ -116,20 +117,20 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
         listTeam.push(this.props.info.team2 as IParams);
         if (nextProps.matchInfo.status === MATCH_STATUS.PLAYING) {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting finalStage={nextProps.finalStage} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
+          this.tabComponentList = [<MatchDetail tournamentStarted={nextProps.tournamentStarted} datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting finalStage={nextProps.finalStage} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
         } else {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting finalStage={nextProps.finalStage} canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
+          this.tabComponentList = [<MatchDetail tournamentStarted={nextProps.tournamentStarted} datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info as IParams} />, <MatchSetting finalStage={nextProps.finalStage} canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info as IParams} />];
         }
       } else {
         listTeam.push((this.props.info.data as IParams).team1 as IParams);
         listTeam.push((this.props.info.data as IParams).team2 as IParams);
         if (nextProps.matchInfo.status === MATCH_STATUS.PLAYING) {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting finalStage={nextProps.finalStage} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
+          this.tabComponentList = [<MatchDetail tournamentStarted={nextProps.tournamentStarted} datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting finalStage={nextProps.finalStage} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
         } else {
           this.tabList = ['Thông tin trận đấu', 'Điểm số'];
-          this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting finalStage={nextProps.finalStage} canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
+          this.tabComponentList = [<MatchDetail tournamentStarted={nextProps.tournamentStarted} datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={nextProps.allMatches} matchInfo={nextProps.matchInfo} info={this.props.info.data as IParams} />, <MatchSetting finalStage={nextProps.finalStage} canEdit={false} matchInfo={nextProps.matchInfo} onChangeEditMode={this.onChangeEditMode} teamsInfo={listTeam} info={this.props.info.data as IParams} />];
         }
       }
     }
@@ -429,12 +430,12 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
     if (this.props.roundRobin === true) {
       if (this.props.info.id == null) {
         this.tabList = ['Thông tin trận đấu'];
-        this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={null} matchInfo={null} info={this.props.info as IParams} />];
+        this.tabComponentList = [<MatchDetail tournamentStarted={this.props.tournamentStarted} datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} allMatches={null} matchInfo={null} info={this.props.info as IParams} />];
       }
     } else {
       if ((this.props.info.data as IParams).id == null) {
         this.tabList = ['Thông tin trận đấu'];
-        this.tabComponentList = [<MatchDetail datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={null} matchInfo={null} info={this.props.info.data as IParams} />];
+        this.tabComponentList = [<MatchDetail tournamentStarted={this.props.tournamentStarted} datePreviousRound={this.props.datePreviousRound} dateNextRound={this.props.dateNextRound} matchType={this.props.matchType} tableId={this.props.tableId != null ? this.props.tableId : null} lowerBracket={this.props.lowerBracket} tournamentId={this.props.tournamentId} beforeInfo={this.props.info} allMatches={null} matchInfo={null} info={this.props.info.data as IParams} />];
       }
     }
     // if (this.props.info.listTeam.length === amountOfListTeamDisplayed && this.props.bracketStartedStatus === true) {

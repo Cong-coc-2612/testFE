@@ -506,6 +506,15 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
   // }
 
   private team1Win = () => {
+    if (this.listResult.length > 0) {
+      for (let i = 0; i < this.listResult.length; i++) {
+        if (this.listResult[i].team1Score !== 0 || this.listResult[i].team2Score !== 0) {
+          return;
+        }
+      }
+    } else {
+      return;
+    }
     if (this.state.winner === true) {
       this.setState({
         winner: null,
@@ -518,6 +527,15 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
   }
 
   private team2Win = () => {
+    if (this.listResult.length > 0) {
+      for (let i = 0; i < this.listResult.length; i++) {
+        if (this.listResult[i].team1Score !== 0 || this.listResult[i].team2Score !== 0) {
+          return;
+        }
+      }
+    } else {
+      return;
+    }
     if (this.state.winner === false) {
       this.setState({
         winner: null,
@@ -545,7 +563,7 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
         </div>
         <div className="MatchSetting-verify-winner-container">
           {this.state.editMode === true ?
-            <p className="MatchSetting-verify-winner-header">Xác định đội thắng cuộc: </p> :
+            <p style={{ color: 'white' }} className="MatchSetting-verify-winner-header">Xác định đội thắng cuộc: </p> :
             (this.props.matchInfo!.winnerId != null && <p style={{ color: 'white' }} className="MatchSetting-verify-winner-header">Đội thắng cuộc: {this.props.matchInfo!.winnerId === this.props.matchInfo!.team1Id ? ((this.props.info.team1 as IParams).team as IParams).shortName : ((this.props.info.team2 as IParams).team as IParams).shortName}</p>)
           }
           {this.state.editMode === true && <div className="MatchSetting-verify-winner-text-container-container">

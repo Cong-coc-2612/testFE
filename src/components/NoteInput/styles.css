@@ -1,101 +1,49 @@
-.MatchSetting-container {
-  width: inherit;
-  height: 330px;
+.NoteInput-one-row-container {
+  flex-direction: row;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 90%;
+}
+
+.NoteInput-one-row-container2 {
   flex-direction: column;
-}
-
-.MatchSetting-set-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.MatchSetting-set-container :hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.MatchSetting-winner-container {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  background-color: gold;
-}
-
-.MatchSetting-loser-container {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  background-color: silver;
-}
-
-.MatchSetting-winner-container-disable {
-  opacity: 0.5;
-}
-
-.MatchSetting-set-text {
-  font-weight: bold;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-.MatchSetting-sheetData-container {
-  width: inherit;
-  height: 217px;
-}
-
-.MatchSetting-verify-winner-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.MatchSetting-verify-winner-text-container {
-  padding-left: 15px;
-  padding-right: 15px;
-  height: 40px;
-  width: 100px;
-  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid white;
+  width: 100%;
+  height: 90%;
 }
 
-.MatchSetting-verify-winner-text {
-  font-weight: bold;
+.NoteInput-one-row-container3 {
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
 }
 
-.MatchSetting-verify-winner-header {
-  margin-right: 20px;
+.NoteInput-one-row-container4 {
+  display: flex;
+  flex: 1;
 }
 
-.MatchSetting-verify-winner-text-container-container :hover {
+.NoteInput-icon-container :hover {
   cursor: pointer;
 }
 
-.MatchSetting-verify-winner-text-container-container {
-  display: flex;
-  flex-direction: row;
+.NoteInput-text {
+  word-wrap: break-word;
+  width: 90%;
+  font-size: 15px !important;
 }
 
-.MatchSetting-verify-winner-isWinner {
-  background-color: gold !important;
-}
-
-.noselect {
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Old versions of Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
-  user-select: none;
-  /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+.NoteInput-text2 {
+  word-wrap: break-word;
+  width: 100%;
+  font-size: 14px !important;
+  font-weight: 100 !important;
+  /* height: 50%; */
+  margin-top: 0px;
 }
