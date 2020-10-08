@@ -238,7 +238,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 'Lịch thi đấu vòng chung kết',
                 'BXH vòng chung kết',
                 'Các đội tham gia giải',
-                'Các đội đang chờ phê duyệt',
+                // 'Các đội đang chờ phê duyệt',
                 'Báo cáo giải',
                 'Cài đặt'
               ];
@@ -251,7 +251,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
                 <BracketRank tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} canEdit={true} finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
                 <Teams tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
-                <PendingTeams tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
+                // <PendingTeams tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
                 <TournamentReport tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} />,
                 <TournamentSetting tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} />
               ];
@@ -283,7 +283,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 'Lịch thi đấu vòng chung kết',
                 'BXH vòng chung kết',
                 'Các đội tham gia giải',
-                'Các đội đang chờ phê duyệt',
+                // 'Các đội đang chờ phê duyệt',
                 'Báo cáo giải',
                 'Cài đặt'
               ];
@@ -293,7 +293,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 <BracketSchedule started={(nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.INITIALIZING && (nextProps.tournamentInfo.Tournament as IParams).status !== TOURNAMENT_STATUS.OPENING} tournamentId={this.props.routerInfo.match.params.tournamentId as number} finalStage={true} />,
                 <BracketRank tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} canEdit={true} finalStage={true} tournamentId={this.props.routerInfo.match.params.tournamentId as number} />,
                 <Teams tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
-                <PendingTeams tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
+                // <PendingTeams tournamentInfo={nextProps.tournamentInfo} id={this.props.routerInfo.match.params.tournamentId as number} />,
                 <TournamentReport tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} />,
                 <TournamentSetting tournamentStatus={(nextProps.tournamentInfo.Tournament as IParams).status as string} tournamentId={Number(this.props.routerInfo.match.params.tournamentId)} tournamentInfo={nextProps.tournamentInfo.Tournament as unknown as IParams} />
               ];
@@ -1223,10 +1223,12 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 handleCloseModal={this.handleCloseReportModal}
                 showModal={this.state.showReportModal}
                 handleConfirmModal={this.handleConfirmReportModal}
+                handleCancelModal={this.handleCloseReportModal}
+                cancelButtonText={'Thoát'}
               >
                 <div className={'Report-modal-container'}>
                   <div className={'Report-modal-header-container'}>
-                    <h1>Form Báo cáo</h1>
+                    <h1>Báo cáo vi phạm</h1>
                   </div>
                   <div className={'Report-modal-subject-input-container'}>
                     <p style={{ color: 'white', fontSize: '25px' }}>Tiêu đề: </p>
@@ -1243,6 +1245,8 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 handleCloseModal={this.handleCloseModal}
                 showModal={this.state.showJoinModal}
                 handleConfirmModal={this.handleConfirmModal}
+                handleCancelModal={this.handleCloseModal}
+                cancelButtonText={'Thoát'}
               >
                 <div className={'TournamentInfo-join-tournament-form-competition-header'}>
                   <h3>Form đăng ký dự thi</h3>
@@ -1309,10 +1313,12 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 handleCloseModal={this.handleCloseReportModal2}
                 showModal={this.state.showReportModal2}
                 handleConfirmModal={this.handleConfirmReportModal2}
+                handleCancelModal={this.handleCloseReportModal2}
+                cancelButtonText={'Thoát'}
               >
                 <div className={'Report-modal-container'}>
                   <div className={'Report-modal-header-container'}>
-                    <h1>Form Báo cáo gian lận trong giải</h1>
+                    <h1>Báo cáo gian lận trong giải</h1>
                   </div>
                   <div className={'Report-modal-subject-input-container'}>
                     <p style={{ color: 'white', fontSize: '25px' }}>Tiêu đề: </p>

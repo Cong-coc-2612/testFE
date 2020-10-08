@@ -51,10 +51,10 @@ interface IBracketMatchState {
 
 const customStyles: Styles = {
   content: {
-    top: '15%',
+    top: '10%',
     left: '25%',
     right: '25%',
-    bottom: '15%',
+    bottom: '10%',
     backgroundColor: '#2b303d',
     display: 'flex',
     flexDirection: 'column',
@@ -235,6 +235,14 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
   }
 
   componentDidMount() {
+    const params = {
+      path: '',
+      param: {
+        tournamentId: this.props.tournamentId,
+      },
+      data: {},
+    };
+    this.props.queryAllMatches(params);
     if (
       this.props.allMatches != null &&
       this.props.info != null
@@ -385,6 +393,22 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
 
   private handleConfirmModal = () => {
     if (this.props.roundRobin === true) {
+      if (
+        this.props.allMatches != null &&
+        this.props.info != null &&
+        this.props.info.id != null
+      ) {
+        const tempValue = (this.props.allMatches.Matchs as IParams[]).find(element => element.id === this.props.info.id);
+        if (tempValue != null && tempValue.location != null && tempValue.time != null) {
+          if ((tempValue.location as string).trim() === '' || (tempValue.time as string).trim() === '') {
+            alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
+            return;
+          }
+        } else {
+          alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
+          return;
+        }
+      }
       const params = {
         path: '',
         param: {
@@ -396,6 +420,23 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
       }
       this.props.finishMatch(params);
     } else {
+      if (
+        this.props.allMatches != null &&
+        this.props.info != null &&
+        this.props.info.data != null &&
+        (this.props.info.data as IParams).id != null
+      ) {
+        const tempValue = (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (this.props.info.data as IParams).id);
+        if (tempValue != null && tempValue.location != null && tempValue.time != null) {
+          if ((tempValue.location as string).trim() === '' || (tempValue.time as string).trim() === '') {
+            alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
+            return;
+          }
+        } else {
+          alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
+          return;
+        }
+      }
       const params = {
         path: '',
         param: {
@@ -473,6 +514,8 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
             handleConfirmModal={this.handleConfirmModal}
             confirmButtonText={'Kết thúc'}
             confirmButtonVisible={this.state.confirmButtonModalVisible}
+            handleCancelModal={this.handleCloseModal}
+            cancelButtonText={'Thoát'}
           >
             <CustomTab darkMode={true} tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={this.state.selectedIndexInTab} />
           </CustomModal>
@@ -559,6 +602,8 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
             handleConfirmModal={this.handleConfirmModal}
             confirmButtonText={'Kết thúc'}
             confirmButtonVisible={this.state.confirmButtonModalVisible}
+            handleCancelModal={this.handleCloseModal}
+            cancelButtonText={'Thoát'}
           >
             <CustomTab darkMode={true} tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={0} onChangeSelectedIndex={this.onChangeSelectedIndex} />
           </CustomModal>
@@ -649,6 +694,8 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
             handleConfirmModal={this.handleConfirmModal}
             confirmButtonText={'Kết thúc'}
             confirmButtonVisible={this.state.confirmButtonModalVisible}
+            handleCancelModal={this.handleCloseModal}
+            cancelButtonText={'Thoát'}
           >
             <CustomTab darkMode={true} tabList={this.tabList} componentList={this.tabComponentList} selectedIndex={this.state.selectedIndexInTab} />
           </CustomModal>

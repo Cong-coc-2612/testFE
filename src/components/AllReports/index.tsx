@@ -152,6 +152,8 @@ class AllReports extends React.Component<IAllReportsProps, IAllReportsState> {
           showModal={this.state.showModal}
           handleConfirmModal={this.handleConfirmModal}
           confirmButtonVisible={false}
+          handleCancelModal={this.handleCloseModal}
+          cancelButtonText={'Thoát'}
         >
           <div className={'Report-modal-container'}>
             <div className={'Report-modal-header-container'}>

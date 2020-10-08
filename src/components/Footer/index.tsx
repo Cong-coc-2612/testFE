@@ -181,6 +181,8 @@ class Footer extends React.Component<IFooterProps, IFooterState> {
           handleCloseModal={this.handleCloseReportModal}
           showModal={this.state.showReportModal}
           handleConfirmModal={this.handleConfirmReportModal}
+          handleCancelModal={this.handleCloseReportModal}
+          cancelButtonText={'Thoát'}
         >
           <div className={'Report-modal-container'}>
             <div className={'Report-modal-header-container'}>

@@ -678,39 +678,41 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
     };
 
     this.props.editTournamentInfo(params);
-    params = {
-      path: '',
-      param: {
-        id: (this.props.finalStageSetting as IParams).id,
-      },
-      data: {
-        tournamentId: this.props.tournamentId,
-        formatId: this.state.twoPhase === true ? (this.state.selectedCompetitionFormatPhase2 as IParams).value : (this.state.selectedCompetitionFormatPhase1 as IParams).value,
-        hasHomeMatch: this.state.twoPhase === true ? this.state.homeWayPhase2 : this.state.homeWayPhase1,
-        bo: this.state.twoPhase === true ? (this.state.boPhase2 as IParams).value : (this.state.boPhase1 as IParams).value,
-        status: (this.props.finalStageSetting as IParams).status,
-        url: (this.props.finalStageSetting as IParams).url,
-      },
-    };
-    this.props.editFinalStageSetting(params);
-    if (this.state.twoPhase === true) {
+    if ((this.props.tournamentStatus === TOURNAMENT_STATUS.INITIALIZING || this.props.tournamentStatus === TOURNAMENT_STATUS.OPENING)) {
       params = {
         path: '',
         param: {
-          id: (this.props.groupStageSetting as IParams).id,
+          id: (this.props.finalStageSetting as IParams).id,
         },
         data: {
           tournamentId: this.props.tournamentId,
-          formatId: (this.state.selectedCompetitionFormatPhase1 as IParams).value,
-          bo: (this.state.boPhase1 as IParams).value,
-          hasHomeMatch: this.state.homeWayPhase1,
-          status: (this.props.groupStageSetting as IParams).status,
-          url: (this.props.groupStageSetting as IParams).url,
-          advanceTeamPerTable: this.state.amountOfTeamsGoOnInAGroup,
-          maxTeamPerTable: this.state.amountOfTeamsInAGroup,
+          formatId: this.state.twoPhase === true ? (this.state.selectedCompetitionFormatPhase2 as IParams).value : (this.state.selectedCompetitionFormatPhase1 as IParams).value,
+          hasHomeMatch: this.state.twoPhase === true ? this.state.homeWayPhase2 : this.state.homeWayPhase1,
+          bo: this.state.twoPhase === true ? (this.state.boPhase2 as IParams).value : (this.state.boPhase1 as IParams).value,
+          status: (this.props.finalStageSetting as IParams).status,
+          url: (this.props.finalStageSetting as IParams).url,
         },
       };
-      this.props.editGroupStageSetting(params);
+      this.props.editFinalStageSetting(params);
+      if (this.state.twoPhase === true) {
+        params = {
+          path: '',
+          param: {
+            id: (this.props.groupStageSetting as IParams).id,
+          },
+          data: {
+            tournamentId: this.props.tournamentId,
+            formatId: (this.state.selectedCompetitionFormatPhase1 as IParams).value,
+            bo: (this.state.boPhase1 as IParams).value,
+            hasHomeMatch: this.state.homeWayPhase1,
+            status: (this.props.groupStageSetting as IParams).status,
+            url: (this.props.groupStageSetting as IParams).url,
+            advanceTeamPerTable: this.state.amountOfTeamsGoOnInAGroup,
+            maxTeamPerTable: this.state.amountOfTeamsInAGroup,
+          },
+        };
+        this.props.editGroupStageSetting(params);
+      }
     }
   }
 

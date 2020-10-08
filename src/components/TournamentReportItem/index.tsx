@@ -78,6 +78,8 @@ class TournamentReportItem extends React.Component<ITournamentReportItemProps, I
           showModal={this.state.seeMoreInfo}
           handleConfirmModal={this.handleConfirmModal}
           confirmButtonVisible={false}
+          handleCancelModal={this.handleCloseModal}
+          cancelButtonText={'Thoát'}
         >
           <div className={'Report-modal-container'}>
             <div className={'Report-modal-header-container'}>
