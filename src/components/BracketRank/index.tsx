@@ -204,8 +204,10 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
               showModal={this.state.showModal}
               handleConfirmModal={this.handleConfirmModal}
               confirmButtonVisible={false}
+              handleCancelModal={this.handleCloseModal}
+              cancelButtonText={'Thoát'}
             >
-              <p style={{ color: 'white' }}>Quy tắc xếp hạng (được tính theo thứ tư ưu tiên từ trên xuống dưới):<br /><br />1. Đội có số trận thắng nhiều hơn<br /><br />2. Đội có số trận thua ít hơn.<br /><br />3. hiệu số (số set thắng - số set thua).<br /><br />4. Đội có số set thắng nhiều hơn<br /><br />5. Nếu những quy tắc trên vẫn không phân định được thứ hạng, giải sẽ thực hiện phân hạng theo cách thủ công, bạn có thể thay đổi thứ tự bảng tùy chọn theo ý muốn (sau khi giai đoạn đó đã kết thúc).</p>
+              <p style={{ color: 'white' }}>Quy tắc xếp hạng dựa vào nhánh thi đấu.</p>
             </CustomModal>
           </div>
         );
@@ -240,7 +242,8 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                 </div> */}
               </div>
               {(item.rankingTable as IParams[]).map((item2, index2) =>
-                <div className={`BracketRank-item-container ${index2 % 2 === 0 ? 'BracketRank-item-container1' : 'BracketRank-item-container2'}`} key={index2}>
+                {
+                  return <div className={`BracketRank-item-container ${index2 % 2 === 0 ? 'BracketRank-item-container1' : 'BracketRank-item-container2'}`} key={index2}>
                   <div className="BracketRank-item-orderNumber-container">
                     <p className={`BracketRank-item-orderNumber-${index2 + 1} BracketRank-item-orderNumberr`}>{index2 + 1}</p>
                   </div>
@@ -263,10 +266,10 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                     <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.score}</p>
                   </div> */}
                   <div className="BracketRank-item-managerName2-container">
-                    <NoteInput tournamentStatus={this.props.tournamentStatus} canEdit={this.props.canEdit === true ? true : false} tournamentId={this.props.tournamentId} teamId={(item2.team as IParams).id as number} tableId={item.tableId as number} info={item2} index={index2} handleSaveChangeNote={this.handleSaveChangeNote} />
+                    {item2.team != null && <NoteInput tournamentStatus={this.props.tournamentStatus} canEdit={this.props.canEdit === true ? true : false} tournamentId={this.props.tournamentId} teamId={(item2.team as IParams).id as number} tableId={item.tableId as number} info={item2} index={index2} handleSaveChangeNote={this.handleSaveChangeNote} />}
                     {/* <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.note}</p> */}
                   </div>
-                </div>
+                </div>}
               )}
               <CustomModal
                 customStyles={customStyles}
@@ -274,6 +277,8 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                 showModal={this.state.showModal}
                 handleConfirmModal={this.handleConfirmModal}
                 confirmButtonVisible={false}
+                handleCancelModal={this.handleCloseModal}
+                cancelButtonText={'Thoát'}
               >
                 <p style={{ color: 'white' }}>Quy tắc xếp hạng (được tính theo thứ tư ưu tiên từ trên xuống dưới):<br /><br />1. Đội có số trận thắng nhiều hơn<br /><br />2. Đội có số trận thua ít hơn.<br /><br />3. hiệu số (số set thắng - số set thua).<br /><br />4. Đội có số set thắng nhiều hơn<br /><br />5. Nếu những quy tắc trên vẫn không phân định được thứ hạng, giải sẽ thực hiện phân hạng theo cách thủ công, bạn có thể thay đổi thứ tự bảng tùy chọn theo ý muốn (sau khi giai đoạn đó đã kết thúc).</p>
               </CustomModal>
