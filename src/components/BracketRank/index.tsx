@@ -143,7 +143,6 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
   render() {
     if (this.props.bracketRankInfo != null) {
       if (this.props.finalStage === true) {
-        console.log('this.props.bracketRankInfo.finalStageScheduleRanking', this.props.bracketRankInfo.finalStageScheduleRanking);
         return (
           <div className="BracketRank-container">
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start' }} onClick={this.onOpenRankRule}><p>Cách thức xếp hạng</p><AiOutlineQuestionCircle color={'red'} /></div>
@@ -193,7 +192,7 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                     <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{item.score}</p>
                   </div>
                   <div className="BracketRank-item-managerName2-container">
-                    <NoteInput tournamentStatus={this.props.tournamentStatus} canEdit={this.props.canEdit === true ? true : false} tournamentId={this.props.tournamentId} teamId={(item.team as IParams).id as number} tableId={-1} info={item} index={index} handleSaveChangeNote={this.handleSaveChangeNote} />
+                    {item.team != null && <NoteInput tournamentStatus={this.props.tournamentStatus} canEdit={this.props.canEdit === true ? true : false} tournamentId={this.props.tournamentId} teamId={(item.team as IParams).id as number} tableId={-1} info={item} index={index} handleSaveChangeNote={this.handleSaveChangeNote} />}
                     {/* <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.note}</p> */}
                   </div>
                 </div>

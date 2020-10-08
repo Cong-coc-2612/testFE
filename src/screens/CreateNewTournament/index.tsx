@@ -139,7 +139,7 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
       tournamentEndLocationErrorContent: '',
       selectedCompetitionFormatPhase1: { value: -1, label: '' },
       selectedCompetitionFormatPhase2: { value: -1, label: '' },
-      amountOfTeamsInAGroup: 2,
+      amountOfTeamsInAGroup: 3,
       amountOfTeamsInAGroupError: false,
       amountOfTeamsInAGroupErrorContent: '',
       amountOfTeamsGoOnInAGroup: 1,
@@ -583,9 +583,9 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
   private validateAmountOfTeamsInAGroup = () => {
     let amountOfTeamsInAGroupError = false;
     let amountOfTeamsInAGroupErrorContent = '';
-    if (this.state.amountOfTeamsInAGroup < 2) {
+    if (this.state.amountOfTeamsInAGroup < 3) {
       amountOfTeamsInAGroupError = true;
-      amountOfTeamsInAGroupErrorContent = 'Số đội tối đa trong 1 bảng phải lớn hơn 1';
+      amountOfTeamsInAGroupErrorContent = 'Số đội tối đa trong 1 bảng phải lớn hơn 2';
     }
 
     return { amountOfTeamsInAGroupError, amountOfTeamsInAGroupErrorContent };

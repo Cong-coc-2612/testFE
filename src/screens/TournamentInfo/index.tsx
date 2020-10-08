@@ -1160,7 +1160,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                       </div>
                     ))
                   }
-                  {this.props.tournamentInfo != null && this.props.tournamentInfo.Config != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Config as IParams).canEdit !== true && (this.props.tournamentInfo.Tournament as IParams).status !== 'finished' &&
+                  {this.props.currentUserInfo != null && cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null && this.props.tournamentInfo != null && this.props.tournamentInfo.Config != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Config as IParams).canEdit !== true && (this.props.tournamentInfo.Tournament as IParams).status !== 'finished' &&
                     <div className="TournamentInfo-login-container">
                       <div
                         className="TournamentInfo-login"
@@ -1170,7 +1170,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                       </div>
                     </div>
                   }
-                  {this.props.tournamentInfo != null && this.props.tournamentInfo.Config != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Config as IParams).canEdit !== true && (this.props.tournamentInfo.Tournament as IParams).status !== 'finished' &&
+                  {this.props.currentUserInfo != null && cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null && this.props.tournamentInfo != null && this.props.tournamentInfo.Config != null && this.props.tournamentInfo.Tournament != null && (this.props.tournamentInfo.Config as IParams).canEdit !== true && (this.props.tournamentInfo.Tournament as IParams).status !== 'finished' &&
                     <div className="TournamentInfo-login-container">
                       <div
                         className="TournamentInfo-login"

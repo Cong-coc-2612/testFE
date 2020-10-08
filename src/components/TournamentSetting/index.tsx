@@ -167,7 +167,7 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
       amountOfTeamsInAGroupErrorContent: '',
       amountOfTeamsGoOnInAGroupError: false,
       amountOfTeamsGoOnInAGroupErrorContent: '',
-      amountOfTeamsInAGroup: props.groupStageSetting != null ? props.groupStageSetting.maxTeamPerTable as number : 2,
+      amountOfTeamsInAGroup: props.groupStageSetting != null ? props.groupStageSetting.maxTeamPerTable as number : 3,
       amountOfTeamsGoOnInAGroup: props.groupStageSetting != null ? props.groupStageSetting.advanceTeamPerTable as number : 1,
       startDateError: false,
       endDateError: false,
@@ -783,9 +783,9 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
   private validateAmountOfTeamsInAGroup = () => {
     let amountOfTeamsInAGroupError = false;
     let amountOfTeamsInAGroupErrorContent = '';
-    if (this.state.amountOfTeamsInAGroup < 2) {
+    if (this.state.amountOfTeamsInAGroup < 3) {
       amountOfTeamsInAGroupError = true;
-      amountOfTeamsInAGroupErrorContent = 'Số đội tối đa trong 1 bảng phải lớn hơn 1';
+      amountOfTeamsInAGroupErrorContent = 'Số đội tối đa trong 1 bảng phải lớn hơn 2';
     }
 
     return { amountOfTeamsInAGroupError, amountOfTeamsInAGroupErrorContent };
