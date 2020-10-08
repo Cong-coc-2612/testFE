@@ -286,32 +286,32 @@ class SignUp extends React.Component<ISignUpProps, ISignUpState> {
           block={CHECK_EMAIL_EXISTED}
           unblock={[CHECK_EMAIL_EXISTED_FAILED, CHECK_EMAIL_EXISTED_SUCCESS]}
         >
-        <ReduxBlockUi
-          tag="div"
-          block={SIGNUP}
-          unblock={[SIGNUP_FAILED, SIGNUP_SUCCESS]}
-        >
-          <div className="Container-login">
-            <div className="Container-login-middle">
-              <h2>Đăng ký</h2>
-              <p className="Long-introduction">Bắt đầu dễ dàng bằng cách đăng ký để quản lý các giải đấu</p>
+          <ReduxBlockUi
+            tag="div"
+            block={SIGNUP}
+            unblock={[SIGNUP_FAILED, SIGNUP_SUCCESS]}
+          >
+            <div className="Container-login">
+              <div className="Container-login-middle">
+                <h2>Đăng ký</h2>
+                <p className="Long-introduction">Bắt đầu dễ dàng bằng cách đăng ký để quản lý các giải đấu</p>
 
-              <TextInput onHandleSubmit={this.handleSignUp} label={'Tên đăng nhập'} onChangeText={this.onChangeUserName} error={this.state.usernameError} errorContent={this.state.usernameErrorContent} onBlur={this.onBlurUserName} />
-              <TextInput onHandleSubmit={this.handleSignUp} label={'Họ'} onChangeText={this.onChangeFirstName} error={this.state.firstNameError} errorContent={this.state.firstNameErrorContent} />
-              <TextInput onHandleSubmit={this.handleSignUp} label={'Tên'} onChangeText={this.onChangeLastName} error={this.state.lastNameError} errorContent={this.state.lastNameErrorContent} />
-              <TextInput onHandleSubmit={this.handleSignUp} label={'Email'} onChangeText={this.onChangeEmail} error={this.state.emailError} errorContent={this.state.emailErrorContent} onBlur={this.onBlurEmail} />
-              <TextInput onHandleSubmit={this.handleSignUp} label={'Mật khẩu'} type={'password'} onChangeText={this.onChangePassword} error={this.state.passwordError} errorContent={this.state.passwordErrorContent} />
-              <TextInput onHandleSubmit={this.handleSignUp} label={'Xác nhận mật khẩu'} type={'password'} onChangeText={this.onChangeReconfirmPassword} error={this.state.reconfirmPasswordError} errorContent={this.state.reconfirmPasswordErrorContent} />
+                <TextInput onHandleSubmit={this.handleSignUp} label={'Tên đăng nhập'} onChangeText={this.onChangeUserName} error={this.state.usernameError} errorContent={this.state.usernameErrorContent} onBlur={this.onBlurUserName} />
+                <TextInput onHandleSubmit={this.handleSignUp} label={'Tên'} onChangeText={this.onChangeFirstName} error={this.state.firstNameError} errorContent={this.state.firstNameErrorContent} />
+                <TextInput onHandleSubmit={this.handleSignUp} label={'Họ'} onChangeText={this.onChangeLastName} error={this.state.lastNameError} errorContent={this.state.lastNameErrorContent} />
+                <TextInput onHandleSubmit={this.handleSignUp} label={'Email'} onChangeText={this.onChangeEmail} error={this.state.emailError} errorContent={this.state.emailErrorContent} onBlur={this.onBlurEmail} />
+                <TextInput onHandleSubmit={this.handleSignUp} label={'Mật khẩu'} type={'password'} onChangeText={this.onChangePassword} error={this.state.passwordError} errorContent={this.state.passwordErrorContent} />
+                <TextInput onHandleSubmit={this.handleSignUp} label={'Xác nhận mật khẩu'} type={'password'} onChangeText={this.onChangeReconfirmPassword} error={this.state.reconfirmPasswordError} errorContent={this.state.reconfirmPasswordErrorContent} />
 
-              <div className="Button-login-container" onClick={this.handleSignUp}>
-                <div className="Button-login">
-                  <h4 className="Button-login-text">Đăng ký</h4>
+                <div className="Button-login-container" onClick={this.handleSignUp}>
+                  <div className="Button-login">
+                    <h4 className="Button-login-text">Đăng ký</h4>
+                  </div>
                 </div>
-              </div>
 
+              </div>
             </div>
-          </div>
-        </ReduxBlockUi>
+          </ReduxBlockUi>
         </ReduxBlockUi>
       </ReduxBlockUi>
     );

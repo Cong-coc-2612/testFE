@@ -120,7 +120,9 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
           for (let i = 1; i <= data.Schedule.finalStageSchedule.totalRound; i++) {
             for (let j = 0; j < data.Schedule.finalStageSchedule.matches.length; j++) {
               if (data.Schedule.finalStageSchedule.matches[j].roundNo === i) {
-                listMatches.push(data.Schedule.finalStageSchedule.matches[j] as IParams);
+                if (data.Schedule.finalStageSchedule.matches[j].status !== -1) {
+                  listMatches.push(data.Schedule.finalStageSchedule.matches[j] as IParams);
+                }
               }
             }
             listRRRound.push({ listMatches, roundName: data.Schedule.finalStageSchedule.roundsNaming[i - 1] } as unknown as IParams);
@@ -215,9 +217,21 @@ function* doQueryBracketBoardInfo(request: IRequest<IBigRequest>) {
               if (data.Schedule.groupStageSchedule.tables[i].totalRound != null) {
                 for (let j = 1; j <= data.Schedule.groupStageSchedule.tables[i].totalRound; j++) {
                   if (data.Schedule.groupStageSchedule.tables[i].matches != null) {
-                    for (let k = 0; k < data.Schedule.groupStageSchedule.tables[i].matches.length; k++) {
-                      if (data.Schedule.groupStageSchedule.tables[i].matches[k].roundNo === j) {
-                        listMatches.push(data.Schedule.groupStageSchedule.tables[i].matches[k] as IParams);
+                    if (data.Schedule.groupStageSchedule.tables[i].matches.length > 1) {
+                      for (let k = 0; k < data.Schedule.groupStageSchedule.tables[i].matches.length; k++) {
+                        if (data.Schedule.groupStageSchedule.tables[i].matches[k].roundNo === j) {
+                          if (data.Schedule.groupStageSchedule.tables[i].matches[k].status !== -1) {
+                            listMatches.push(data.Schedule.groupStageSchedule.tables[i].matches[k] as IParams);
+                          }
+                        }
+                      }
+                    } else {
+                      for (let k = 0; k < data.Schedule.groupStageSchedule.tables[i].matches.length; k++) {
+                        if (data.Schedule.groupStageSchedule.tables[i].matches[k].roundNo === j) {
+                          // if (data.Schedule.groupStageSchedule.tables[i].matches[k].status !== -1) {
+                          listMatches.push(data.Schedule.groupStageSchedule.tables[i].matches[k] as IParams);
+                          // }
+                        }
                       }
                     }
                     listRRRound.push({ listMatches, roundName: data.Schedule.groupStageSchedule.tables[i].roundsNaming[j - 1] } as IParams);
