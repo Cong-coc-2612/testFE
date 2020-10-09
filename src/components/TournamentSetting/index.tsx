@@ -385,6 +385,10 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
           startDate: value,
         });
       } else {
+
+
+
+
         let earliestTime: Date | null = null;
         if (this.props.bracketBoardInfo.groupStage == null) {
           if ((this.props.bracketBoardInfo.finalStage as IParams).listRound) {
@@ -549,7 +553,15 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
             }
           }
         }
+
+
+
+
       }
+
+
+
+
     }
   };
 
@@ -563,13 +575,188 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
         endDate: value,
       });
     } else {
-      this.setState({
-        endDate: value,
-        endDateError: false,
-        endDateErrorContent: '',
-        startDateError: false,
-        startDateErrorContent: '',
-      });
+      if (this.props.bracketBoardInfo == null) {
+        this.setState({
+          endDate: value,
+          endDateError: false,
+          endDateErrorContent: '',
+          startDateError: false,
+          startDateErrorContent: '',
+        });
+      } else {
+
+
+
+
+        let earliestTime: Date | null = null;
+        if (this.props.bracketBoardInfo.groupStage == null) {
+          if ((this.props.bracketBoardInfo.finalStage as IParams).listRound) {
+            for (let i = 0; i < (((this.props.bracketBoardInfo.finalStage as IParams).listRound as IParams[])[0].listMatches as IParams[]).length; i++) {
+              if ((((this.props.bracketBoardInfo.finalStage as IParams).listRound as IParams[])[0].listMatches as IParams[])[i].id !== -1 && ((((this.props.bracketBoardInfo.finalStage as IParams).listRound as IParams[])[0].listMatches as IParams[])[i].data as IParams).time !== '') {
+                if (earliestTime == null) {
+                  earliestTime = formatStringToDate(((((this.props.bracketBoardInfo.finalStage as IParams).listRound as IParams[])[0].listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                } else {
+                  if (isAfter(formatStringToDate(((((this.props.bracketBoardInfo.finalStage as IParams).listRound as IParams[])[0].listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss'), earliestTime)) {
+                    earliestTime = formatStringToDate(((((this.props.bracketBoardInfo.finalStage as IParams).listRound as IParams[])[0].listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                  }
+                }
+              }
+            }
+            if (earliestTime == null) {
+              this.setState({
+                endDateError: false,
+                endDateErrorContent: '',
+                startDateError: false,
+                startDateErrorContent: '',
+                endDate: value,
+              });
+            } else {
+              if (isBefore(value, earliestTime)) {
+                this.setState({
+                  endDateError: true,
+                  endDateErrorContent: 'Đã có trận đấu diễn ra sau ngày này',
+                  startDateError: false,
+                  startDateErrorContent: '',
+                  endDate: value,
+                });
+              } else {
+                this.setState({
+                  endDateError: false,
+                  endDateErrorContent: '',
+                  startDateError: false,
+                  startDateErrorContent: '',
+                  endDate: value,
+                });
+              }
+            }
+          } else {
+            if ((this.props.bracketBoardInfo.finalStage as IParams).listWinRound) {
+              for (let i = 0; i < (((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as IParams[])[0].listWinMatches as IParams[]).length; i++) {
+                if ((((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as IParams[])[0].listWinMatches as IParams[])[i].id !== -1 && ((((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as IParams[])[0].listWinMatches as IParams[])[i].data as IParams).time !== '') {
+                  if (earliestTime == null) {
+                    earliestTime = formatStringToDate(((((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as IParams[])[0].listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                  } else {
+                    if (isAfter(formatStringToDate(((((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as IParams[])[0].listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss'), earliestTime)) {
+                      earliestTime = formatStringToDate(((((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as IParams[])[0].listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                    }
+                  }
+                }
+              }
+              if (earliestTime == null) {
+                this.setState({
+                  endDateError: false,
+                  endDateErrorContent: '',
+                  startDateError: false,
+                  startDateErrorContent: '',
+                  endDate: value,
+                });
+              } else {
+                if (isBefore(value, earliestTime)) {
+                  this.setState({
+                    endDateError: true,
+                    endDateErrorContent: 'Đã có trận đấu diễn ra sau ngày này',
+                    startDateError: false,
+                    startDateErrorContent: '',
+                    endDate: value,
+                  });
+                } else {
+                  this.setState({
+                    endDateError: false,
+                    endDateErrorContent: '',
+                    startDateError: false,
+                    startDateErrorContent: '',
+                    endDate: value,
+                  });
+                }
+              }
+            } else {
+              for (let i = 0; i < (((this.props.bracketBoardInfo.finalStage as IParams).listRRRound as IParams[])[0].listMatches as IParams[]).length; i++) {
+                if ((((this.props.bracketBoardInfo.finalStage as IParams).listRRRound as IParams[])[0].listMatches as IParams[])[i].time !== '') {
+                  if (earliestTime == null) {
+                    earliestTime = formatStringToDate((((this.props.bracketBoardInfo.finalStage as IParams).listRRRound as IParams[])[0].listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss');
+                  } else {
+                    if (isAfter(formatStringToDate((((this.props.bracketBoardInfo.finalStage as IParams).listRRRound as IParams[])[0].listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss'), earliestTime)) {
+                      earliestTime = formatStringToDate((((this.props.bracketBoardInfo.finalStage as IParams).listRRRound as IParams[])[0].listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss');
+                    }
+                  }
+                }
+              }
+              if (earliestTime == null) {
+                this.setState({
+                  endDateError: false,
+                  endDateErrorContent: '',
+                  startDateError: false,
+                  startDateErrorContent: '',
+                  endDate: value,
+                });
+              } else {
+                if (isBefore(value, earliestTime)) {
+                  this.setState({
+                    endDateError: true,
+                    endDateErrorContent: 'Đã có trận đấu diễn ra sau ngày này',
+                    startDateError: false,
+                    startDateErrorContent: '',
+                    endDate: value,
+                  });
+                } else {
+                  this.setState({
+                    endDateError: false,
+                    endDateErrorContent: '',
+                    startDateError: false,
+                    startDateErrorContent: '',
+                    endDate: value,
+                  });
+                }
+              }
+            }
+          }
+        } else {
+          for (let j = 0; j < ((this.props.bracketBoardInfo.groupStage as IParams).listTableRR as IParams[]).length; j++) {
+            for (let i = 0; i < ((((this.props.bracketBoardInfo.groupStage as IParams).listTableRR as IParams[])[j].listRRRound as IParams[])[0].listMatches as IParams[]).length; i++) {
+              if (((((this.props.bracketBoardInfo.groupStage as IParams).listTableRR as IParams[])[j].listRRRound as IParams[])[0].listMatches as IParams[])[i].time !== '') {
+                if (earliestTime == null) {
+                  earliestTime = formatStringToDate(((((this.props.bracketBoardInfo.groupStage as IParams).listTableRR as IParams[])[j].listRRRound as IParams[])[0].listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss');
+                } else {
+                  if (isAfter(formatStringToDate(((((this.props.bracketBoardInfo.groupStage as IParams).listTableRR as IParams[])[j].listRRRound as IParams[])[0].listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss'), earliestTime)) {
+                    earliestTime = formatStringToDate(((((this.props.bracketBoardInfo.groupStage as IParams).listTableRR as IParams[])[j].listRRRound as IParams[])[0].listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss');
+                  }
+                }
+              }
+            }
+            if (earliestTime == null) {
+              this.setState({
+                endDateError: false,
+                endDateErrorContent: '',
+                startDateError: false,
+                startDateErrorContent: '',
+                endDate: value,
+              });
+            } else {
+              if (isBefore(value, earliestTime)) {
+                this.setState({
+                  endDateError: true,
+                  endDateErrorContent: 'Đã có trận đấu diễn ra sau ngày này',
+                  startDateError: false,
+                  startDateErrorContent: '',
+                  endDate: value,
+                });
+              } else {
+                this.setState({
+                  endDateError: false,
+                  endDateErrorContent: '',
+                  startDateError: false,
+                  startDateErrorContent: '',
+                  endDate: value,
+                });
+              }
+            }
+          }
+        }
+
+
+
+
+      }
     }
   };
 
@@ -1165,7 +1352,7 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
                   <td>Thời gian bế mạc: </td>
                   <td>
                     <DatePicker
-                      minDate={formatStringToDate(this.props.tournamentInfo.closingTime as string, 'yyyy-MM-dd HH:mm:ss')}
+                      minDate={formatStringToDate(this.props.tournamentInfo.openingTime as string, 'yyyy-MM-dd HH:mm:ss')}
                       selected={this.state.endDate}
                       dateFormat="dd/MM/yyyy"
                       onChange={this.handleChangeEndDate}

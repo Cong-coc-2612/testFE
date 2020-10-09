@@ -415,7 +415,7 @@ class CompetitionInfo extends React.Component<ICompetitionInfoProps, ICompetitio
     }
     if (this.state.teamShortNameInForm.trim() === '') {
       teamShortNameInFormError = true;
-      teamShortNameInFormErrorContent = 'Tên ngắn đội không được trống';
+      teamShortNameInFormErrorContent = 'Tên viết tắt của đội không được trống';
     }
 
     return {
@@ -1230,7 +1230,7 @@ class CompetitionInfo extends React.Component<ICompetitionInfoProps, ICompetitio
               <h3>Form đăng ký dự thi</h3>
             </div>
             <TextInput label={'Tên đội'} value={this.state.teamNameInForm} onChangeText={this.onChangeTeamNameInForm} error={this.state.teamNameInFormError} errorContent={this.state.teamNameInFormErrorContent} />
-            <TextInput label={'Tên ngắn đội'} value={this.state.teamShortNameInForm} onChangeText={this.onChangeTeamShortNameInForm} error={this.state.teamShortNameInFormError} errorContent={this.state.teamShortNameInFormErrorContent} />
+            <TextInput label={'Tên viết tắt của đội'} value={this.state.teamShortNameInForm} onChangeText={this.onChangeTeamShortNameInForm} error={this.state.teamShortNameInFormError} errorContent={this.state.teamShortNameInFormErrorContent} />
             <div className="TournamentInfo-join-tournament-container">
               <div className="TournamentInfo-join-tournament-item1">
                 <p>Tên</p>

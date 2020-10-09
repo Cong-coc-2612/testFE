@@ -595,7 +595,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
     }
     if (this.state.teamShortNameInForm.trim() === '' || !config.regex.teamShortName.test(this.state.teamShortNameInForm)) {
       teamShortNameInFormError = true;
-      teamShortNameInFormErrorContent = 'Tên ngắn đội không được trống, tối đa 8 kí tự và không chứa kí tự đặc biệt';
+      teamShortNameInFormErrorContent = 'Tên viết tắt của đội không được trống, tối đa 8 kí tự và không chứa kí tự đặc biệt';
     }
 
     return {
@@ -969,7 +969,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                       </div>
                       <div className="TournamentInfo-content-info-basic-info-container-singleRow">
                         <div className="TournamentInfo-info-item">
-                          <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Tên ngắn: ${(this.props.tournamentInfo.Tournament as unknown as IParams).shortName}` : <Skeleton width={200} height={20} />}</p>
+                          <p>{this.props.tournamentInfo != null && this.props.tournamentInfo.Tournament ? `Tên viết tắt của giải: ${(this.props.tournamentInfo.Tournament as unknown as IParams).shortName}` : <Skeleton width={200} height={20} />}</p>
                         </div>
                       </div>
                       <div className="TournamentInfo-content-info-basic-info-container-singleRow">
@@ -1264,7 +1264,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                   {this.state.selectedCompetitionInFormError === true && <p style={{ color: 'red' }}>{this.state.selectedCompetitionInFormErrorContent}</p>}
                 </div> */}
                 <TextInput label={'Tên đội'} value={this.state.teamNameInForm} onChangeText={this.onChangeTeamNameInForm} error={this.state.teamNameInFormError} errorContent={this.state.teamNameInFormErrorContent} />
-                <TextInput label={'Tên ngắn đội'} value={this.state.teamShortNameInForm} onChangeText={this.onChangeTeamShortNameInForm} error={this.state.teamShortNameInFormError} errorContent={this.state.teamShortNameInFormErrorContent} />
+                <TextInput label={'Tên viết tắt của đội'} value={this.state.teamShortNameInForm} onChangeText={this.onChangeTeamShortNameInForm} error={this.state.teamShortNameInFormError} errorContent={this.state.teamShortNameInFormErrorContent} />
                 <div className="TournamentInfo-join-tournament-container">
                   <div className="TournamentInfo-join-tournament-item1">
                     <p style={{color: 'white'}}>Tên</p>

@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ReduxBlockUi from 'react-block-ui/redux';
 import TextInput from 'components/TextInput';
 import { IBigRequest } from 'interfaces/common';
 import config from 'config';
 import { forgotPassword } from './actions';
+import { FORGOT_PASSWORD } from 'redux-saga/actions';
+import { FORGOT_PASSWORD_FAILED, FORGOT_PASSWORD_SUCCESS } from './reducers';
 import './styles.css';
 
 interface IForgotPasswordProps extends React.ClassAttributes<ForgotPassword> {
@@ -63,20 +66,26 @@ class ForgotPassword extends React.Component<IForgotPasswordProps, IForgotPasswo
 
   render() {
     return (
-      <div className="Container-login">
-        <div className="Container-login-middle">
-          <h2>Quên mật khẩu</h2>
-          <p className="Long-introduction">Nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một liên kết để đặt lại mật khẩu của bạn.</p>
+      <ReduxBlockUi
+        tag="div"
+        block={FORGOT_PASSWORD}
+        unblock={[FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILED]}
+      >
+        <div className="Container-login">
+          <div className="Container-login-middle">
+            <h2>Quên mật khẩu</h2>
+            <p className="Long-introduction">Nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một liên kết để đặt lại mật khẩu của bạn.</p>
 
-          <TextInput onHandleSubmit={this.handleSubmitForm} label={'Email của bạn'} onChangeText={this.onChangeEmail} error={this.state.emailError} errorContent={this.state.emailErrorContent} />
-          <div className="Button-login-container">
-            <div className="Button-login" onClick={this.handleSubmitForm}>
-              <h4 className="Button-login-text">Gửi</h4>
+            <TextInput onHandleSubmit={this.handleSubmitForm} label={'Email của bạn'} onChangeText={this.onChangeEmail} error={this.state.emailError} errorContent={this.state.emailErrorContent} />
+            <div className="Button-login-container">
+              <div className="Button-login" onClick={this.handleSubmitForm}>
+                <h4 className="Button-login-text">Gửi</h4>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
-      </div>
+      </ReduxBlockUi>
     );
   }
 }
