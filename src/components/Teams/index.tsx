@@ -130,7 +130,7 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
       <div className="UserInfoTeams-container">
         {this.props.listTeam != null ? (this.props.listTeam.length > 0 ?
           this.props.listTeam.map(
-            (item, index) => <UserInfoTeamsItem tournamentStatus={this.props.tournamentStatus} listTeam={this.props.listTeam as IParams[]} tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} />
+            (item, index) => <UserInfoTeamsItem canEdit={this.props.addItem !== false ? true : false} tournamentStatus={this.props.tournamentStatus} listTeam={this.props.listTeam as IParams[]} tournamentInfo={this.props.tournamentInfo} info={item} index={index} key={index} />
           ) : <p>Không tìm thấy đội nào!</p>) :
           <Skeleton />
         }

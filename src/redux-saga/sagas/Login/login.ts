@@ -29,7 +29,7 @@ function* doLogin(request: IRequest<IBigRequest>) {
         yield cookies.set(COOKIES_TYPE.AUTH_TOKEN, data, { path: '/' });
         yield history.push("/");
       } else if (response.data.error.Message === 'User is not active') {
-        throw new Error('Tài khoản này chưa được kích hoạt, xin hãy vào email của bạn để kích hoạt tài khoản. Nếu không thể kích hoạt, bấm VÀO ĐÂY để gửi lại mã');
+        throw new Error('Tài khoản này chưa được kích hoạt, xin hãy vào email của bạn để kích hoạt tài khoản. Nếu không thể kích hoạt, hãy liên hệ với quản trị viên');
       } else {
         yield cookies.remove(COOKIES_TYPE.AUTH_TOKEN);
         yield put({

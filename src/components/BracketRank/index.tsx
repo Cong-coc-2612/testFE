@@ -145,7 +145,6 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
       if (this.props.finalStage === true) {
         return (
           <div className="BracketRank-container">
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start' }} onClick={this.onOpenRankRule}><p>Cách thức xếp hạng</p><AiOutlineQuestionCircle color={'red'} /></div>
             {this.props.tournamentStatus !== TOURNAMENT_STATUS.FINISHED && this.props.canEdit === true && this.finished === true && this.props.bracketRankInfo.finalStageScheduleRanking != null && (this.props.bracketRankInfo.finalStageScheduleRanking as IParams[]).length > 1 && <BracketRankSwapTeam tableId={-1} tournamentId={this.props.tournamentId} tableName={''} listTeam={this.props.bracketRankInfo.finalStageScheduleRanking as IParams[]} />}
             <div className="BracketRank-item-container BracketRank-menuItem-container">
               <div className="BracketRank-item-orderNumber-container">
@@ -160,12 +159,12 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
               <div className="BracketRank-item-score-container">
                 <p style={{ color: 'white' }}>Thua</p>
               </div>
-              <div className="BracketRank-item-score-container">
+              {/* <div className="BracketRank-item-score-container">
                 <p style={{ color: 'white' }}>Hiệu số</p>
               </div>
               <div className="BracketRank-item-matchHistory-container">
                 <p style={{ color: 'white' }}>Số set thắng</p>
-              </div>
+              </div> */}
               <div className="BracketRank-item-managerName2-container">
                 <p style={{ color: 'white' }}>Ghi chú</p>
               </div>
@@ -185,12 +184,12 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                   <div className="BracketRank-item-score-container">
                     <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{item.totalLose}</p>
                   </div>
-                  <div className="BracketRank-item-score-container">
+                  {/* <div className="BracketRank-item-score-container">
                     <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{item.difference}</p>
                   </div>
                   <div className="BracketRank-item-matchHistory-container">
                     <p className={`BracketRank-item-orderNumber-${index + 1} BracketRank-item-orderNumberr`}>{item.score}</p>
-                  </div>
+                  </div> */}
                   <div className="BracketRank-item-managerName2-container">
                     {item.team != null && <NoteInput tournamentStatus={this.props.tournamentStatus} canEdit={this.props.canEdit === true ? true : false} tournamentId={this.props.tournamentId} teamId={(item.team as IParams).id as number} tableId={-1} info={item} index={index} handleSaveChangeNote={this.handleSaveChangeNote} />}
                     {/* <p className={`BracketRank-item-orderNumber-${index2 + 1}`}>{item2.note}</p> */}

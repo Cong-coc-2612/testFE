@@ -394,22 +394,22 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
 
   private handleConfirmModal = () => {
     if (this.props.roundRobin === true) {
-      if (
-        this.props.allMatches != null &&
-        this.props.info != null &&
-        this.props.info.id != null
-      ) {
-        const tempValue = (this.props.allMatches.Matchs as IParams[]).find(element => element.id === this.props.info.id);
-        if (tempValue != null && tempValue.location != null && tempValue.time != null) {
-          if ((tempValue.location as string).trim() === '' || (tempValue.time as string).trim() === '') {
-            alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
-            return;
-          }
-        } else {
-          alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
-          return;
-        }
-      }
+      // if (
+      //   this.props.allMatches != null &&
+      //   this.props.info != null &&
+      //   this.props.info.id != null
+      // ) {
+      //   const tempValue = (this.props.allMatches.Matchs as IParams[]).find(element => element.id === this.props.info.id);
+      //   if (tempValue != null && tempValue.location != null && tempValue.time != null) {
+      //     if ((tempValue.location as string).trim() === '' || (tempValue.time as string).trim() === '') {
+      //       alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
+      //       return;
+      //     }
+      //   } else {
+      //     alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
+      //     return;
+      //   }
+      // }
       const params = {
         path: '',
         param: {
@@ -421,23 +421,23 @@ class BracketMatch extends React.Component<IBracketMatchProps, IBracketMatchStat
       }
       this.props.finishMatch(params);
     } else {
-      if (
-        this.props.allMatches != null &&
-        this.props.info != null &&
-        this.props.info.data != null &&
-        (this.props.info.data as IParams).id != null
-      ) {
-        const tempValue = (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (this.props.info.data as IParams).id);
-        if (tempValue != null && tempValue.location != null && tempValue.time != null) {
-          if ((tempValue.location as string).trim() === '' || (tempValue.time as string).trim() === '') {
-            alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
-            return;
-          }
-        } else {
-          alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
-          return;
-        }
-      }
+      // if (
+      //   this.props.allMatches != null &&
+      //   this.props.info != null &&
+      //   this.props.info.data != null &&
+      //   (this.props.info.data as IParams).id != null
+      // ) {
+      //   const tempValue = (this.props.allMatches.Matchs as IParams[]).find(element => element.id === (this.props.info.data as IParams).id);
+      //   if (tempValue != null && tempValue.location != null && tempValue.time != null) {
+      //     if ((tempValue.location as string).trim() === '' || (tempValue.time as string).trim() === '') {
+      //       alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
+      //       return;
+      //     }
+      //   } else {
+      //     alert('Trận đấu này không thể kết thúc do chưa có thời gian và địa điểm');
+      //     return;
+      //   }
+      // }
       const params = {
         path: '',
         param: {
