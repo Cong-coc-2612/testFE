@@ -134,7 +134,7 @@ class SignUp extends React.Component<ISignUpProps, ISignUpState> {
     let usernameErrorContent = '';
     if (this.state.username.trim() === '' || !config.regex.username.test(this.state.username)) {
       usernameError = true;
-      usernameErrorContent = 'Tên đăng nhập không được trống, và phải chứa từ 8 đến 32 kí tự';
+      usernameErrorContent = 'Tên đăng nhập phải không dấu, không được trống, và phải chứa từ 8 đến 32 kí tự';
     } else {
       const params = {
         path: '',
@@ -214,7 +214,7 @@ class SignUp extends React.Component<ISignUpProps, ISignUpState> {
     let reconfirmPasswordError = false;
     if (this.state.password.includes(' ') || !config.regex.password.test(this.state.password) || this.state.password.trim() === '') {
       passwordError = true;
-      passwordErrorContent = 'Mật khẩu không chứa kí tự đặc biệt, và phải chứa từ 8 đến 32 kí tự';
+      passwordErrorContent = 'Mật khẩu không chứa dấu cách, và phải chứa từ 8 đến 32 kí tự';
     }
     if (this.state.username.trim() === '' || !config.regex.username.test(this.state.username)) {
       usernameError = true;

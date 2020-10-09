@@ -73,13 +73,13 @@ class ChangePassword extends React.Component<IChangePasswordProps, IChangePasswo
     //   oldPasswordError = true;
     //   oldPasswordErrorContent = 'Mật khẩu không được trống, và không chứa dấu cách';
     // }
-    if (this.state.oldPassword.includes(' ') || !config.regex.password.test(this.state.oldPassword) || this.state.oldPassword.trim() === '') {
+    if (this.state.oldPassword.trim() === '') {
       oldPasswordError = true;
-      oldPasswordErrorContent = 'Mật khẩu cũ không chứa kí tự đặc biệt, và phải chứa từ 8 đến 32 kí tự';
+      oldPasswordErrorContent = 'Mật khẩu cũ không được trống';
     }
     if (this.state.newPassword.includes(' ') || !config.regex.password.test(this.state.newPassword) || this.state.newPassword.trim() === '') {
       newPasswordError = true;
-      newPasswordErrorContent = 'Mật khẩu cũ không chứa kí tự đặc biệt, và phải chứa từ 8 đến 32 kí tự';
+      newPasswordErrorContent = 'Mật khẩu mới không chứa dấu cách, và phải chứa từ 8 đến 32 kí tự';
     }
     if (newPasswordError !== true && oldPasswordError !== true && this.state.newPassword === this.state.oldPassword) {
       newPasswordError = true;

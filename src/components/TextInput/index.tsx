@@ -45,11 +45,11 @@ class TextInput extends React.Component<ITextInputProps, ITextInputState> {
   render() {
     return (
       <div className="omrs-input-group">
-        <div className="TextInput-error-text-container"><p className={`${this.props.error === true ? 'TextInput-error-text' : 'TextInput-non-error-text'}`}>{this.props.errorContent}</p></div>
         <label className="omrs-input-underlined">
           <input style={this.props.style} required {...this.props.defaultValue && { defaultValue: this.props.defaultValue }} type={this.props.type} onChange={this.onChangeValue} onKeyPress={this.keyPressed} value={this.props.value} onBlur={this.handleOnBlur} />
           <span className="omrs-input-label">{this.props.label}</span>
         </label>
+        <div className="TextInput-error-text-container"><p className={`${this.props.error === true ? 'TextInput-error-text' : 'TextInput-non-error-text'}`}>{this.props.errorContent}</p></div>
       </div>
     );
   }

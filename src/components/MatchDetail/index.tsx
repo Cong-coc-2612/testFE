@@ -7,6 +7,7 @@ import { IState } from 'redux-saga/reducers';
 import { MATCH_STATUS } from 'global';
 import { formatStringToDate, formatDateToString, formatDateToDisplay } from 'utils/datetime';
 import { updateMatchInfo, updateMatchInfoBeforeStart } from 'components/MatchSetting/actions';
+import { queryBracketBoardInfo } from 'components/BracketBoard/actions';
 import './styles.css';
 
 interface IMatchDetailProps extends React.ClassAttributes<MatchDetail> {
@@ -23,9 +24,12 @@ interface IMatchDetailProps extends React.ClassAttributes<MatchDetail> {
   dateNextRound: Date | null;
   datePreviousRound: Date | null;
   tournamentStarted: boolean;
+  swapAble: boolean;
+  canEdit: boolean;
 
   updateMatchInfo(params: IBigRequest): void;
   updateMatchInfoBeforeStart(params: IBigRequest): void;
+  queryBracketBoardInfo(params: IBigRequest): void;
 }
 
 interface IMatchDetailState {
@@ -229,6 +233,14 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
       }
 
     }
+    const params = {
+      path: '',
+      param: {
+        tournamentId: this.props.tournamentId,
+      },
+      data: {},
+    };
+    this.props.queryBracketBoardInfo(params);
     this.setState({
       editMode: false,
     });
@@ -287,9 +299,9 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
         className="MatchDetail-container"
       >
         <div className="MatchDetail-set-container">
-          {this.props.matchInfo != null ?
+          {this.props.canEdit === true && (this.props.matchInfo != null ?
             (this.props.matchInfo.status !== MATCH_STATUS.FINISHED &&
-              (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)) : (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)}
+              (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)) : (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>))}
         </div>
         <div
           className="MatchDetail-info-container"
@@ -409,5 +421,5 @@ const mapStateToProps = (state: IState) => {
 
 export default connect(
   mapStateToProps,
-  { updateMatchInfo, updateMatchInfoBeforeStart }
+  { updateMatchInfo, updateMatchInfoBeforeStart, queryBracketBoardInfo }
 )(MatchDetail);

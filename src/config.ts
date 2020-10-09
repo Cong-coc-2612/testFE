@@ -58,12 +58,12 @@ let config: IConfig = {
     // baseURI: 'http://192.168.43.170:8090/',
     // baseURI: 'http://172.20.10.9:8090/',
     // long sama
-       baseURI: 'https://sport-tournament-support-system.azurewebsites.net/',
+	baseURI: 'https://sport-tournament-support-system.azurewebsites.net/',
     tradeX: {},
     domain: {},
   },
   regex: {
-    password: /^[-\w]{8,32}$/,
+    password: /^.{8,32}$/,
     username: /^[-\w]{8,32}$/,
     // eslint-disable-next-line
     email: /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/,

@@ -22,6 +22,7 @@ interface IBracketRoundProps extends React.ClassAttributes<BracketRound> {
   previousRound: IParams | null;
   nextRound: IParams | null;
   tournamentStarted: boolean;
+  canEdit: boolean;
 }
 
 interface IBracketRoundState {
@@ -153,6 +154,128 @@ class BracketRound extends React.Component<IBracketRoundProps, IBracketRoundStat
     };
   }
 
+  shouldComponentUpdate(nextProps: IBracketRoundProps, nextState: IBracketRoundState) {
+    if (this.props.nextRound !== nextProps.nextRound) {
+      if (nextProps.nextRound) {
+        if (nextProps.nextRound.listMatches) {
+          for (let i = 0; i < (nextProps.nextRound.listMatches as IParams[]).length; i++) {
+            if (nextProps.roundRobin === true) {
+              if ((nextProps.nextRound.listMatches as IParams[])[i].time !== '') {
+                if (this.dateNextRound == null) {
+                  this.dateNextRound = formatStringToDate((nextProps.nextRound.listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss');
+                } else {
+                  if (isBefore(formatStringToDate((nextProps.nextRound.listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss'), this.dateNextRound)) {
+                    this.dateNextRound = formatStringToDate((nextProps.nextRound.listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss');
+                  }
+                }
+              }
+            } else {
+              if (nextProps.nextRound.listMatches != null) {
+                if (((nextProps.nextRound.listMatches as IParams[])[i].data as IParams).time !== '' && (nextProps.nextRound.listMatches as IParams[])[i].id !== -1) {
+                  if (this.dateNextRound == null) {
+                    this.dateNextRound = formatStringToDate(((nextProps.nextRound.listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                  } else {
+                    if (isBefore(formatStringToDate(((nextProps.nextRound.listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss'), this.dateNextRound)) {
+                      this.dateNextRound = formatStringToDate(((nextProps.nextRound.listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } else {
+          if (nextProps.nextRound.listWinMatches != null) {
+            for (let i = 0; i < (nextProps.nextRound.listWinMatches as IParams[]).length; i++) {
+              if (((nextProps.nextRound.listWinMatches as IParams[])[i].data as IParams).time !== '' && (nextProps.nextRound.listWinMatches as IParams[])[i].id !== -1) {
+                if (this.dateNextRound == null) {
+                  this.dateNextRound = formatStringToDate(((nextProps.nextRound.listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                } else {
+                  if (isBefore(formatStringToDate(((nextProps.nextRound.listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss'), this.dateNextRound)) {
+                    this.dateNextRound = formatStringToDate(((nextProps.nextRound.listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                  }
+                }
+              }
+            }
+          } else {
+            if (nextProps.nextRound.listLoseMatches != null) {
+              for (let i = 0; i < (nextProps.nextRound.listLoseMatches as IParams[]).length; i++) {
+                if (((nextProps.nextRound.listLoseMatches as IParams[])[i].data as IParams).time !== '' && (nextProps.nextRound.listLoseMatches as IParams[])[i].id !== -1) {
+                  if (this.dateNextRound == null) {
+                    this.dateNextRound = formatStringToDate(((nextProps.nextRound.listLoseMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                  } else {
+                    if (isBefore(formatStringToDate(((nextProps.nextRound.listLoseMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss'), this.dateNextRound)) {
+                      this.dateNextRound = formatStringToDate(((nextProps.nextRound.listLoseMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if (this.props.previousRound !== nextProps.previousRound) {
+      if (nextProps.previousRound) {
+        if (nextProps.previousRound.listMatches) {
+          for (let i = 0; i < (nextProps.previousRound.listMatches as IParams[]).length; i++) {
+            if (nextProps.roundRobin === true) {
+              if ((nextProps.previousRound.listMatches as IParams[])[i].time !== '') {
+                if (this.datePreviousRound == null) {
+                  this.datePreviousRound = formatStringToDate((nextProps.previousRound.listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss');
+                } else {
+                  if (isAfter(formatStringToDate((nextProps.previousRound.listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss'), this.datePreviousRound)) {
+                    this.datePreviousRound = formatStringToDate((nextProps.previousRound.listMatches as IParams[])[i].time as string, 'yyyy-MM-dd HH:mm:ss');
+                  }
+                }
+              }
+            } else {
+              if (nextProps.previousRound.listMatches != null) {
+                if (((nextProps.previousRound.listMatches as IParams[])[i].data as IParams).time !== '' && (nextProps.previousRound.listMatches as IParams[])[i].id !== -1) {
+                  if (this.datePreviousRound == null) {
+                    this.datePreviousRound = formatStringToDate(((nextProps.previousRound.listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                  } else {
+                    if (isAfter(formatStringToDate(((nextProps.previousRound.listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss'), this.datePreviousRound)) {
+                      this.datePreviousRound = formatStringToDate(((nextProps.previousRound.listMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } else {
+          if (nextProps.previousRound.listWinMatches != null) {
+            for (let i = 0; i < (nextProps.previousRound.listWinMatches as IParams[]).length; i++) {
+              if (((nextProps.previousRound.listWinMatches as IParams[])[i].data as IParams).time !== '' && (nextProps.previousRound.listWinMatches as IParams[])[i].id !== -1) {
+                if (this.datePreviousRound == null) {
+                  this.datePreviousRound = formatStringToDate(((nextProps.previousRound.listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                } else {
+                  if (isAfter(formatStringToDate(((nextProps.previousRound.listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss'), this.datePreviousRound)) {
+                    this.datePreviousRound = formatStringToDate(((nextProps.previousRound.listWinMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                  }
+                }
+              }
+            }
+          } else {
+            if (nextProps.previousRound.listLoseMatches != null) {
+              for (let i = 0; i < (nextProps.previousRound.listLoseMatches as IParams[]).length; i++) {
+                if (((nextProps.previousRound.listLoseMatches as IParams[])[i].data as IParams).time !== '' && (nextProps.previousRound.listLoseMatches as IParams[])[i].id !== -1) {
+                  if (this.datePreviousRound == null) {
+                    this.datePreviousRound = formatStringToDate(((nextProps.previousRound.listLoseMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                  } else {
+                    if (isAfter(formatStringToDate(((nextProps.previousRound.listLoseMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss'), this.datePreviousRound)) {
+                      this.datePreviousRound = formatStringToDate(((nextProps.previousRound.listLoseMatches as IParams[])[i].data as IParams).time as string, 'yyyy-MM-dd HH:mm:ss');
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return true;
+  }
+
   render() {
     if (this.props.roundRobin === true) {
       return (
@@ -177,6 +300,7 @@ class BracketRound extends React.Component<IBracketRoundProps, IBracketRoundStat
                   dateNextRound={this.dateNextRound}
                   datePreviousRound={this.datePreviousRound}
                   tournamentStarted={this.props.tournamentStarted}
+                  canEdit={this.props.canEdit}
                 />
               );
             })
@@ -191,13 +315,13 @@ class BracketRound extends React.Component<IBracketRoundProps, IBracketRoundStat
           </div>
           {this.props.info.listMatches != null ?
             (this.props.info.listMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'se'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} has34={this.props.has34} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch canEdit={this.props.canEdit} tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'se'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} has34={this.props.has34} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
             }) : (this.props.info.listWinMatches != null ? (this.props.info.listWinMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'win'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch canEdit={this.props.canEdit} tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'win'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
             }) : (this.props.info.listLoseMatches != null ? (this.props.info.listLoseMatches as unknown as IParams[]).map((item, index) => {
-              return (<BracketMatch tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'lose'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} lowerBracket={true} />);
+              return (<BracketMatch canEdit={this.props.canEdit} tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'lose'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} lowerBracket={true} />);
             }) : ((this.props.info.listSumMatches as IParams[]).map((item, index) => {
-              return (<BracketMatch tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'sum'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} showAllDescription={true} has34={true} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
+              return (<BracketMatch canEdit={this.props.canEdit} tournamentStarted={this.props.tournamentStarted} dateNextRound={this.dateNextRound} datePreviousRound={this.datePreviousRound} matchType={'sum'} finalStage={this.props.finalStage} swapAble={this.props.swapAble} allMatches={this.props.allMatches} showAllDescription={true} has34={true} tournamentId={this.props.tournamentId} info={item} key={index} totalRound={this.props.totalRound} />);
             }))))
           }
           {this.props.info.listLoseMatches != null && <svg style={{ position: 'absolute', marginTop: '20px', width: '1px', height: `${(this.props.info.highestMatch as number) + 100}px`, backgroundColor: 'transparent', }}>

@@ -13,6 +13,7 @@ interface IMatchSettingProps extends React.ClassAttributes<MatchSetting> {
   matchInfo: IParams | null;
   matchResult: IParams[];
   canEdit?: boolean;
+  canEdit2: boolean;
   finalStage: boolean;
   finalStageSetting: IParams | null;
   groupStageSetting: IParams | null;
@@ -118,10 +119,34 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
           }
         }
       } else {
+        let temp1 = 0;
+        let temp2 = 0;
         for (let i = 0; i < nextProps.matchResult.length; i++) {
-          if ((nextProps.matchResult[i].team1Score as number) === (nextProps.matchResult[i].team2Score as number)) {
-            this.tempCurrentSet = i;
-            break;
+          if ((nextProps.matchResult[i].team1Score as number) > (nextProps.matchResult[i].team2Score as number)) {
+            temp1++;
+          } else if ((nextProps.matchResult[i].team1Score as number) < (nextProps.matchResult[i].team2Score as number)) {
+            temp2++;
+          }
+          if (this.props.finalStage === true) {
+            if ((Math.floor((nextProps.finalStageSetting!.bo as number) / 2) + 1) === temp1 || (Math.floor((nextProps.finalStageSetting!.bo as number) / 2) + 1) === temp2) {
+              this.tempCurrentSet = i;
+              break;
+            } else {
+              if ((nextProps.matchResult[i].team1Score as number) === (nextProps.matchResult[i].team2Score as number)) {
+                this.tempCurrentSet = i;
+                break;
+              }
+            }
+          } else {
+            if ((Math.floor((nextProps.groupStageSetting!.bo as number) / 2) + 1) === temp1 || (Math.floor((nextProps.groupStageSetting!.bo as number) / 2) + 1) === temp2) {
+              this.tempCurrentSet = i;
+              break;
+            } else {
+              if ((nextProps.matchResult[i].team1Score as number) === (nextProps.matchResult[i].team2Score as number)) {
+                this.tempCurrentSet = i;
+                break;
+              }
+            }
           }
         }
         for (let i = 0; i < nextProps.matchResult.length; i++) {
@@ -553,8 +578,8 @@ class MatchSetting extends React.Component<IMatchSettingProps, IMatchSettingStat
         className="MatchSetting-container"
       >
         <div className="MatchSetting-set-container">
-          {this.props.canEdit !== false && (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)}
-          {this.props.canEdit !== false && (this.state.editMode !== false && <p className="MatchSetting-set-text" onClick={this.onResetMatch}>Đặt lại</p>)}
+          {this.props.canEdit2 === true && this.props.canEdit !== false && (this.state.editMode === false ? <p className="MatchSetting-set-text" onClick={this.onEditMode}>Sửa</p> : <p className="MatchSetting-set-text" onClick={this.offEditMode}>Lưu</p>)}
+          {this.props.canEdit2 === true && this.props.canEdit !== false && (this.state.editMode !== false && <p className="MatchSetting-set-text" onClick={this.onResetMatch}>Đặt lại</p>)}
           {/* {this.state.editMode === true && <p className="MatchSetting-set-text" onClick={this.onAddASet}>Thêm 1 set</p>}
           {this.state.editMode === true && this.state.configSheetData.header.length > 3 && <p className="MatchSetting-set-text" onClick={this.onRemoveASet}>Bớt 1 set</p>} */}
         </div>
