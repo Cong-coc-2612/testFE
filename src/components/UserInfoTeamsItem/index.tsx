@@ -22,6 +22,7 @@ interface IUserInfoTeamsItemProps extends React.ClassAttributes<UserInfoTeamsIte
   userInfo: IParams | null;
   listTeam: IParams[];
   tournamentStatus: string;
+  canEdit: boolean;
 
   queryUserInfo(param: IBigRequest): void;
   // queryCompetition(param: IBigRequest): void;
@@ -356,7 +357,7 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
                   <TextInput label={'Tên đội'} value={this.state.teamFullName} error={this.state.teamFullNameError} errorContent={this.state.teamFullNameErrorContent} onChangeText={this.onChangeTeamFullName} onBlur={this.onBlurTeamFullName} />
               }
             </div>
-            {(this.props.tournamentStatus === TOURNAMENT_STATUS.INITIALIZING || this.props.tournamentStatus === TOURNAMENT_STATUS.OPENING) && <div className="UserInfoTeamsItem-team-setting-container">
+            {(this.props.canEdit === true && (this.props.tournamentStatus === TOURNAMENT_STATUS.INITIALIZING || this.props.tournamentStatus === TOURNAMENT_STATUS.OPENING)) && <div className="UserInfoTeamsItem-team-setting-container">
               <div className="UserInfoTeamsItem-team-setting-container-container" onClick={this.openEditMode}>
                 <FaEdit className="UserInfoTeamsItem-team-setting-icon" />
               </div>

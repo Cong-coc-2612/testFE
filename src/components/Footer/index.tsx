@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Styles } from 'react-modal';
 import { AiFillFacebook, AiFillGithub } from 'react-icons/ai';
-import { GoMail } from 'react-icons/go';
 import CustomModal from 'components/CustomModal';
 import { IBigRequest } from 'interfaces/common';
 import { reportViolation } from 'screens/TournamentInfo/actions';
@@ -161,9 +160,9 @@ class Footer extends React.Component<IFooterProps, IFooterState> {
             <a href={'https://www.facebook.com/nhan.phantrong.355/'} target={'_blank'} rel="noopener noreferrer">
               <AiFillFacebook color={'black'} size={40} />
             </a>
-            <a href={'mailto:nhanptse05568@fpt.edu.vn'} target={'_blank'} rel="noopener noreferrer">
+            {/* <a href={'mailto:nhanptse05568@fpt.edu.vn'} target={'_blank'} rel="noopener noreferrer">
               <GoMail color={'black'} size={40} />
-            </a>
+            </a> */}
             <a href={'https://github.com/SWP2020/SportTournamentSupportSystem'} target={'_blank'} rel="noopener noreferrer">
               <AiFillGithub color={'black'} size={40} />
             </a>

@@ -84,7 +84,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           param: {
             page: 1,
             limit: 9,
-            searchString: this.state.searchText,
+            searchString: this.state.searchText.trim(),
             sportId: -1,
             status: '',
           },
@@ -96,7 +96,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           param: {
             page: 1,
             limit: 9,
-            searchString: this.state.searchText,
+            searchString: this.state.searchText.trim(),
           },
           data: {},
         };
