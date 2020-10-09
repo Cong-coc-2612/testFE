@@ -71,7 +71,7 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
     }
     if (this.state.teamShortNameToAdd.trim() === '' || !config.regex.teamShortName.test(this.state.teamShortNameToAdd)) {
       teamShortNameToAddError = true;
-      teamShortNameToAddErrorContent = 'Tên ngắn đội không được trống, tối đa 8 kí tự và không chứa kí tự đặc biệt';
+      teamShortNameToAddErrorContent = 'Tên viết tắt của đội không được trống, tối đa 8 kí tự và không chứa kí tự đặc biệt';
     }
     let listTemp = [];
     if (this.props.listTeam!.map((item, index) => { if (item.fullName === this.state.teamNameToAdd) { listTemp.push(item); } })) {
@@ -84,7 +84,7 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
     if (this.props.listTeam!.map((item, index) => { if (item.shortName === this.state.teamShortNameToAdd) { listTemp.push(item); } })) {
       if (listTemp.length > 0) {
         teamShortNameToAddError = true;
-        teamShortNameToAddErrorContent = 'Tên ngắn đội đã tồn tại trong cuộc thi';
+        teamShortNameToAddErrorContent = 'Tên viết tắt của đội đã tồn tại trong cuộc thi';
       }
     }
 
@@ -138,7 +138,7 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
           <div className="UserInfoTeamsAddItem-container-container">
             <div className="UserInfoTeamsAddItem-container-container-container">
               <TextInput style={{ width: 200 }} label={'Nhập tên đội'} value={this.state.teamNameToAdd} error={this.state.teamNameToAddError} errorContent={this.state.teamNameToAddErrorContent} onChangeText={this.onChangeTeamNameToAdd} />
-              <TextInput style={{ width: 200 }} label={'Nhập tên ngắn đội'} value={this.state.teamShortNameToAdd} error={this.state.teamShortNameToAddError} errorContent={this.state.teamShortNameToAddErrorContent} onChangeText={this.onChangeTeamShortNameToAdd} />
+              <TextInput style={{ width: 200 }} label={'Nhập tên viết tắt của đội'} value={this.state.teamShortNameToAdd} error={this.state.teamShortNameToAddError} errorContent={this.state.teamShortNameToAddErrorContent} onChangeText={this.onChangeTeamShortNameToAdd} />
               <div className="UserInfoTeamsAddItem-login-container">
                 <div className="UserInfoTeamsAddItem-login" onClick={this.handleAddATeam}>
                   <h4 className="UserInfoTeamsAddItem-login-text">Thêm đội</h4>

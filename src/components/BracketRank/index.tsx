@@ -152,7 +152,7 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                 <p style={{ color: 'white' }}>Hạng</p>
               </div>
               <div className="BracketRank-item-managerName-container">
-                <p style={{ color: 'white' }}>Tên ngắn đội</p>
+                <p style={{ color: 'white' }}>Tên viết tắt của đội</p>
               </div>
               <div className="BracketRank-item-score-container">
                 <p style={{ color: 'white' }}>Thắng</p>
@@ -223,7 +223,7 @@ class BracketRank extends React.Component<IBracketRankProps, IBracketRankState> 
                   <p style={{ color: 'white' }}>Hạng</p>
                 </div>
                 <div className="BracketRank-item-managerName-container">
-                  <p style={{ color: 'white' }}>Tên ngắn đội</p>
+                  <p style={{ color: 'white' }}>Tên viết tắt của đội</p>
                 </div>
                 <div className="BracketRank-item-score-container">
                   <p style={{ color: 'white' }}>Thắng</p>

@@ -253,7 +253,6 @@ class BracketBoard extends React.Component<IBracketBoardProps, IBracketBoardStat
                   </ReduxBlockUi>
                 );
               } else if ((this.props.bracketBoardInfo.groupStage as IParams).listTableDE != null) {
-                console.log('(this.props.bracketBoardInfo.groupStage as IParams).listTableDE', (this.props.bracketBoardInfo.groupStage as IParams).listTableDE);
                 return (
                   <ReduxBlockUi
                     tag="div"

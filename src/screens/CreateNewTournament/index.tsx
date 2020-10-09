@@ -607,7 +607,7 @@ class CreateNewTournament extends React.Component<ICreateNewTournamentProps, ICr
                 <td style={{ paddingTop: '25px' }}><TextInput label='' error={this.state.tournamentNameError} errorContent={this.state.tournamentNameErrorContent} onChangeText={this.onChangeTournamentname} /></td>
               </tr>
               <tr>
-                <td>Tên ngắn: </td>
+                <td>Tên viết tắt của giải: </td>
                 <td style={{ paddingTop: '25px' }}><TextInput label='' error={this.state.tournamentShortNameError} errorContent={this.state.tournamentShortNameErrorContent} onChangeText={this.onChangeTournamentShortName} /></td>
               </tr>
               <tr>

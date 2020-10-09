@@ -19,7 +19,7 @@ interface IMatchDetailProps extends React.ClassAttributes<MatchDetail> {
   tournamentId: number;
   lowerBracket?: boolean;
   tableId: number | null;
-  matchType: 'se' | 'win' | 'lose' | 'rr' | 'sum';
+  matchType: 'se' | 'win' | 'lose' | 'rr' | 'sum' | '34';
   tournamentInfo: IParams | null;
   dateNextRound: Date | null;
   datePreviousRound: Date | null;
@@ -202,8 +202,8 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
         const params = {
           path: '',
           param: {
-            degree: (this.props.beforeInfo.degree as number) + 1,
-            nodeId: this.props.beforeInfo.id,
+            degree: this.props.beforeInfo.degree != null ? (this.props.beforeInfo.degree as number) + 1 : 0,
+            nodeId: this.props.beforeInfo.id != null ? this.props.beforeInfo.id : 0,
             tournamentId: this.props.tournamentId,
             location: this.props.lowerBracket === true ? 2 : (this.props.matchType === 'se' ? 0 : (this.props.matchType === 'win' ? 1 : 3)),
             tableId: this.props.tableId != null ? this.props.tableId : -1,

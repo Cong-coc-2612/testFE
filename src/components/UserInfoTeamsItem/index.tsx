@@ -192,10 +192,10 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
     tempList = tempList.filter((item, index) => index !== this.props.index);
     if (this.state.teamShortName.trim() === '') {
       teamShortNameError = true;
-      teamShortNameErrorContent = 'Tên ngắn đội không được trống';
+      teamShortNameErrorContent = 'Tên viết tắt của đội không được trống';
     } else if (tempList.find(element => element.shortName === this.state.teamShortName)) {
       teamShortNameError = true;
-      teamShortNameErrorContent = 'Tên ngắn đội này đã tồn tại trong cuộc thi vui lòng chọn tên khác!';
+      teamShortNameErrorContent = 'Tên viết tắt của đội này đã tồn tại trong cuộc thi vui lòng chọn tên khác!';
     }
 
     return { teamShortNameError, teamShortNameErrorContent };
@@ -371,8 +371,8 @@ class UserInfoTeamsItem extends React.Component<IUserInfoTeamsItemProps, IUserIn
             <div className="UserInfoTeamsItem-moreInfo-normalInfo-container">
               {
                 this.state.onEditMode === false ?
-                  <p>Tên ngắn: {this.props.info.shortName}</p> :
-                  <TextInput label={'Tên ngắn đội'} value={this.state.teamShortName} error={this.state.teamShortNameError} errorContent={this.state.teamShortNameErrorContent} onChangeText={this.onChangeTeamShortName} onBlur={this.onBlurTeamShortName} />
+                  <p>Tên viết tắt: {this.props.info.shortName}</p> :
+                <TextInput label={'Tên viết tắt của đội'} value={this.state.teamShortName} error={this.state.teamShortNameError} errorContent={this.state.teamShortNameErrorContent} onChangeText={this.onChangeTeamShortName} onBlur={this.onBlurTeamShortName} />
               }
               <p>Quản lý của đội: <Link style={{ fontWeight: 'bold' }} target={'_blank'} to={`/user/${this.props.info.creatorId}`} rel="noopener noreferrer">
                 {this.props.userInfo != null ? `${(this.props.userInfo.User as unknown as IParams).firstName} ${(this.props.userInfo.User as unknown as IParams).lastName}` : ''}
