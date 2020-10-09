@@ -637,9 +637,11 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
       playerNameInFormError = true;
       playerNameInFormErrorContent = 'Tên người chơi không được trống';
     }
-    if (!config.regex.email.test(this.state.playerEmailInForm)) {
-      playerEmailInFormError = true;
-      playerEmailInFormErrorContent = 'Email không hợp lệ';
+    if (this.state.playerEmailInForm.trim() !== '') {
+      if (!config.regex.email.test(this.state.playerEmailInForm)) {
+        playerEmailInFormError = true;
+        playerEmailInFormErrorContent = 'Email không hợp lệ';
+      }
     }
 
     return {
@@ -1176,7 +1178,7 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                         className="TournamentInfo-login"
                         onClick={this.handleReportCheat}
                       >
-                      <h4 className="TournamentInfo-login-text">Báo cáo gian lận</h4>
+                        <h4 className="TournamentInfo-login-text">Báo cáo gian lận</h4>
                       </div>
                     </div>
                   }
@@ -1267,13 +1269,13 @@ class TournamentInfo extends React.Component<ITournamentInfoProps, ITournamentIn
                 <TextInput label={'Tên viết tắt của đội'} value={this.state.teamShortNameInForm} onChangeText={this.onChangeTeamShortNameInForm} error={this.state.teamShortNameInFormError} errorContent={this.state.teamShortNameInFormErrorContent} />
                 <div className="TournamentInfo-join-tournament-container">
                   <div className="TournamentInfo-join-tournament-item1">
-                    <p style={{color: 'white'}}>Tên</p>
+                    <p style={{ color: 'white' }}>Tên</p>
                   </div>
                   <div className="TournamentInfo-join-tournament-item2">
-                    <p style={{color: 'white'}}>Giới tính</p>
+                    <p style={{ color: 'white' }}>Giới tính</p>
                   </div>
                   <div className="TournamentInfo-join-tournament-item2">
-                    <p style={{color: 'white'}}>Tuổi</p>
+                    <p style={{ color: 'white' }}>Tuổi</p>
                   </div>
                   <div className="TournamentInfo-join-tournament-item1">
                     <p style={{ color: 'white' }}>Email</p>

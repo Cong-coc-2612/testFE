@@ -162,7 +162,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         </div>
         <div className={`Option-container ${this.props.currentPage === 'tournaments' ? 'Option-container1' : ''}`}>
           <Link to={`${currentUserInfo != null && currentUserInfo.roleId === 1 && cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null ? '/admin/tournaments' : '/tournaments'}`} style={{ textDecoration: 'none' }} onClick={() => { this.props.setGlobalSearchString('') }}>
-            <div className="Link"><p className={`Link-text ${this.props.currentPage === 'tournaments' ? 'Link-text-selected' : ''}`}>{`${this.props.currentPage === 'home' ? 'Các giải đấu' : (currentUserInfo != null && currentUserInfo.roleId === 1 && cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null ? 'Quản lý giải đấu' : 'Các giải đấu')}`}</p></div>
+            <div className="Link"><p className={`Link-text ${this.props.currentPage === 'tournaments' ? 'Link-text-selected' : ''}`}>{`${this.props.currentPage === 'home' ? (currentUserInfo != null && currentUserInfo.roleId === 1 && cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null ? 'Quản lý giải đấu' : 'Các giải đấu') : (currentUserInfo != null && currentUserInfo.roleId === 1 && cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null ? 'Quản lý giải đấu' : 'Các giải đấu')}`}</p></div>
           </Link>
           {this.props.currentPage !== 'login' && currentUserInfo != null && currentUserInfo.roleId === 1 && cookies.get(COOKIES_TYPE.AUTH_TOKEN) != null &&
             <Link to="/admin/users" style={{ textDecoration: 'none' }} onClick={() => { this.props.setGlobalSearchString('') }}>

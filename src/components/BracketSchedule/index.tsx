@@ -163,7 +163,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
               <div className="BracketSchedule-container">
                 <p style={{ fontWeight: 'bold', fontSize: 20 }}>Nhánh thắng</p>
                 {(
-                  ((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as unknown as IParams[]).map((item, index) =>
+                  (this.props.bracketBoardInfo.finalStage as IParams).listWinRound != null && ((this.props.bracketBoardInfo.finalStage as IParams).listWinRound as unknown as IParams[]).map((item, index) =>
                     <div className="BracketSchedule-round-container" key={index}>
                       <div className="BracketSchedule-roundName-container">
                         <p className={'BracketSchedule-roundName-text'}>{`${item.roundName}`}</p>
@@ -206,7 +206,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                     </div>))}
                 <p style={{ fontWeight: 'bold', fontSize: 20 }}>Nhánh Thua</p>
                 {(
-                  ((this.props.bracketBoardInfo.finalStage as IParams).listLoseRound as unknown as IParams[]).length > 0 ? ((this.props.bracketBoardInfo.finalStage as IParams).listLoseRound as unknown as IParams[]).map((item, index) =>
+                  (this.props.bracketBoardInfo.finalStage as IParams).listLoseRound != null && ((this.props.bracketBoardInfo.finalStage as IParams).listLoseRound as unknown as IParams[]).length > 0 ? ((this.props.bracketBoardInfo.finalStage as IParams).listLoseRound as unknown as IParams[]).map((item, index) =>
                     <div className="BracketSchedule-round-container" key={index}>
                       <div className="BracketSchedule-roundName-container">
                         <p className={'BracketSchedule-roundName-text'}>{`${item.roundName}`}</p>
@@ -446,7 +446,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
             );
           } else {
             return (
-              (((this.props.bracketBoardInfo.groupStage as IParams).listTableRR as IParams[]).map((item3, index3) =>
+              (this.props.bracketBoardInfo != null && this.props.bracketBoardInfo.groupStage != null && (this.props.bracketBoardInfo.groupStage as IParams).listTableRR != null ? ((this.props.bracketBoardInfo.groupStage as IParams).listTableRR as IParams[]).map((item3, index3) =>
                 <div className="BracketSchedule-container" key={index3}>
                   <p style={{ fontWeight: 'bold', fontSize: 20 }}>Bảng {item3.tableName}</p>
                   {(item3.listRRRound != null &&
@@ -491,7 +491,7 @@ class BracketSchedule extends React.Component<IBracketScheduleProps, IBracketSch
                           }
                         })}
                       </div>))}
-                </div>)
+                </div>) : <div/>
               )
             );
           }

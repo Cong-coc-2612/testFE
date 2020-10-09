@@ -39,6 +39,8 @@ interface IMatchDetailState {
   time: Date | null;
   timeError: boolean;
   timeErrorContent: string;
+  locationError: boolean;
+  locationErrorContent: string;
   team1Score: number;
   team2Score: number;
 }
@@ -54,6 +56,8 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
       time: null,
       timeError: false,
       timeErrorContent: '',
+      locationError: false,
+      locationErrorContent: '',
       team1Score: 0,
       team2Score: 0,
     };
@@ -167,12 +171,14 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
   }
 
   private offEditMode = () => {
-    const { timeError, timeErrorContent } = this.validateTime();
+    const { timeError, timeErrorContent, locationError, locationErrorContent } = this.validateTime();
     this.setState({
       timeError,
       timeErrorContent,
+      locationError,
+      locationErrorContent
     });
-    if (timeError === true) {
+    if (timeError === true || locationError === true) {
       return;
     }
     if (this.props.matchInfo != null) {
@@ -255,6 +261,8 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
   private validateTime = () => {
     let timeError = false;
     let timeErrorContent = '';
+    let locationError = false;
+    let locationErrorContent = '';
     if (this.state.time != null && isAfter(this.state.time, formatStringToDate((this.props.tournamentInfo!.Tournament as IParams).closingTime as string, 'yyyy-MM-dd HH:mm:ss'))) {
       timeError = true;
       timeErrorContent = `Thời gian không được sau ngày bế mạc giải (${formatDateToDisplay((this.props.tournamentInfo!.Tournament as IParams).closingTime as string, 'yyyy-MM-dd', 'yyyy-MM-dd HH:mm:ss')})`;
@@ -283,8 +291,12 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
         }
       }
     }
+    if (this.state.location.trim().length > 20) {
+      locationError = true;
+      locationErrorContent = 'Địa điểm thi đấu không được quá 20 ký tự';
+    }
 
-    return { timeError, timeErrorContent };
+    return { timeError, timeErrorContent, locationError, locationErrorContent };
   }
 
   private handleChangeTime = (value: Date) => {
@@ -350,7 +362,7 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
           {this.state.editMode === false ? <p className={'MatchDetail-team'}>Địa điểm: {this.props.tournamentStarted !== true ? ((this.props.info.location != null && this.props.info.location !== '') ? this.props.info.location : `(Chưa có)`) : ((this.props.matchInfo != null && this.props.matchInfo.location != null && this.props.matchInfo.location !== '') ? this.props.matchInfo.location : `(Chưa có)`)}</p> : <label style={{ color: 'white' }}>Địa điểm: <input value={this.state.location} type={'text'} onChange={this.onChangeLocation} /></label>}
           {this.state.editMode === false ? <p className={'MatchDetail-team'}>Thời gian: {this.props.tournamentStarted !== true ? ((this.props.info.time != null && this.props.info.time !== '') ? this.props.info.time : `(Chưa có)`) : ((this.props.matchInfo != null && this.props.matchInfo.time != null && this.props.matchInfo.time !== '') ? this.props.matchInfo.time : `(Chưa có)`)}</p> : <label style={{ color: 'white' }}>Thời gian:
             <DatePicker
-            isClearable
+              isClearable
               selected={this.state.time}
               onChange={this.handleChangeTime}
               showTimeSelect
@@ -406,7 +418,8 @@ class MatchDetail extends React.Component<IMatchDetailProps, IMatchDetailState> 
               ]}
               dateFormat="MMMM d, yyyy HH:mm"
             /></label>}
-          <div className="MatchDetail-error-text-container">{this.state.timeError && <p className="TextInput-error-text22">{this.state.timeErrorContent}</p>}</div>
+          <div className="MatchDetail-error-text-container">{this.state.timeError ? <p className="TextInput-error-text22">{`${this.state.timeErrorContent}${this.state.locationError ? `, ${this.state.locationErrorContent}` : ``}`}</p> : <p className="TextInput-error-text22">{`${this.state.locationError ? ` ${this.state.locationErrorContent}` : ``}`}</p>}</div>
+          {/* <div className="MatchDetail-error-text-container">{this.state.locationError && <p className="TextInput-error-text22">{this.state.locationErrorContent}</p>}</div> */}
         </div >
       </div >
     );

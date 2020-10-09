@@ -44,7 +44,9 @@ class BracketRankSwapTeam extends React.Component<IBracketRankSwapTeamProps, IBr
       this.team1Option = [];
       this.team2Option = [];
       for (let i = 0; i < nextProps.listTeam.length; i++) {
-        this.team1Option.push({ value: (nextProps.listTeam[i].team as IParams).id, label: (nextProps.listTeam[i].team as IParams).shortName });
+        if (nextProps.listTeam[i].team != null && (nextProps.listTeam[i].team as IParams).id != null && (nextProps.listTeam[i].team as IParams).shortName != null) {
+          this.team1Option.push({ value: (nextProps.listTeam[i].team as IParams).id, label: (nextProps.listTeam[i].team as IParams).shortName });
+        }
       }
     }
     if (this.state.selectedTeam1 !== nextState.selectedTeam1) {
