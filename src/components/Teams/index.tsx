@@ -137,8 +137,8 @@ class UserInfoTeams extends React.Component<IUserInfoTeamsProps, IUserInfoTeamsS
         {this.props.listTeam != null && this.props.addItem !== false && (this.props.tournamentStatus === TOURNAMENT_STATUS.INITIALIZING || this.props.tournamentStatus === TOURNAMENT_STATUS.OPENING) && <div className="UserInfoTeamsAddItem-container2">
           <div className="UserInfoTeamsAddItem-container-container">
             <div className="UserInfoTeamsAddItem-container-container-container">
-              <TextInput style={{ width: 200 }} label={'Nhập tên đội'} value={this.state.teamNameToAdd} error={this.state.teamNameToAddError} errorContent={this.state.teamNameToAddErrorContent} onChangeText={this.onChangeTeamNameToAdd} />
-              <TextInput style={{ width: 200 }} label={'Nhập tên viết tắt của đội'} value={this.state.teamShortNameToAdd} error={this.state.teamShortNameToAddError} errorContent={this.state.teamShortNameToAddErrorContent} onChangeText={this.onChangeTeamShortNameToAdd} />
+              <TextInput style={{ width: 250 }} label={'Nhập tên đội'} value={this.state.teamNameToAdd} error={this.state.teamNameToAddError} errorContent={this.state.teamNameToAddErrorContent} onChangeText={this.onChangeTeamNameToAdd} />
+              <TextInput style={{ width: 250 }} label={'Nhập tên viết tắt của đội'} value={this.state.teamShortNameToAdd} error={this.state.teamShortNameToAddError} errorContent={this.state.teamShortNameToAddErrorContent} onChangeText={this.onChangeTeamShortNameToAdd} />
               <div className="UserInfoTeamsAddItem-login-container">
                 <div className="UserInfoTeamsAddItem-login" onClick={this.handleAddATeam}>
                   <h4 className="UserInfoTeamsAddItem-login-text">Thêm đội</h4>
