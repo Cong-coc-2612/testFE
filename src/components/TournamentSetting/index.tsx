@@ -1144,7 +1144,7 @@ class TournamentSetting extends React.Component<ITournamentSettingProps, ITourna
                   <td>Thời gian khai mạc: </td>
                   <td>
                     <DatePicker
-                      minDate={formatStringToDate(this.props.tournamentInfo.openingTime as string, 'yyyy-MM-dd HH:mm:ss')}
+                      minDate={isBefore(formatStringToDate(this.props.tournamentInfo.openingTime as string, 'yyyy-MM-dd HH:mm:ss'), new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0, 0)) ? formatStringToDate(this.props.tournamentInfo.openingTime as string, 'yyyy-MM-dd HH:mm:ss') : new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0, 0)}
                       selected={this.state.startDate}
                       dateFormat="dd/MM/yyyy"
                       onChange={this.handleChangeStartDate}

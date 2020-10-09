@@ -139,7 +139,7 @@ div.omrs-input-group {
 
 .TextInput-error-text-container {
   position: absolute;
-  margin-top: 35px;
+  margin-top: -18px;
 }
 
 .TextInput-error-text {
